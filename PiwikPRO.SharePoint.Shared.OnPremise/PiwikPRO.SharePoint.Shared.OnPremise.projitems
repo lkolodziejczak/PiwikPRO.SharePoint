@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>b2860e3d-b3a7-4ce9-a59e-8d04da980cdd</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>PiwikPRO.SharePoint.Shared.OnPremise</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PiwikPROJSProvisioningJob.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyBagOperations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimerJob.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimerJobFeature.cs" />
+  </ItemGroup>
+</Project>

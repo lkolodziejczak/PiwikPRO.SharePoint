@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <CustomAction
+Id="PiwikForm"
+GroupId="SiteActions"
+Location="Microsoft.SharePoint.StandardMenu"
+Sequence="2000"
+Title="Piwik PRO"
+RequireSiteAdministrator="TRUE"
+Description="Piwik PRO" >
+    <UrlAction Url="javascript:GeneratePiwikForm();"/>
+  </CustomAction>
+</Elements>

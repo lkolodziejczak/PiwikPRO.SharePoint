@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PiwikPRO.SharePoint.WebJob", "PiwikPRO.SharePoint.WebJob\PiwikPRO.SharePoint.WebJob.csproj", "{79631428-D18C-4FC3-AC20-2F1B417C9B89}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PiwikPRO.SharePoint.Shared", "PiwikPRO.SharePoint.Shared\PiwikPRO.SharePoint.Shared.shproj", "{652231A1-4230-40B7-87D6-67C51CAE964B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiwikPRO.SharePoint.SP2013", "PiwikPRO.SharePoint.SP2013\PiwikPRO.SharePoint.SP2013.csproj", "{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PiwikPRO.SharePoint.Shared\PiwikPRO.SharePoint.Shared.projitems*{652231a1-4230-40b7-87d6-67c51cae964b}*SharedItemsImports = 13
+		PiwikPRO.SharePoint.Shared\PiwikPRO.SharePoint.Shared.projitems*{88cffc5e-72a2-4d9e-92a0-54f6e21b687c}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugSP2013|Any CPU = DebugSP2013|Any CPU
+		DebugSP2016|Any CPU = DebugSP2016|Any CPU
+		DebugSP2019|Any CPU = DebugSP2019|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseSP2013|Any CPU = ReleaseSP2013|Any CPU
+		ReleaseSP2016|Any CPU = ReleaseSP2016|Any CPU
+		ReleaseSP2019|Any CPU = ReleaseSP2019|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.DebugSP2013|Any CPU.ActiveCfg = Debug|Any CPU
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.DebugSP2016|Any CPU.ActiveCfg = Debug|Any CPU
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.DebugSP2019|Any CPU.ActiveCfg = Debug|Any CPU
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.ReleaseSP2013|Any CPU.ActiveCfg = Release|Any CPU
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.ReleaseSP2016|Any CPU.ActiveCfg = Release|Any CPU
+		{79631428-D18C-4FC3-AC20-2F1B417C9B89}.ReleaseSP2019|Any CPU.ActiveCfg = Release|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.DebugSP2013|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.DebugSP2013|Any CPU.Build.0 = Debug|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.DebugSP2013|Any CPU.Deploy.0 = Debug|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.DebugSP2016|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.DebugSP2019|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.ReleaseSP2013|Any CPU.ActiveCfg = Release|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.ReleaseSP2013|Any CPU.Build.0 = Release|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.ReleaseSP2013|Any CPU.Deploy.0 = Release|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.ReleaseSP2016|Any CPU.ActiveCfg = Release|Any CPU
+		{88CFFC5E-72A2-4D9E-92A0-54F6E21B687C}.ReleaseSP2019|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE6B147F-3C4C-4F80-9948-0A94DE65FB0E}
+	EndGlobalSection
+EndGlobal
