@@ -12,11 +12,9 @@ namespace PiwikPRO.SharePoint.SP2013
 
         public Configuration()
         {
-            //this.webApp = webApp;
             this.pbo = new PropertyBagOperations();
         }
 
-       // public string ListUrl => (string)webApp.Properties["ListUrl"];
         public string ListName => pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_PiwikListName);
         public string PiwikAdminSiteUrl => pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl);
         public string PiwikClientID => pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_ClientID);

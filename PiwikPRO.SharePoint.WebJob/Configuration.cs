@@ -12,7 +12,6 @@ namespace PiwikPRO.SharePoint.WebJob
 
         public Configuration(ISPLogger _logger, ClientContext _ctx)
         {
-            //this.webApp = webApp;
             this.pbo = new PropertyBagOperations(_logger, _ctx);
         }
 

@@ -28,12 +28,7 @@ namespace PiwikPRO.SharePoint.WebJob
             OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
             using (ClientContext ctx = authMan.GetAppOnlyAuthenticatedContext(ConfigurationManager.AppSettings["PiwikAdminSiteUrl"], ConfigurationManager.AppSettings["PiwikAzureAppKey"], ConfigurationManager.AppSettings["PiwikAzureAppSecret"]))
             {
-            //using (ClientContext ctx = new ClientContext(ConfigurationManager.AppSettings["PiwikAdminSiteUrl"]))
-            //{
                 Functions f = new Functions();
-                // Use default authentication mode  
-                //ctx.AuthenticationMode = ClientAuthenticationMode.Default;
-                //ctx.Credentials = new SharePointOnlineCredentials(f.GetSPOAccountName(), f.GetSPOSecureStringPassword());
 
                 AzureLogger splogger = new AzureLogger();
                 splogger.WriteLog(Category.Information, "Piwik PRO Job", "Started");
@@ -44,34 +39,6 @@ namespace PiwikPRO.SharePoint.WebJob
                 pbjo.GetAllDeactivatingSitesAndOperate(ctx, ConfigurationManager.AppSettings["PiwikAzureAppKey"], ConfigurationManager.AppSettings["PiwikAzureAppSecret"], ConfigurationManager.AppSettings["PiwikAdminTenantSiteUrl"]);
 
                 splogger.WriteLog(Category.Information, "Piwik PRO Job", "Finished");
-            }
-        }
-
-        public SecureString GetSPOSecureStringPassword()
-        {
-            try
-            {
-                var secureString = new SecureString();
-                foreach (char c in ConfigurationManager.AppSettings["AzureLoginPassword"])
-                {
-                    secureString.AppendChar(c);
-                }
-                return secureString;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        public string GetSPOAccountName()
-        {
-            try
-            {
-                return ConfigurationManager.AppSettings["AzureLoginName"];
-            }
-            catch
-            {
-                throw;
             }
         }
     }

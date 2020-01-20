@@ -68,13 +68,9 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                             OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
                             contextToPropBag = authMan.GetAppOnlyAuthenticatedContext(valueUrl.Url, spOnlineUserLogin, spOnlineUserPassword);
 
-                            //ClientContext contextToPropBag = new ClientContext(valueUrl.Url);
                             if (!string.IsNullOrEmpty(spOnlineUserLogin))
                             {
                                 contextToPropBag = authMan.GetAppOnlyAuthenticatedContext(valueUrl.Url, spOnlineUserLogin, spOnlineUserPassword);
-                                //contextToPropBag.AuthenticationMode = ClientAuthenticationMode.Default;
-                                // contextToPropBag.Credentials = new SharePointOnlineCredentials(spOnlineUserLogin, spOnlineUserPassword);
-
                                 SetEnablePropertyBagChange(adminTenantUrl, valueUrl.Url, spOnlineUserLogin, spOnlineUserPassword, logger);
                             }
                             else
@@ -174,8 +170,6 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
 
                     if (!string.IsNullOrEmpty(spOnlineUserLogin))
                     {
-                        // contextToPropBag.AuthenticationMode = ClientAuthenticationMode.Default;
-                        // contextToPropBag.Credentials = new SharePointOnlineCredentials(spOnlineUserLogin, spOnlineUserPassword);
                         SetEnablePropertyBagChange(adminTenantUrl, valueUrl.Url, spOnlineUserLogin, spOnlineUserPassword, logger);
 
                         OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
@@ -216,8 +210,6 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                     ClientContext contextToPropBag = new ClientContext(valueUrl.Url);
                     if (!string.IsNullOrEmpty(spOnlineUserLogin))
                     {
-                        //  contextToPropBag.AuthenticationMode = ClientAuthenticationMode.Default;
-                        // contextToPropBag.Credentials = new SharePointOnlineCredentials(spOnlineUserLogin, spOnlineUserPassword);
                         SetEnablePropertyBagChange(adminTenantUrl, valueUrl.Url, spOnlineUserLogin, spOnlineUserPassword, logger);
                     }
                     PropertyValues currentBag = contextToPropBag.Site.RootWeb.AllProperties;
@@ -354,9 +346,6 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                 OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
                 using (ClientContext tenantCtx = authMan.GetAppOnlyAuthenticatedContext(adminTenantUrl, userLogin, userPassword))
                 {
-                    // tenantCtx.AuthenticationMode = ClientAuthenticationMode.Default;
-                    // tenantCtx.Credentials = new SharePointOnlineCredentials(userLogin, userPassword);
-
                     var tenant = new Tenant(tenantCtx);
                     var siteProperties = tenant.GetSitePropertiesByUrl(propertyBagContextUrl, true);
                     tenant.Context.Load(siteProperties);

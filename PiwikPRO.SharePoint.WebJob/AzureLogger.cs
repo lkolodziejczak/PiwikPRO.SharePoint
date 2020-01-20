@@ -15,7 +15,6 @@ namespace PiwikPRO.SharePoint.WebJob
 
         public void WriteLog(Category categoryName, string source, string errorMessage)
         {
-            //TelemetryConfiguration.Active.InstrumentationKey = DiagnosticAreaName;
             TelemetryConfiguration.Active.TelemetryChannel.DeveloperMode = true;
 
             var tc = new TelemetryClient();
