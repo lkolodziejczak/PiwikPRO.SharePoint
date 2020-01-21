@@ -64,12 +64,9 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                             bool? ShouldTrackPageEditedGoal = null;
                             ClientContext contextToPropBag;
 
-
-                            OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
-                            contextToPropBag = authMan.GetAppOnlyAuthenticatedContext(valueUrl.Url, spOnlineUserLogin, spOnlineUserPassword);
-
                             if (!string.IsNullOrEmpty(spOnlineUserLogin))
                             {
+                                OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
                                 contextToPropBag = authMan.GetAppOnlyAuthenticatedContext(valueUrl.Url, spOnlineUserLogin, spOnlineUserPassword);
                                 SetEnablePropertyBagChange(adminTenantUrl, valueUrl.Url, spOnlineUserLogin, spOnlineUserPassword, logger);
                             }

@@ -2,6 +2,7 @@
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a5eb056e-28d8-4203-8d0a-486bfc08687c" solutionId="a5eb056e-28d8-4203-8d0a-486bfc08687c" resetWebServer="false" sharePointProductVersion="15.0" name="PiwikPRO.SharePoint.SP2013" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
   <assemblies>
     <customAssembly location="OfficeDevPnP.Core.dll" deploymentTarget="GlobalAssemblyCache" sourcePath="..\packages\SharePointPnPCore2013.3.16.1912\lib\net45\OfficeDevPnP.Core.dll" />
+    <customAssembly location="SharePointPnP.IdentityModel.Extensions.dll" deploymentTarget="GlobalAssemblyCache" sourcePath="..\packages\SharePointPnP.IdentityModel.Extensions.1.2.4\lib\net45\SharePointPnP.IdentityModel.Extensions.dll" />
   </assemblies>
   <features>
     <featureReference itemId="2e17c753-ced4-4d30-afdf-a82b4552cd07" />
