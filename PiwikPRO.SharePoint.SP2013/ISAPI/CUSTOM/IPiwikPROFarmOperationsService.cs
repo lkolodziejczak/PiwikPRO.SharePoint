@@ -12,23 +12,23 @@ namespace PiwikPRO.SharePoint.SP2013
     interface IPiwikPROFarmOperationsService
     {
         [OperationContract]
-        [WebGet(UriTemplate = "IsUserFarmAdmin",
-            ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "IsUserFarmAdmin")]
         bool IsUserFarmAdmin();
 
         [OperationContract]
-        [WebGet(UriTemplate = "UpdateFarmPropertyCentral?propName={propName}&propValue={propValue}",
-ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "POST", UriTemplate = "UpdateFarmPropertyCentral?propName={propName}&propValue={propValue}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         string UpdateFarmPropertyCentral(string propName, string propValue);
 
         [OperationContract]
-        [WebGet(UriTemplate = "UpdateFarmProperty?propName={propName}&propValue={propValue}",
-    ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "POST", UriTemplate = "UpdateFarmProperty?propName={propName}&propValue={propValue}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         string UpdateFarmProperty(string propName, string propValue);
 
         [OperationContract]
-        [WebGet(UriTemplate = "GetFarmProperty?propName={propName}",
-    ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetFarmProperty?propName={propName}")]
         string GetFarmProperty(string propName);
     }
 }

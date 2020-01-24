@@ -12,8 +12,9 @@ namespace PiwikPRO.SharePoint.SP2013
     interface IPiwikPROFarmOperationsServiceCentral
     {
         [OperationContract]
-        [WebGet(UriTemplate = "UpdateFarmProperty?propName={propName}&propValue={propValue}",
-    ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "POST", UriTemplate = "UpdateFarmProperty?propName={propName}&propValue={propValue}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         string UpdateFarmProperty(string propName, string propValue);
     }
 }

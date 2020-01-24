@@ -23,7 +23,7 @@ namespace PiwikPRO.SharePoint.WebJob
         private static string Thumbprint = "597B0116AB9FB9EAC6D11E1755C4C4218AE91219";
         private static string Authority = "https://login.windows.net/kogifidev3.onmicrosoft.com/";
 
-        public static void ExecuteTimer([TimerTrigger("0 */5 * * * *")]TimerInfo timer, TextWriter log)
+        public static void ExecuteTimer([TimerTrigger("0 */5 * * * *", RunOnStartup = true)]TimerInfo timer, TextWriter log)
         {
             OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
             using (ClientContext ctx = authMan.GetAppOnlyAuthenticatedContext(ConfigurationManager.AppSettings["PiwikAdminSiteUrl"], ConfigurationManager.AppSettings["PiwikAzureAppKey"], ConfigurationManager.AppSettings["PiwikAzureAppSecret"]))

@@ -61,7 +61,9 @@ namespace PiwikPRO.SharePoint.SP2013
  SPAdministrationWebApplication.Local;
                  string centralAdminUrl = centralWeb.Sites[0].Url;
 
-                 string callCommandUrl = centralAdminUrl + "/_vti_bin/CUSTOM/PiwikPROFarmOperationsServiceCentral.svc/UpdateFarmProperty?propName=" + propName + "&propValue=" + propValue;
+                 string callCommandUrl = centralAdminUrl + "/_vti_bin/CUSTOM/PiwikPROFarmOperationsServiceCentral.svc/UpdateFarmProperty?propName=" + propName + "&propValue=" +propValue;
+
+                 string json = "{ \"propName\" : \"" + propName + "\", \"propValue\" : \"" + propValue + "\" }";
 
                  ServicePointManager.Expect100Continue = true;
                  if (centralAdminUrl.ToString().Contains("https"))
@@ -69,13 +71,18 @@ namespace PiwikPRO.SharePoint.SP2013
                      ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                  }
                  HttpWebRequest HttpRequest = (HttpWebRequest)HttpWebRequest.Create(callCommandUrl);
-                 HttpRequest.Method = "GET";
+                 HttpRequest.Method = "POST";
                  HttpRequest.Accept = "application/json; odata=verbose";
                  HttpRequest.ContentType = "application/json;odata=verbose";
+                 HttpRequest.ContentLength = json.Length;
                  HttpRequest.Headers.Add("X-FORMS_BASED_AUTH_ACCEPTED", "f");
-                     //HttpRequest.UseDefaultCredentials = true;
                      HttpRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
                  HttpRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+
+                 using (var streamWriter = new StreamWriter(HttpRequest.GetRequestStream()))
+                 {
+                     streamWriter.Write(json);
+                 }
                  WebResponse response = HttpRequest.GetResponse();
                  string returnerXml = string.Empty;
                  using (var streamReader = new StreamReader(response.GetResponseStream()))
