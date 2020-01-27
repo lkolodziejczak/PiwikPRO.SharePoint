@@ -24,8 +24,6 @@ namespace PiwikPRO.SharePoint.SP2013.ERPiwikPROListItemDeleting
                 {
                     properties.Status = SPEventReceiverStatus.CancelWithError;
                     properties.ErrorMessage = "This site cannot be deleted because the tracking is still active.";
-                    properties.Cancel = true;
-
                 }
                 else
                 {
