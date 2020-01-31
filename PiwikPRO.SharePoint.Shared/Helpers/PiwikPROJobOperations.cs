@@ -24,7 +24,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
         {
             try
             {
-                ListProcessor sdlo = new ListProcessor(clientContext, cfg);
+                ListProcessor sdlo = new ListProcessor(clientContext, cfg, logger);
 
                 //Get all Sites with status "New" and put it to Piwik
                 foreach (ListItem item in sdlo.GetAllNewSites())
@@ -142,7 +142,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
         {
             try
             {
-                ListProcessor sdlo = new ListProcessor(clientContext, cfg);
+                ListProcessor sdlo = new ListProcessor(clientContext, cfg, logger);
                 foreach (ListItem item in sdlo.GetAllDeactivatingSites())
                 {
                     //connect to service and deactivate
@@ -195,7 +195,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
         {
             try
             {
-                ListProcessor sdlo = new ListProcessor(clientContext, cfg);
+                ListProcessor sdlo = new ListProcessor(clientContext, cfg, logger);
                 foreach (ListItem item in sdlo.GetAllSettingsUpdatedSites())
                 {
                     //connect to service and deactivate

@@ -8,11 +8,13 @@ namespace PiwikPRO.SharePoint.Shared
     {
         private readonly ClientContext context;
         private readonly IConfiguration configuration;
+        ISPLogger logger;
 
-        public ListProcessor(ClientContext context, IConfiguration configuration)
+        public ListProcessor(ClientContext context, IConfiguration configuration, ISPLogger _logger)
         {
             this.context = context;
             this.configuration = configuration;
+            this.logger = _logger;
         }
 
         public void Execute()
@@ -99,7 +101,7 @@ namespace PiwikPRO.SharePoint.Shared
             }
             catch (Exception ex)
             {
-               // Logger.WriteLog(Logger.Category.Unexpected, "Piwik AddOrUpdateElementInList", ex.Message);
+                 logger.WriteLog(Category.Unexpected, "Piwik AddOrUpdateElementInList", ex.Message);
             }
             return statusNotChangedEarlier;
         }
@@ -137,7 +139,7 @@ namespace PiwikPRO.SharePoint.Shared
             }
             catch (Exception ex)
             {
-                //Logger.WriteLog(Logger.Category.Unexpected, "Piwik GetAllNewSites", ex.Message);
+                logger.WriteLog(Category.Unexpected, "Piwik GetAllNewSites", ex.Message);
             }
             return listToReturn;
         }
@@ -176,7 +178,7 @@ namespace PiwikPRO.SharePoint.Shared
             }
             catch (Exception ex)
             {
-                //Logger.WriteLog(Logger.Category.Unexpected, "Piwik GetAllDeactivatingSites", ex.Message);
+                logger.WriteLog(Category.Unexpected, "Piwik GetAllDeactivatingSites", ex.Message);
             }
             return listToReturn;
         }
@@ -216,7 +218,7 @@ namespace PiwikPRO.SharePoint.Shared
             }
             catch (Exception ex)
             {
-                // Logger.WriteLog(Logger.Category.Unexpected, "Piwik GetAllSettingsUpdatedSites", ex.Message);
+                 logger.WriteLog(Category.Unexpected, "Piwik GetAllSettingsUpdatedSites", ex.Message);
             }
             return listToReturn;
         }
@@ -254,7 +256,7 @@ namespace PiwikPRO.SharePoint.Shared
             }
             catch (Exception ex)
             {
-                //Logger.WriteLog(Logger.Category.Unexpected, "Piwik CheckIfElementIsAlreadyOnList", ex.Message);
+                logger.WriteLog(Category.Unexpected, "Piwik CheckIfElementIsAlreadyOnList", ex.Message);
             }
 
             return null;

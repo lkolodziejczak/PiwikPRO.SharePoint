@@ -120,37 +120,5 @@ namespace PiwikPRO.SharePoint.SP2013
         }
         return returner;
     }
-
-    private static bool IsFarmAdmin(string loginName)
-    {
-        bool isFarmAdmin = false;
-
-        Microsoft.SharePoint.Administration.SPAdministrationWebApplication centralWeb =
-SPAdministrationWebApplication.Local;
-        string centralAdminUrl = centralWeb.Sites[0].Url;
-
-        SPSecurity.RunWithElevatedPrivileges(delegate ()
-        {
-            using (SPSite site = new SPSite(centralAdminUrl))
-            {
-                using (SPWeb web = site.RootWeb)
-                {
-                    SPGroup adminGroup = web.SiteGroups["Farm Administrators"];
-
-                    foreach (SPUser user in adminGroup.Users)
-                    {
-                        if (user.LoginName == loginName)
-                        {
-                            isFarmAdmin = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-        });
-
-        return isFarmAdmin;
-    }
 }
 }

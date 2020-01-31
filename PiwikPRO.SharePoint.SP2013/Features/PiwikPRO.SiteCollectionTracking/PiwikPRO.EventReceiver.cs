@@ -145,7 +145,7 @@ namespace PiwikPRO.SharePoint.SP2013.Features.PiwikPRO.SiteCollectionTracking
                     //using (SPWeb webc = new SPSite(pbo.GetPropertyValueFromListByKey("piwik_adminsiteurl")).OpenWeb())
                     //{
                         Configuration cfg = new Configuration();
-                        ListProcessor sdlo = new ListProcessor(context, cfg);
+                        ListProcessor sdlo = new ListProcessor(context, cfg, new SPLogger());
                         ifWasntDeactivatingAndActive = sdlo.AddOrUpdateElementInList(osite.RootWeb.Title, ConfigValues.PiwikPro_SiteDirectory_Column_Status_New, osite.RootWeb.Url, "", osite.RootWeb.ServerRelativeUrl, "");
                    // }
                     if (!ifWasntDeactivatingAndActive)
@@ -283,7 +283,7 @@ namespace PiwikPRO.SharePoint.SP2013.Features.PiwikPRO.SiteCollectionTracking
                         // {
                         ClientContext context = new ClientContext(pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl));
                         Configuration cfg = new Configuration();
-                        ListProcessor sdlo = new ListProcessor(context, cfg);
+                        ListProcessor sdlo = new ListProcessor(context, cfg, new SPLogger());
                         sdlo.AddOrUpdateElementInList(osite.RootWeb.Title, ConfigValues.PiwikPro_SiteDirectory_Column_Status_Deactivating, osite.RootWeb.Url, "", osite.RootWeb.ServerRelativeUrl, "");
                        // }
                     }

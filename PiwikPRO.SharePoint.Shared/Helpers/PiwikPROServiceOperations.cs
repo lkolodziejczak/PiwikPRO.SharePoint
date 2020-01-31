@@ -36,7 +36,6 @@ namespace PiwikPRO.SharePoint.Shared
         {
             if (string.IsNullOrEmpty(_bearer))
             {
-                //_bearer = GetTokenBearer(ConfigValues.PiwikProAPI_ClientID_Value, ConfigValues.PiwikProAPI_ClientSecret_Value);
                 _bearer = GetTokenBearer(piwik_clientID, piwik_clientSecret);
             }
             return AddSiteToPiwikService(siteName, url, _bearer);
@@ -46,12 +45,19 @@ namespace PiwikPRO.SharePoint.Shared
         {
             try
             {
-                string jsonString = "{\n\"data\": {\n\"attributes\":{\n\n\"gdpr\":false\n},\n\"type\":\"ppms/app\",\n\"id\":\"" + siteID + "\"\n}\n}\n";
+                //string jsonString = "{\n\"data\": {\n\"attributes\":{\n\n\"gdpr\":false\n},\n\"type\":\"ppms/app\",\n\"id\":\"" + siteID + "\"\n}\n}\n";
+                JObject jobj = new JObject(
+                    new JProperty("data",
+                        new JObject(
+                            new JProperty("attributes",
+                                new JObject(
+                                    new JProperty("gdpr", false))),
+                                    new JProperty("type", "ppms/app"),
+                                    new JProperty("id", siteID))));
 
-                //var callCommandUrl = new Uri(ConfigValues.PiwikProAPI_ServiceUrl + _apiAppsV2 + "\\" + siteID);
                 var callCommandUrl = new Uri("https://"+ piwik_serviceUrl + _apiAppsV2 + "\\" + siteID);
 
-                string returnerXml = MakeRequest(jsonString, callCommandUrl, "PATCH");
+                string returnerXml = MakeRequest(jobj.ToString(), callCommandUrl, "PATCH");
             }
             catch (Exception ex)
             {
@@ -195,9 +201,12 @@ namespace PiwikPRO.SharePoint.Shared
         {
             var callCommandUrl = new Uri("https://" + piwik_serviceUrl + _authToken);
 
-            string jsonString = "{\"grant_type\":\"client_credentials\",\"client_id\":\"" + clientID + "\",\"client_secret\":\"" + clientSecret + "\"}";
-
-            string bearerJson = MakeRequest(jsonString, callCommandUrl, "POST");
+            //string jsonString = "{\"grant_type\":\"client_credentials\",\"client_id\":\"" + clientID + "\",\"client_secret\":\"" + clientSecret + "\"}";
+            JObject jobj = new JObject(
+                new JProperty("grant_type", "client_credentials"),
+                new JProperty("client_id", clientID),
+                new JProperty("client_secret", clientSecret));
+            string bearerJson = MakeRequest(jobj.ToString(), callCommandUrl, "POST");
 
             var joobject = JObject.Parse(bearerJson);
             string stdd = joobject["access_token"].ToString();
@@ -217,11 +226,25 @@ namespace PiwikPRO.SharePoint.Shared
             string resultSiteID = string.Empty;
             try
             {
-                string jsonString = "{\n\"data\":{\n\"attributes\":{\"appType\":\"sharepoint\",\n\"name\":\"" + siteName + "\",\n\"urls\":[\n\"" + urls + "\"]},\n\"type\":\"ppms/app\"\n}\n}";
+                //string jsonString = "{\n\"data\":{\n\"attributes\":{\"appType\":\"sharepoint\",\n\"name\":\"" + siteName + "\",\n\"urls\":[\n\"" + urls + "\"]},\n\"type\":\"ppms/app\"\n}\n}";
+                JArray arrayUrls = new JArray();
+                arrayUrls.Add(urls);
+                JObject oUrls = new JObject();
+                oUrls["urls"] = arrayUrls;
+
+                JObject jobj = new JObject(
+    new JProperty("data",
+        new JObject(
+            new JProperty("attributes",
+                new JObject(
+                    new JProperty("appType", "sharepoint"),
+                    new JProperty("name", siteName),
+                    new JProperty("urls", arrayUrls))),
+                    new JProperty("type", "ppms/app"))));
 
                 var callCommandUrl = new Uri("https://" + piwik_serviceUrl + _apiAppsV2);
 
-                string returnerXml = MakeRequest(jsonString, callCommandUrl, "POST");
+                string returnerXml = MakeRequest(jobj.ToString(), callCommandUrl, "POST");
 
                 XmlDocument docXML = JsonConvert.DeserializeXmlNode(returnerXml, "root");
 
@@ -258,10 +281,19 @@ namespace PiwikPRO.SharePoint.Shared
         {
             try
             {
-                string jsonString = "{\n\"data\": {\n\"attributes\":{\n\n\"name\":\"" + siteName + "\""+"\n},\n\"type\":\"ppms/app\",\n\"id\":\"" + siteID + "\"\n}\n}";
+                // string jsonString = "{\n\"data\": {\n\"attributes\":{\n\n\"name\":\"" + siteName + "\""+"\n},\n\"type\":\"ppms/app\",\n\"id\":\"" + siteID + "\"\n}\n}";
+
+                JObject jobj = new JObject(
+    new JProperty("data",
+        new JObject(
+            new JProperty("attributes",
+                new JObject(
+                    new JProperty("name", siteName))),
+                new JProperty("type", "ppms/app"),
+                new JProperty("id", siteID))));
 
                 var callCommandUrl = new Uri("https://" + piwik_serviceUrl + _apiAppsV2 + "\\" + siteID);
-                string returnerXml = MakeRequest(jsonString, callCommandUrl, "PATCH");
+                string returnerXml = MakeRequest(jobj.ToString(), callCommandUrl, "PATCH");
             }
             catch (Exception ex)
             {

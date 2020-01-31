@@ -34,7 +34,7 @@ namespace PiwikPRO.SharePoint.SP2013
                        //{
                             ClientContext context = new ClientContext(pbo.GetPropertyValueFromListByKey(pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl)));
                             Configuration cfg = new Configuration();
-                            ListProcessor sdlo = new ListProcessor(context, cfg);
+                            ListProcessor sdlo = new ListProcessor(context, cfg, new SPLogger());
                             ListItem item = sdlo.CheckIfElementIsAlreadyOnList(context.Web.ServerRelativeUrl);
                             if (item != null)
                             {
