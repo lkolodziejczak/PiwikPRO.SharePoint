@@ -140,14 +140,14 @@ namespace PiwikPRO.SharePoint.SP2013.Features.PiwikPRO.SiteCollectionTracking
                     }
                     bool ifWasntDeactivatingAndActive = true;
                     PropertyBagOperations pbo = new PropertyBagOperations();
-                    //using (SPWeb web = new SPSite(ConfigValues.PiwikPro_PiwikAdminSiteUrl).OpenWeb())
-                    ClientContext context = new ClientContext(pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl));
-                    //using (SPWeb webc = new SPSite(pbo.GetPropertyValueFromListByKey("piwik_adminsiteurl")).OpenWeb())
-                    //{
-                        Configuration cfg = new Configuration();
+                    Configuration cfg = new Configuration();
+
+                    using (SPSite elevatedSite = new SPSite(cfg.PiwikAdminSiteUrl))
+                    {
+                        ClientContext context = new ClientContext(pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl));
                         ListProcessor sdlo = new ListProcessor(context, cfg, new SPLogger());
                         ifWasntDeactivatingAndActive = sdlo.AddOrUpdateElementInList(osite.RootWeb.Title, ConfigValues.PiwikPro_SiteDirectory_Column_Status_New, osite.RootWeb.Url, "", osite.RootWeb.ServerRelativeUrl, "");
-                   // }
+                    }
                     if (!ifWasntDeactivatingAndActive)
                     {
                         using (SPSite elevatedSite = new SPSite(osite.ID))
@@ -278,14 +278,14 @@ namespace PiwikPRO.SharePoint.SP2013.Features.PiwikPRO.SiteCollectionTracking
                         web.AllowUnsafeUpdates = oldAllowUnsafe;
 
                         PropertyBagOperations pbo = new PropertyBagOperations();
-                        //using (SPWeb web = new SPSite(ConfigValues.PiwikPro_PiwikAdminSiteUrl).OpenWeb())
-                        //using (SPWeb webc = new SPSite(pbo.GetPropertyValueFromListByKey("piwik_adminsiteurl")).OpenWeb())
-                        // {
-                        ClientContext context = new ClientContext(pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl));
                         Configuration cfg = new Configuration();
-                        ListProcessor sdlo = new ListProcessor(context, cfg, new SPLogger());
-                        sdlo.AddOrUpdateElementInList(osite.RootWeb.Title, ConfigValues.PiwikPro_SiteDirectory_Column_Status_Deactivating, osite.RootWeb.Url, "", osite.RootWeb.ServerRelativeUrl, "");
-                       // }
+
+                        using (SPSite elevatedSiteAdmin = new SPSite(cfg.PiwikAdminSiteUrl))
+                        {
+                            ClientContext context = new ClientContext(pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl));
+                            ListProcessor sdlo = new ListProcessor(context, cfg, new SPLogger());
+                            sdlo.AddOrUpdateElementInList(osite.RootWeb.Title, ConfigValues.PiwikPro_SiteDirectory_Column_Status_Deactivating, osite.RootWeb.Url, "", osite.RootWeb.ServerRelativeUrl, "");
+                        }
                     }
                     catch (Exception exc)
                     {
