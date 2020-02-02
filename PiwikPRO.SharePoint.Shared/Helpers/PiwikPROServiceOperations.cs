@@ -45,7 +45,7 @@ namespace PiwikPRO.SharePoint.Shared
         {
             try
             {
-                //string jsonString = "{\n\"data\": {\n\"attributes\":{\n\n\"gdpr\":false\n},\n\"type\":\"ppms/app\",\n\"id\":\"" + siteID + "\"\n}\n}\n";
+                //JSON should look like: "{\n\"data\": {\n\"attributes\":{\n\n\"gdpr\":false\n},\n\"type\":\"ppms/app\",\n\"id\":\"" + siteID + "\"\n}\n}\n";
                 JObject jobj = new JObject(
                     new JProperty("data",
                         new JObject(
@@ -55,7 +55,7 @@ namespace PiwikPRO.SharePoint.Shared
                                     new JProperty("type", "ppms/app"),
                                     new JProperty("id", siteID))));
 
-                var callCommandUrl = new Uri("https://"+ piwik_serviceUrl + _apiAppsV2 + "\\" + siteID);
+                var callCommandUrl = new Uri(String.Format("https://{0}{1}\\{2}", piwik_serviceUrl, _apiAppsV2, siteID));
 
                 string returnerXml = MakeRequest(jobj.ToString(), callCommandUrl, "PATCH");
             }
@@ -109,13 +109,13 @@ namespace PiwikPRO.SharePoint.Shared
         {
             try
             {
-                string callCommand = "https://" + piwik_serviceUrl + //ConfigValues.PiwikProAPI_ServiceUrl +
+                string callCommand = String.Format("https://{0}"+
                     "/?module=API&format=XML" +
                     "&method=Goals.addGoal" +
-                    "&idSite=" + siteId +
-                    "&name=" + HttpUtility.HtmlEncode(goalName) +
-                    "&matchAttribute=manually&pattern=" + HttpUtility.HtmlEncode(".*") +
-                    "&patternType=regex&caseSensitive=0&revenue=0&allowMultipleConversionsPerVisit=1&token_auth=" + piwik_oldapitoken;
+                    "&idSite={1}" +
+                    "&name={2}" +
+                    "&matchAttribute=manually&pattern={3}" +
+                    "&patternType=regex&caseSensitive=0&revenue=0&allowMultipleConversionsPerVisit=1&token_auth={4}", piwik_serviceUrl, siteId, HttpUtility.HtmlEncode(goalName), HttpUtility.HtmlEncode(".*"), piwik_oldapitoken);
 
                 if (callCommand.ToString().Contains("https"))
                 {
@@ -157,13 +157,13 @@ namespace PiwikPRO.SharePoint.Shared
                 {
                     matchAttribute = "disabled";
                 }
-                string callCommand = "https://" + piwik_serviceUrl +
+                string callCommand = String.Format("https://{0}" +
                     "?module=API&format=XML" +
-                    "&method=Goals.updateGoal&idGoal=" + goalId +
-                    "&idSite=" + siteId +
-                    "&name=" + HttpUtility.HtmlEncode(goalName) +
-                    "&matchAttribute="+ matchAttribute + "&pattern=" + HttpUtility.HtmlEncode(".*") +
-                    "&patternType=regex&caseSensitive=0&revenue=0&allowMultipleConversionsPerVisit=1&token_auth=" + piwik_oldapitoken;
+                    "&method=Goals.updateGoal&idGoal={1}" +
+                    "&idSite={2}" +
+                    "&name={3}" +
+                    "&matchAttribute={4}&pattern={5}" +
+                    "&patternType=regex&caseSensitive=0&revenue=0&allowMultipleConversionsPerVisit=1&token_auth={6}", piwik_serviceUrl, goalId, siteId, HttpUtility.HtmlEncode(goalName), matchAttribute, HttpUtility.HtmlEncode(".*"), piwik_oldapitoken);
 
                 if (callCommand.ToString().Contains("https"))
                 {
@@ -199,9 +199,9 @@ namespace PiwikPRO.SharePoint.Shared
 
         private string GetTokenBearer(string clientID, string clientSecret)
         {
-            var callCommandUrl = new Uri("https://" + piwik_serviceUrl + _authToken);
+            var callCommandUrl = new Uri(String.Format("https://{0}{1}", piwik_serviceUrl, _authToken));
 
-            //string jsonString = "{\"grant_type\":\"client_credentials\",\"client_id\":\"" + clientID + "\",\"client_secret\":\"" + clientSecret + "\"}";
+            //JSON should look like: "{\"grant_type\":\"client_credentials\",\"client_id\":\"" + clientID + "\",\"client_secret\":\"" + clientSecret + "\"}";
             JObject jobj = new JObject(
                 new JProperty("grant_type", "client_credentials"),
                 new JProperty("client_id", clientID),
@@ -226,7 +226,7 @@ namespace PiwikPRO.SharePoint.Shared
             string resultSiteID = string.Empty;
             try
             {
-                //string jsonString = "{\n\"data\":{\n\"attributes\":{\"appType\":\"sharepoint\",\n\"name\":\"" + siteName + "\",\n\"urls\":[\n\"" + urls + "\"]},\n\"type\":\"ppms/app\"\n}\n}";
+                //JSON should look like: "{\n\"data\":{\n\"attributes\":{\"appType\":\"sharepoint\",\n\"name\":\"" + siteName + "\",\n\"urls\":[\n\"" + urls + "\"]},\n\"type\":\"ppms/app\"\n}\n}";
                 JArray arrayUrls = new JArray();
                 arrayUrls.Add(urls);
                 JObject oUrls = new JObject();
@@ -242,7 +242,7 @@ namespace PiwikPRO.SharePoint.Shared
                     new JProperty("urls", arrayUrls))),
                     new JProperty("type", "ppms/app"))));
 
-                var callCommandUrl = new Uri("https://" + piwik_serviceUrl + _apiAppsV2);
+                var callCommandUrl = new Uri(String.Format("https://{0}{1}", piwik_serviceUrl, _apiAppsV2));
 
                 string returnerXml = MakeRequest(jobj.ToString(), callCommandUrl, "POST");
 
@@ -264,7 +264,7 @@ namespace PiwikPRO.SharePoint.Shared
             string resultSiteID = string.Empty;
             try
             {
-                var callCommandUrl = new Uri("https://" + piwik_serviceUrl + _apiAppsV2 + "/" + siteId);
+                var callCommandUrl = new Uri(String.Format("https://{0}{1}/{2}", piwik_serviceUrl, _apiAppsV2, siteId));
                 resultSiteID = MakeRequest("", callCommandUrl, "DELETE");
                
             }
@@ -281,7 +281,7 @@ namespace PiwikPRO.SharePoint.Shared
         {
             try
             {
-                // string jsonString = "{\n\"data\": {\n\"attributes\":{\n\n\"name\":\"" + siteName + "\""+"\n},\n\"type\":\"ppms/app\",\n\"id\":\"" + siteID + "\"\n}\n}";
+                //JSON should look like: "{\n\"data\": {\n\"attributes\":{\n\n\"name\":\"" + siteName + "\""+"\n},\n\"type\":\"ppms/app\",\n\"id\":\"" + siteID + "\"\n}\n}";
 
                 JObject jobj = new JObject(
     new JProperty("data",
@@ -292,7 +292,7 @@ namespace PiwikPRO.SharePoint.Shared
                 new JProperty("type", "ppms/app"),
                 new JProperty("id", siteID))));
 
-                var callCommandUrl = new Uri("https://" + piwik_serviceUrl + _apiAppsV2 + "\\" + siteID);
+                var callCommandUrl = new Uri(String.Format("https://{0}{1}\\{2}", piwik_serviceUrl, _apiAppsV2, siteID));
                 string returnerXml = MakeRequest(jobj.ToString(), callCommandUrl, "PATCH");
             }
             catch (Exception ex)
@@ -306,7 +306,7 @@ namespace PiwikPRO.SharePoint.Shared
             string resultResponseXml = string.Empty;
             try
             {
-                var callCommandUrl = new Uri("https://" + piwik_serviceUrl + _apiAppsV2);
+                var callCommandUrl = new Uri(String.Format("https://{0}{1}", piwik_serviceUrl, _apiAppsV2));
 
                 resultResponseXml = MakeRequest("", callCommandUrl, "GET");
             }

@@ -19,9 +19,6 @@ namespace PiwikPRO.SharePoint.WebJob
     {
         // This function will get triggered/executed when a new message is written 
         // on an Azure Queue called queue.
-        private static string ClientId = "2fd1e765-ca9c-4cab-aaa5-32d960f2764a";
-        private static string Thumbprint = "597B0116AB9FB9EAC6D11E1755C4C4218AE91219";
-        private static string Authority = "https://login.windows.net/kogifidev3.onmicrosoft.com/";
 
         public static void ExecuteTimer([TimerTrigger("0 */5 * * * *", RunOnStartup = true)]TimerInfo timer, TextWriter log)
         {
