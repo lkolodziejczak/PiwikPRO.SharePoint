@@ -19,6 +19,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Entities\" />
-    <Folder Include="$(MSBuildThisFileDirectory)PowerShellScripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)PowerShellScripts\PiwikPROBreakPiwikPROListPermissions.ps1" />
   </ItemGroup>
 </Project>

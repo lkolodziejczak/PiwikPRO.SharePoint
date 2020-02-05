@@ -17,20 +17,6 @@ namespace PiwikPRO.SharePoint.Shared
             this.logger = _logger;
         }
 
-        public void Execute()
-        {
-          //  string webUrl = configuration.ListUrl.Substring(0, configuration.ListUrl.IndexOf("/Lists"));
-
-          //  using (ClientContext ctx = context.Clone(webUrl))
-           // {
-          //      List list = ctx.Web.GetListByUrl(configuration.ListUrl);
-          //      ListItem item = list.AddItem(new ListItemCreationInformation());
-          //      item["Title"] = "Test";
-           //     item.Update();
-          //      ctx.ExecuteQueryRetry();
-           // }
-        }
-
         public bool AddOrUpdateElementInList(string title, string status, string url, string errorlog, string relativeUrl, string siteId)
         {
             bool statusNotChangedEarlier = true;
