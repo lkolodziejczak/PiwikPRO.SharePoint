@@ -1,5 +1,4 @@
 using Microsoft.Azure.WebJobs;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Online.SharePoint.TenantAdministration;
 using Microsoft.SharePoint.Client;
 using OfficeDevPnP.Core;
