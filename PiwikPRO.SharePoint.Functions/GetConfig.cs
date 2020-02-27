@@ -22,7 +22,6 @@ namespace PiwikPRO.SharePoint.Functions
             ExecutionContext context)
         {
             Monitoring monitoring = new Monitoring();
-
             JObject piwikConfig = new JObject();
 
             if (req == null)
