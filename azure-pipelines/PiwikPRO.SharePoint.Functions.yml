@@ -15,13 +15,13 @@ pr: none
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: ''
+  # azureSubscription: ''
 
   # Function app name
-  functionAppName: ''
+  # functionAppName: ''
 
   # Resource group name
-  resourceGroupName: ''
+  # resourceGroupName: ''
 
   # Agent VM image name
   vmImageName: 'windows-latest'
