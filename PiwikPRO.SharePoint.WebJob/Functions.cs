@@ -24,8 +24,6 @@ namespace PiwikPRO.SharePoint.WebJob
             OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
             using (ClientContext ctx = authMan.GetAppOnlyAuthenticatedContext(ConfigurationManager.AppSettings["PiwikAdminSiteUrl"], ConfigurationManager.AppSettings["PiwikAzureAppKey"], ConfigurationManager.AppSettings["PiwikAzureAppSecret"]))
             {
-                Functions f = new Functions();
-
                 AzureLogger splogger = new AzureLogger();
                 splogger.WriteLog(Category.Information, "Piwik PRO Job", "Started");
                 Configuration cfg = new Configuration(splogger, ctx);

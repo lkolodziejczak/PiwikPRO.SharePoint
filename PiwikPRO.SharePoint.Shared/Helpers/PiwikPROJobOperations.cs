@@ -377,5 +377,11 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                 logger.WriteLog(Category.Unexpected, "Piwik Set DenyAddAndCustomizePagesStatus inside site Full method", ex.Message);
             }
         }
+
+        public bool CheckIfPageIsAlreadyOnPiwik(string idSite)
+        {
+            PiwikPROServiceOperations pso = new PiwikPROServiceOperations(cfg.PiwikClientID, cfg.PiwikClientSecret, cfg.PiwikServiceUrl, cfg.PiwikOldApiToken, logger);
+            return pso.CheckIfPageIsAlreadyOnPiwik(idSite);
+        }
     }
 }
