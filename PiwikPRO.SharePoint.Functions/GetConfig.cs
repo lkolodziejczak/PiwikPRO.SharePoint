@@ -37,9 +37,9 @@ namespace PiwikPRO.SharePoint.Functions
 
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(config["AzureWebJobsStorage"]);
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                CloudBlobContainer container = blobClient.GetContainerReference("piwikblob");
+                CloudBlobContainer container = blobClient.GetContainerReference(config["ContainerReference"]);
 
-                CloudBlockBlob baseConfigBlob = container.GetBlockBlobReference("piwik-config.json");
+                CloudBlockBlob baseConfigBlob = container.GetBlockBlobReference(config["BlobFileName"]);
 
                 string configJson = await baseConfigBlob.DownloadTextAsync();
                 piwikConfig = JObject.Parse(configJson);
