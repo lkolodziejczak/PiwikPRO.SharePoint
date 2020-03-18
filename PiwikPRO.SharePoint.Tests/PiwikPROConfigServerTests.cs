@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,24 +18,62 @@ namespace PiwikPRO.SharePoint.Tests.ConfigServerTests
     public class PiwikPROConfigServerTests
     {
         public const string ConfigServerURL = "https://piwikprosharepointfunctions2.azurewebsites.net/api/config";
+        public const string tenantParameter = "tenant=phkogifi";
+        public const string extensionParameter = "extension=valo";
+        public const string tenant = "phkogifi";
+        public const string extension = "valo";
 
         [Test]
         public void ComparePiwikCfgFromBlobWithPiwikConfigFromConfigServer()
         {
-            Assert.AreEqual(GetBlobFileContentFromAzureBlobStorage(ConfigurationManager.AppSettings["BlobFileName"]), MakeRequest("", new Uri(ConfigServerURL), "GET"));
+            Assert.AreEqual(GetMergedBlobFileContentFromAzureBlobStorage(ConfigurationManager.AppSettings["BlobFileName"],"",""), MakeRequest("", new Uri(ConfigServerURL), "GET"));
         }
 
-        private string GetBlobFileContentFromAzureBlobStorage(string blobFileName)
+        [Test]
+        public void ComparePiwikCfgWithTenant()
+        {
+            Assert.AreEqual(GetMergedBlobFileContentFromAzureBlobStorage(ConfigurationManager.AppSettings["BlobFileName"], "", tenant), MakeRequest("", new Uri(ConfigServerURL + "?" + tenantParameter), "GET"));
+        }
+
+        [Test]
+        public void ComparePiwikCfgWithExtension()
+        {
+            Assert.AreEqual(GetMergedBlobFileContentFromAzureBlobStorage(ConfigurationManager.AppSettings["BlobFileName"], extension, ""), MakeRequest("", new Uri(ConfigServerURL + "?" + extensionParameter), "GET"));
+        }
+
+        [Test]
+        public void ComparePiwikCfgWithTenantAndExtension()
+        {
+            Assert.AreEqual(GetMergedBlobFileContentFromAzureBlobStorage(ConfigurationManager.AppSettings["BlobFileName"], extension, tenant), MakeRequest("", new Uri(ConfigServerURL + "?" + extensionParameter + "&" + tenantParameter), "GET"));
+        }
+
+        private string GetMergedBlobFileContentFromAzureBlobStorage(string configBlobFileName, string extension, string tenant)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["AzureWebJobsStorage"]);
             CloudBlobClient serviceClient = storageAccount.CreateCloudBlobClient();
             CloudBlobContainer container = serviceClient.GetContainerReference(ConfigurationManager.AppSettings["ContainerReference"]);
-            CloudBlockBlob blob = container.GetBlockBlobReference(blobFileName);
+            CloudBlockBlob blob = container.GetBlockBlobReference(configBlobFileName);
             string contents = blob.DownloadTextAsync().Result;
 
-            contents = contents.Replace(" ", "");
+            JObject configFile = JObject.Parse(contents);
 
-            return contents;
+            if(!string.IsNullOrEmpty(extension))
+            {
+                CloudBlockBlob extensionConfigBlob = container.GetBlockBlobReference($"extension-{extension}.json");
+                string extensionConfig = extensionConfigBlob.DownloadTextAsync().Result;
+                configFile.Merge(JObject.Parse(extensionConfig), new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
+            }
+
+            if (!string.IsNullOrEmpty(tenant))
+            {
+                CloudBlockBlob extensionConfigBlob = container.GetBlockBlobReference($"tenant-{tenant}.json");
+                string extensionConfig = extensionConfigBlob.DownloadTextAsync().Result;
+                configFile.Merge(JObject.Parse(extensionConfig), new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
+            }
+
+            string returner = Convert.ToString(configFile).Replace(" ", "");
+            
+            return returner;
         }
 
         private string MakeRequest(string jsonString, Uri callCommandUrl, string method)
