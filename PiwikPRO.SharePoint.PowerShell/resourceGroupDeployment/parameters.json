@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_piwikpro_name": {
+            "value": "piwikpro29632693635888513466"
+        },
+        "components_piwikpro_name": {
+            "value": "piwikproinsights"
+        },
+        "serverfarms_piwikproPlan_name": {
+            "value": "piwikproplan"
+        },
+        "storageAccounts_piwikprostorage_name": {
+            "value": "piwikprostorage"
+        }
+    }
+}
