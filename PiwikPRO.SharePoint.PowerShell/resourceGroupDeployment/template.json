@@ -17,14 +17,6 @@
         "storageAccounts_piwikprostorage_name": {
             "defaultValue": "piwikprostorage",
             "type": "String"
-        },
-        "smartdetectoralertrules_failure_anomalies___piwikpro_name": {
-            "defaultValue": "failure anomalies - piwikpro",
-            "type": "String"
-        },
-        "actiongroups_application_20insights_20smart_20detection_externalid": {
-            "defaultValue": "/subscriptions/b4bef1b7-f800-4095-a42c-ee93a7debd93/resourceGroups/piwikpro/providers/microsoft.insights/actiongroups/application%20insights%20smart%20detection",
-            "type": "String"
         }
     },
     "variables": {},
@@ -102,37 +94,6 @@
                 "hyperV": false,
                 "targetWorkerCount": 0,
                 "targetWorkerSizeId": 0
-            }
-        },
-        {
-            "type": "microsoft.alertsmanagement/smartdetectoralertrules",
-            "apiVersion": "2019-06-01",
-            "name": "[parameters('smartdetectoralertrules_failure_anomalies___piwikpro_name')]",
-            "location": "global",
-            "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_piwikpro_name'))]"
-            ],
-            "properties": {
-                "description": "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls.",
-                "state": "Enabled",
-                "severity": "Sev3",
-                "frequency": "PT1M",
-                "detector": {
-                    "id": "FailureAnomaliesDetector",
-                    "name": "Failure Anomalies",
-                    "description": "Detects if your application experiences an abnormal rise in the rate of HTTP requests or dependency calls that are reported as failed. The anomaly detection uses machine learning algorithms and occurs in near real time, therefore there's no need to define a frequency for this signal.<br/></br/>To help you triage and diagnose the problem, an analysis of the characteristics of the failures and related telemetry is provided with the detection. This feature works for any app, hosted in the cloud or on your own servers, that generates request or dependency telemetry - for example, if you have a worker role that calls <a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/application-insights/app-insights-api-custom-events-metrics#trackrequest\\\" target=\\\"_blank\\\">TrackRequest()</a> or <a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/application-insights/app-insights-api-custom-events-metrics#trackdependency\\\" target=\\\"_blank\\\">TrackDependency()</a>.<br/><br/><a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/azure-monitor/app/proactive-failure-diagnostics\\\" target=\\\"_blank\\\">Learn more about Failure Anomalies</a>",
-                    "supportedResourceTypes": [
-                        "ApplicationInsights"
-                    ]
-                },
-                "scope": [
-                    "[resourceId('microsoft.insights/components', parameters('components_piwikpro_name'))]"
-                ],
-                "actionGroups": {
-                    "groupIds": [
-                        "[parameters('actiongroups_application_20insights_20smart_20detection_externalid')]"
-                    ]
-                }
             }
         },
         {

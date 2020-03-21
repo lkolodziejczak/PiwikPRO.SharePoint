@@ -3,16 +3,16 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_piwikpro_name": {
-            "value": "piwikpro29632693635888513466"
+            "value": "{labelToBeReplaced}"
         },
         "components_piwikpro_name": {
-            "value": "piwikproinsights"
+            "value": "{labelToBeReplaced}"
         },
         "serverfarms_piwikproPlan_name": {
-            "value": "piwikproplan"
+            "value": "{labelToBeReplaced}"
         },
         "storageAccounts_piwikprostorage_name": {
-            "value": "piwikprostorage"
+            "value": "{labelToBeReplaced}"
         }
     }
 }
