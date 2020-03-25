@@ -135,7 +135,7 @@
             </View>
           </pnp:Views>
           <pnp:Fields>
-            <Field Type="Choice" DisplayName="pwk_status" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" ID="{7e9ba3e3-785d-48bc-bc06-9c2b2f2e9983}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_status" Name="pwk_status" ColName="nvarchar4" RowOrdinal="0">
+            <Field Type="Choice" DisplayName="Status" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" ID="{7e9ba3e3-785d-48bc-bc06-9c2b2f2e9983}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_status" Name="pwk_status" ColName="nvarchar4" RowOrdinal="0">
               <Default>New</Default>
               <CHOICES>
                 <CHOICE>Active</CHOICE>
@@ -147,10 +147,10 @@
                 <CHOICE>Deleted</CHOICE>
               </CHOICES>
             </Field>
-            <Field Type="Note" DisplayName="pwk_errormessage" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" NumLines="6" RichText="TRUE" RichTextMode="FullHtml" IsolateStyles="TRUE" Sortable="FALSE" ID="{83b35ab4-aa07-42ab-86f5-b05e0d5e85ea}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_errormessage" Name="pwk_errormessage" ColName="ntext2" RowOrdinal="0" />
-            <Field Type="Text" DisplayName="pwk_siteId" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" ID="{f2971660-f498-44df-b662-dc557881073a}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_siteId" Name="pwk_siteId" ColName="nvarchar6" RowOrdinal="0" />
-            <Field Type="Note" DisplayName="pwk_auditlog" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" NumLines="6" RichText="TRUE" RichTextMode="FullHtml" IsolateStyles="TRUE" Sortable="FALSE" ID="{f8cb6c3c-e873-40c4-bcac-e7e6f83ff4fa}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_auditlog" Name="pwk_auditlog" ColName="ntext3" RowOrdinal="0" />
-            <Field Type="URL" DisplayName="pwk_url" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Hyperlink" ID="{0c29fef4-ac80-4ecb-8369-db7046891a74}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_url" Name="pwk_url" ColName="nvarchar5" RowOrdinal="0" ColName2="nvarchar7" RowOrdinal2="0" />
+            <Field Type="Note" DisplayName="Error Message" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" NumLines="6" RichText="TRUE" RichTextMode="FullHtml" IsolateStyles="TRUE" Sortable="FALSE" ID="{83b35ab4-aa07-42ab-86f5-b05e0d5e85ea}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_errormessage" Name="pwk_errormessage" ColName="ntext2" RowOrdinal="0" />
+            <Field Type="Text" DisplayName="Piwik PRO Site ID" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" ID="{f2971660-f498-44df-b662-dc557881073a}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_siteId" Name="pwk_siteId" ColName="nvarchar6" RowOrdinal="0" />
+            <Field Type="Note" DisplayName="Audit Log" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" NumLines="6" RichText="TRUE" RichTextMode="FullHtml" IsolateStyles="TRUE" Sortable="FALSE" ID="{f8cb6c3c-e873-40c4-bcac-e7e6f83ff4fa}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_auditlog" Name="pwk_auditlog" ColName="ntext3" RowOrdinal="0" />
+            <Field Type="URL" DisplayName="Site Url" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Hyperlink" ID="{0c29fef4-ac80-4ecb-8369-db7046891a74}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_url" Name="pwk_url" ColName="nvarchar5" RowOrdinal="0" ColName2="nvarchar7" RowOrdinal2="0" />
           </pnp:Fields>
           <pnp:Security>
             <pnp:BreakRoleInheritance CopyRoleAssignments="false" ClearSubscopes="false">
