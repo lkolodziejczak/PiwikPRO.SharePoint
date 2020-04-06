@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PiwikPRO.SharePoint.Functions
 {
