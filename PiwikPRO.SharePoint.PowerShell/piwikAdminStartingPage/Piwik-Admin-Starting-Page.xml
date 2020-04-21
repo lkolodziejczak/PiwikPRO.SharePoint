@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2019/09/ProvisioningSchema">
+  <pnp:Preferences Generator="OfficeDevPnP.Core, Version=3.17.2001.2, Culture=neutral, PublicKeyToken=5e633289e95c321a" />
+  <pnp:Templates ID="CONTAINER-TEMPLATE-3262CF3DC0914F67BFCD814F9CEEDDEA">
+    <pnp:ProvisioningTemplate ID="TEMPLATE-3262CF3DC0914F67BFCD814F9CEEDDEA" Version="1" BaseSiteTemplate="STS#3" Scope="RootSite">
+	  <pnp:Files>
+		<pnp:File Folder="SiteAssets" Overwrite="true" Src="Piwik_PRO.png" TargetFileName="__sitelogo__Piwik_PRO.png"></pnp:File>
+	  </pnp:Files>
+      <pnp:WebSettings RequestAccessEmail="" NoCrawl="false" WelcomePage="SitePages/Piwik-Admin-Starting-Page.aspx" SiteLogo="{hosturl}{site}/SiteAssets/__sitelogo__Piwik_PRO.png" AlternateCSS="" MasterPageUrl="{masterpagecatalog}/seattle.master" CustomMasterPageUrl="{masterpagecatalog}/seattle.master" CommentsOnSitePagesDisabled="false" QuickLaunchEnabled="true" MembersCanShare="true" SearchScope="DefaultScope" />
+      <pnp:SiteSettings AllowDesigner="true" AllowCreateDeclarativeWorkflow="true" AllowSaveDeclarativeWorkflowAsTemplate="true" AllowSavePublishDeclarativeWorkflow="true" />
+      <pnp:ClientSidePages>
+        <pnp:ClientSidePage PromoteAsNewsArticle="false" PromoteAsTemplate="false" Overwrite="true" EnableComments="false" Title="Piwik Admin Starting Page" ThumbnailUrl="" PageName="Piwik-Admin-Starting-Page.aspx">
+          <pnp:Header Type="Default" LayoutType="NoImage" TextAlignment="Center" ShowTopicHeader="false" ShowPublishDate="false" TopicHeader="" AlternativeText="" Authors="[]" AuthorByLine="[]" AuthorByLineId="-1" />
+          <pnp:Sections>
+            <pnp:Section Order="1" Type="OneColumn" />
+          </pnp:Sections>
+        </pnp:ClientSidePage>
+      </pnp:ClientSidePages>
+    </pnp:ProvisioningTemplate>
+  </pnp:Templates>
+</pnp:Provisioning>
