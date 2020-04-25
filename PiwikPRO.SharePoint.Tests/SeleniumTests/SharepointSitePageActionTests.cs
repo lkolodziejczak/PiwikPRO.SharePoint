@@ -14,14 +14,18 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 {
     class SharepointSitePageActionTests : TestBase
     {
+        string sharepointUserToTest = "mzywicki@phkogifi.onmicrosoft.com";
+        string sharepointUserPasswordToTest = "SAqa@2018b44c";
+        string testPageUrl = "https://phkogifi.sharepoint.com/sites/PH/SitePages/Test-Page.aspx";
+        string documentListWithFileUrl = "https://phkogifi.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx";
 
         [SetUp]
         public void BeforeTest()
         {
             var loginPage = new LoginPage(_webDriver);
             var sharePointSite = new SharepointSitePage(_webDriver);
-            loginPage.LoginToSharepoint("mzywicki@phkogifi.onmicrosoft.com", "SAqa@2018b44c");
-            _webDriver.Navigate().GoToUrl("https://phkogifi.sharepoint.com/sites/PH/SitePages/Test-Page.aspx");
+            loginPage.LoginToSharepoint(sharepointUserToTest, sharepointUserPasswordToTest);
+            _webDriver.Navigate().GoToUrl(testPageUrl);
         }
 
         [Test]
@@ -32,7 +36,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             sharePointSite.AddComment("test");
 
-            Thread.Sleep(500);
+            Thread.Sleep(1500);
 
 
             object commentItem = null;
@@ -40,7 +44,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             object pageUrl = null;
             object itemAuthorUserName = null;
             
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 20; i++)
             {
                 commentItem = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentItem')");
                 userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
@@ -234,6 +238,85 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(pageUrl); 
             Assert.NotNull(pageWebTitle); 
             Assert.NotNull(userLogin); 
+        }
+
+        [Test]
+        public void FilePinToTopFromTopMenu()
+        {
+            var sharePointSite = new SharepointSitePage(_webDriver);
+            IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+            _webDriver.Navigate().GoToUrl(documentListWithFileUrl);
+
+            sharePointSite.FilePinToTopFromTopMenu();
+
+            Thread.Sleep(1500);
+
+
+            object fileFilename = null;
+            object userLogin = null;
+            object fileId = null;
+            object fileRelativeUrl = null;
+            object fileTitle = null;
+            object whoPinned = null;
+
+            for (int i = 0; i < 20; i++)
+            {
+                fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileFilename')");
+                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
+                fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileId')");
+                fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileRelativeUrl')");
+                fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileTitle')");
+                whoPinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'whoPinned')");
+                 if (fileFilename != null && userLogin != null && fileId != null && fileRelativeUrl != null && fileTitle != null && whoPinned !=null)
+                    break;
+                 Thread.Sleep(500);
+            }
+
+            Assert.NotNull(fileFilename);
+            Assert.NotNull(userLogin);
+            Assert.NotNull(fileId);
+            Assert.NotNull(fileRelativeUrl);
+            Assert.NotNull(fileTitle);
+            Assert.NotNull(whoPinned);
+        }
+
+        [Test]
+        public void FilePinToTopFromContextMenu()
+        {
+            var sharePointSite = new SharepointSitePage(_webDriver);
+            IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+            _webDriver.Navigate().GoToUrl(documentListWithFileUrl);
+
+            sharePointSite.FilePinToTopFromContextMenu();
+
+            Thread.Sleep(1500);
+
+            object fileFilename = null;
+            object userLogin = null;
+            object fileId = null;
+            object fileRelativeUrl = null;
+            object fileTitle = null;
+            object whoPinned = null;
+
+            for (int i = 0; i < 20; i++)
+            {
+                fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileFilename')");
+                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
+                fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileId')");
+                fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileRelativeUrl')");
+                fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileTitle')");
+                whoPinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'whoPinned')");
+                if (fileFilename != null && userLogin != null && fileId != null && fileRelativeUrl != null && fileTitle != null && whoPinned != null)
+                    break;
+                Thread.Sleep(500);
+            }
+
+            Assert.NotNull(fileFilename);
+            Assert.NotNull(userLogin);
+            Assert.NotNull(fileId);
+            Assert.NotNull(fileRelativeUrl);
+            Assert.NotNull(fileTitle);
+            Assert.NotNull(whoPinned);
         }
     }
 }

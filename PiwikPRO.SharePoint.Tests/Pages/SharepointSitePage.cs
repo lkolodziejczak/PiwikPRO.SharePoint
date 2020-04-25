@@ -49,8 +49,20 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "(//button)[35]")]
         private IWebElement commentReplyUnlikeButton;
 
-        [FindsBy(How = How.XPath, Using = "(//button)[35]")]
+        [FindsBy(How = How.XPath, Using = "(//button[@aria-label='Post'])[2]")]
         private IWebElement commentReplySubmitButton;
+
+        [FindsBy(How = How.XPath, Using = "//div[@data-automationid='DetailsRowCheck'][1]")]
+        private IWebElement fileGrid;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='pinItemCommand']")]
+        private IWebElement filePinToTopFromTopMenu;
+
+        [FindsBy(How = How.ClassName, Using = "heroButton_2ca50ba6")]
+        private IWebElement dotShowActionsMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='pinItemCommand'][1]")]
+        private IWebElement filePinToTopFromContextMenu;
 
         public void ClickLikePage()
         {
@@ -109,6 +121,25 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//button)[35]")));
             commentReplyUnlikeButton.Click();
+        }
+
+        public void FilePinToTopFromTopMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@data-automationid='DetailsRowCheck'][1]")));
+            fileGrid.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='pinItemCommand']")));
+            filePinToTopFromTopMenu.Click();
+        }
+
+        public void FilePinToTopFromContextMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            fileGrid.Click();
+            WebDriverWait wait2 = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
+
+            dotShowActionsMenu.Click();
+            filePinToTopFromContextMenu.Click();
         }
 
     }
