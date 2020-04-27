@@ -31,7 +31,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             Thread.Sleep(1500);
 
-
+            object filePinnedToTop = null;
             object fileFilename = null;
             object userLogin = null;
             object fileId = null;
@@ -41,17 +41,22 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             for (int i = 0; i < 20; i++)
             {
-                fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileFilename')");
-                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
-                fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileId')");
-                fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileRelativeUrl')");
-                fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileTitle')");
-                whoPinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'whoPinned')");
+                filePinnedToTop = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop')");
+                if (filePinnedToTop != null)
+                {
+                    fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').fileFilename");
+                    userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').userLogin");
+                    fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').fileId");
+                    fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').fileRelativeUrl");
+                    fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').fileTitle");
+                    whoPinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').whoPinned");
+                }
                 if (fileFilename != null && userLogin != null && fileId != null && fileRelativeUrl != null && fileTitle != null && whoPinned != null)
                     break;
                 Thread.Sleep(500);
             }
 
+            Assert.NotNull(filePinnedToTop);
             Assert.NotNull(fileFilename);
             Assert.NotNull(userLogin);
             Assert.NotNull(fileId);

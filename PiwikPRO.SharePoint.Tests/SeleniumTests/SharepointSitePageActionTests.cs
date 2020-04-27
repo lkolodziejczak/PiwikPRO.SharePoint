@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -43,27 +44,36 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
 
             object commentItem = null;
-            object userLogin = null;
-            object pageUrl = null;
-            object itemAuthorUserName = null;
-            
+            string userLogin = null;
+            string pageUrl = null;
+            string itemAuthorUserName = null;
+
+
             for (int i = 0; i < 20; i++)
             {
                 //WebDriverWait wait = new WebDriverWait(_webDriver, new TimeSpan(0, 0, 15));
                 //wait.Until(wd => jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentItem')"));
                 commentItem = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentItem')");
-                if (commentItem != null)
+                if(commentItem !=null)
                 {
-                    userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin').userLogin");
-                    pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl').pageUrl");
-                    itemAuthorUserName = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemAuthorUserName').itemAuthorUserName");
+                    var json = JsonConvert.SerializeObject(commentItem);
+                    Dictionary<string,string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("userLogin", out userLogin);
+                    dictionary.TryGetValue("pageUrl", out pageUrl);
+                    dictionary.TryGetValue("itemAuthorUserName", out itemAuthorUserName);
                 }
+               // if (commentItem != null)
+                //{
+                   // userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin').userLogin");
+                   // pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl').pageUrl");
+                   // itemAuthorUserName = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemAuthorUserName').itemAuthorUserName");
+                //}
                 //userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
                 //pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl')");
                 //itemAuthorUserName = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemAuthorUserName')");
                 //if (commentItem != null & userLogin != null & pageUrl != null & itemAuthorUserName != null)
-                if(commentItem != null & userLogin != null & pageUrl != null & itemAuthorUserName != null)
-                    break;
+               // if(commentItem != null && commentItem[userLogin] != null && commentItem.pageUrl != null && commentItem.itemAuthorUserName != null)
+                //    break;
                 Thread.Sleep(500);
             }
 
