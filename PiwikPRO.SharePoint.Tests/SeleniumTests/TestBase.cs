@@ -15,6 +15,11 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 {
     class TestBase
     {
+        public string sharepointUserToTest = "mzywicki@phkogifi.onmicrosoft.com";
+        public string sharepointUserPasswordToTest = "SAqa@2018b44c";
+        public string testPageUrl = "https://phkogifi.sharepoint.com/sites/PH/SitePages/Test-Page.aspx";
+        public string documentListWithFileUrl = "https://phkogifi.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx";
+
         public IWebDriver _webDriver;
 
         [SetUp]
