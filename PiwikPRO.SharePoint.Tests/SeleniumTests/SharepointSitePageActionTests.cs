@@ -23,12 +23,20 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             _webDriver.Navigate().GoToUrl(testPageUrl);
         }
 
+        public static void WaitForLoad(IWebDriver driver, int timeoutSec = 15)
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, timeoutSec));
+            wait.Until(wd => js.ExecuteScript("return document.readyState").ToString() == "complete");
+        }
+
         [Test]
         public void AddComment()
         {
             var sharePointSite = new SharepointSitePage(_webDriver);
             IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-
+            
+            WaitForLoad(_webDriver);
             sharePointSite.AddComment("test");
 
             Thread.Sleep(1500);
@@ -41,11 +49,20 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             
             for (int i = 0; i < 20; i++)
             {
+                //WebDriverWait wait = new WebDriverWait(_webDriver, new TimeSpan(0, 0, 15));
+                //wait.Until(wd => jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentItem')"));
                 commentItem = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentItem')");
-                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
-                pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl')");
-                itemAuthorUserName = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemAuthorUserName')");
-                if (commentItem != null & userLogin != null & pageUrl != null & itemAuthorUserName != null)
+                if (commentItem != null)
+                {
+                    userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin').userLogin");
+                    pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl').pageUrl");
+                    itemAuthorUserName = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemAuthorUserName').itemAuthorUserName");
+                }
+                //userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
+                //pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl')");
+                //itemAuthorUserName = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemAuthorUserName')");
+                //if (commentItem != null & userLogin != null & pageUrl != null & itemAuthorUserName != null)
+                if(commentItem != null & userLogin != null & pageUrl != null & itemAuthorUserName != null)
                     break;
                 Thread.Sleep(500);
             }

@@ -59,7 +59,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             TypeEmail(login);
             ClickNextButton();
             TypePassword(password);
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#i0118"))); //waiting for "next" button
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#idSIButton9"))); //waiting for "next" button
             ClickNextButton();
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#idBtn_Back"))); //waiting for "No" button
             ClickStaySingedInNoButton();
