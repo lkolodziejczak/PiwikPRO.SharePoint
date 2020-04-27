@@ -318,5 +318,84 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(fileTitle);
             Assert.NotNull(whoPinned);
         }
+
+        [Test]
+        public void FileUnPinToTopFromTopMenu()
+        {
+            var sharePointSite = new SharepointSitePage(_webDriver);
+            IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+            _webDriver.Navigate().GoToUrl(documentListWithFileUrl);
+
+            sharePointSite.FileUnPinToTopFromTopMenu();
+
+            Thread.Sleep(1500);
+
+
+            object fileFilename = null;
+            object userLogin = null;
+            object fileId = null;
+            object fileRelativeUrl = null;
+            object fileTitle = null;
+            object whoUnpinned = null;
+
+            for (int i = 0; i < 20; i++)
+            {
+                fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileFilename')");
+                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
+                fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileId')");
+                fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileRelativeUrl')");
+                fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileTitle')");
+                whoUnpinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'whoUnpinned')");
+                if (fileFilename != null && userLogin != null && fileId != null && fileRelativeUrl != null && fileTitle != null && whoUnpinned != null)
+                    break;
+                Thread.Sleep(500);
+            }
+
+            Assert.NotNull(fileFilename);
+            Assert.NotNull(userLogin);
+            Assert.NotNull(fileId);
+            Assert.NotNull(fileRelativeUrl);
+            Assert.NotNull(fileTitle);
+            Assert.NotNull(whoUnpinned);
+        }
+
+        [Test]
+        public void FileUnPinToTopFromContextMenu()
+        {
+            var sharePointSite = new SharepointSitePage(_webDriver);
+            IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+            _webDriver.Navigate().GoToUrl(documentListWithFileUrl);
+
+            sharePointSite.FileUnPinToTopFromContextMenu();
+
+            Thread.Sleep(1500);
+
+            object fileFilename = null;
+            object userLogin = null;
+            object fileId = null;
+            object fileRelativeUrl = null;
+            object fileTitle = null;
+            object whoUnpinned = null;
+
+            for (int i = 0; i < 20; i++)
+            {
+                fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileFilename')");
+                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
+                fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileId')");
+                fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileRelativeUrl')");
+                fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileTitle')");
+                whoUnpinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'whoUnpinned')");
+                if (fileFilename != null && userLogin != null && fileId != null && fileRelativeUrl != null && fileTitle != null && whoUnpinned != null)
+                    break;
+                Thread.Sleep(500);
+            }
+
+            Assert.NotNull(fileFilename);
+            Assert.NotNull(userLogin);
+            Assert.NotNull(fileId);
+            Assert.NotNull(fileRelativeUrl);
+            Assert.NotNull(fileTitle);
+            Assert.NotNull(whoUnpinned);
+        }
     }
 }

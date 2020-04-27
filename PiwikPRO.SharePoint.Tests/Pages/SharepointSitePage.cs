@@ -58,11 +58,23 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@data-automationid='pinItemCommand']")]
         private IWebElement filePinToTopFromTopMenu;
 
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='editPinnedItemCommand']")]
+        private IWebElement fileEditPinToTopFromTopMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='removePinnedItemCommand']")]
+        private IWebElement fileUnPinToTopFromTopMenu;
+        
         [FindsBy(How = How.ClassName, Using = "heroButton_2ca50ba6")]
         private IWebElement dotShowActionsMenu;
 
-        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='pinItemCommand'][1]")]
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='pinItemCommand']")]
         private IWebElement filePinToTopFromContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "(//button[@data-automationid='editPinnedItemCommand'])[2]")]
+        private IWebElement fileEditPinFromContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "(//button[@data-automationid='removePinnedItemCommand'])[1]")]
+        private IWebElement fileUnPinToTopFromContextMenu;
 
         public void ClickLikePage()
         {
@@ -138,8 +150,42 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             fileGrid.Click();
             WebDriverWait wait2 = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
 
-            dotShowActionsMenu.Click();
+            //dotShowActionsMenu.Click();
+            driver.FindElements(By.CssSelector(".heroButton_2ca50ba6"))[1].Click();
+            WebDriverWait wait3 = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
             filePinToTopFromContextMenu.Click();
+        }
+
+        public void FileUnPinToTopFromTopMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@data-automationid='DetailsRowCheck'][1]")));
+            fileGrid.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='editPinnedItemCommand']")));
+            fileEditPinToTopFromTopMenu.Click();
+
+            WebDriverWait wait2 = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='removePinnedItemCommand']")));
+            fileUnPinToTopFromTopMenu.Click();
+        }
+
+        public void FileUnPinToTopFromContextMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            fileGrid.Click();
+            WebDriverWait wait2 = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
+            driver.FindElements(By.CssSelector(".heroButton_2ca50ba6"))[1].Click();
+            //dotShowActionsMenu2.Click();
+            WebDriverWait wait4 = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//button[@data-automationid='editPinnedItemCommand'])[1]")));
+            fileEditPinFromContextMenu.Click();
+
+            WebDriverWait wait3 = new WebDriverWait(driver, TimeSpan.FromSeconds(1));
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//button[@data-automationid='removePinnedItemCommand'])[1]")));
+            fileUnPinToTopFromContextMenu.Click();
         }
 
     }
