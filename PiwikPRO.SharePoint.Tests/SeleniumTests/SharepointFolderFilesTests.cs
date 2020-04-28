@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using PiwikPRO.SharePoint.Tests.Pages;
 using System;
@@ -32,28 +33,24 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(1500);
 
             object filePinnedToTop = null;
-            object fileFilename = null;
-            object userLogin = null;
-            object fileId = null;
-            object fileRelativeUrl = null;
-            object fileTitle = null;
-            object whoPinned = null;
+            string fileFilename = null;
+            string userLogin = null;
+            string fileId = null;
+            string fileRelativeUrl = null;
+            string fileTitle = null;
+            string whoPinned = null;
 
-            for (int i = 0; i < 20; i++)
+            filePinnedToTop = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop')");
+            if (filePinnedToTop != null)
             {
-                filePinnedToTop = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop')");
-                if (filePinnedToTop != null)
-                {
-                    fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').fileFilename");
-                    userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').userLogin");
-                    fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').fileId");
-                    fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').fileRelativeUrl");
-                    fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').fileTitle");
-                    whoPinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop').whoPinned");
-                }
-                if (fileFilename != null && userLogin != null && fileId != null && fileRelativeUrl != null && fileTitle != null && whoPinned != null)
-                    break;
-                Thread.Sleep(500);
+                var json = JsonConvert.SerializeObject(filePinnedToTop);
+                Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                dictionary.TryGetValue("userLogin", out userLogin);
+                dictionary.TryGetValue("fileFilename", out fileFilename);
+                dictionary.TryGetValue("fileId", out fileId);
+                dictionary.TryGetValue("fileRelativeUrl", out fileRelativeUrl);
+                dictionary.TryGetValue("fileTitle", out fileTitle);
+                dictionary.TryGetValue("whoPinned", out whoPinned);
             }
 
             Assert.NotNull(filePinnedToTop);
@@ -72,26 +69,28 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             Thread.Sleep(1500);
 
-            object fileFilename = null;
-            object userLogin = null;
-            object fileId = null;
-            object fileRelativeUrl = null;
-            object fileTitle = null;
-            object whoPinned = null;
+            object filePinnedToTop = null;
+            string fileFilename = null;
+            string userLogin = null;
+            string fileId = null;
+            string fileRelativeUrl = null;
+            string fileTitle = null;
+            string whoPinned = null;
 
-            for (int i = 0; i < 20; i++)
+            filePinnedToTop = jse.ExecuteScript("return dataLayer.find(x => x.event === 'filePinnedToTop')");
+            if (filePinnedToTop != null)
             {
-                fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileFilename')");
-                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
-                fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileId')");
-                fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileRelativeUrl')");
-                fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileTitle')");
-                whoPinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'whoPinned')");
-                if (fileFilename != null && userLogin != null && fileId != null && fileRelativeUrl != null && fileTitle != null && whoPinned != null)
-                    break;
-                Thread.Sleep(500);
+                var json = JsonConvert.SerializeObject(filePinnedToTop);
+                Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                dictionary.TryGetValue("userLogin", out userLogin);
+                dictionary.TryGetValue("fileFilename", out fileFilename);
+                dictionary.TryGetValue("fileId", out fileId);
+                dictionary.TryGetValue("fileRelativeUrl", out fileRelativeUrl);
+                dictionary.TryGetValue("fileTitle", out fileTitle);
+                dictionary.TryGetValue("whoPinned", out whoPinned);
             }
 
+            Assert.NotNull(filePinnedToTop);
             Assert.NotNull(fileFilename);
             Assert.NotNull(userLogin);
             Assert.NotNull(fileId);
@@ -107,27 +106,28 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             Thread.Sleep(1500);
 
+            object fileUnpinned = null;
+            string fileFilename = null;
+            string userLogin = null;
+            string fileId = null;
+            string fileRelativeUrl = null;
+            string fileTitle = null;
+            string whoUnpinned = null;
 
-            object fileFilename = null;
-            object userLogin = null;
-            object fileId = null;
-            object fileRelativeUrl = null;
-            object fileTitle = null;
-            object whoUnpinned = null;
-
-            for (int i = 0; i < 20; i++)
+            fileUnpinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileUnpinned')");
+            if (fileUnpinned != null)
             {
-                fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileFilename')");
-                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
-                fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileId')");
-                fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileRelativeUrl')");
-                fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileTitle')");
-                whoUnpinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'whoUnpinned')");
-                if (fileFilename != null && userLogin != null && fileId != null && fileRelativeUrl != null && fileTitle != null && whoUnpinned != null)
-                    break;
-                Thread.Sleep(500);
+                var json = JsonConvert.SerializeObject(fileUnpinned);
+                Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                dictionary.TryGetValue("userLogin", out userLogin);
+                dictionary.TryGetValue("fileFilename", out fileFilename);
+                dictionary.TryGetValue("fileId", out fileId);
+                dictionary.TryGetValue("fileRelativeUrl", out fileRelativeUrl);
+                dictionary.TryGetValue("fileTitle", out fileTitle);
+                dictionary.TryGetValue("whoUnpinned", out whoUnpinned);
             }
 
+            Assert.NotNull(fileUnpinned);
             Assert.NotNull(fileFilename);
             Assert.NotNull(userLogin);
             Assert.NotNull(fileId);
@@ -143,26 +143,28 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             Thread.Sleep(1500);
 
-            object fileFilename = null;
-            object userLogin = null;
-            object fileId = null;
-            object fileRelativeUrl = null;
-            object fileTitle = null;
-            object whoUnpinned = null;
+            object fileUnpinned = null;
+            string fileFilename = null;
+            string userLogin = null;
+            string fileId = null;
+            string fileRelativeUrl = null;
+            string fileTitle = null;
+            string whoUnpinned = null;
 
-            for (int i = 0; i < 20; i++)
+            fileUnpinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileUnpinned')");
+            if (fileUnpinned != null)
             {
-                fileFilename = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileFilename')");
-                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
-                fileId = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileId')");
-                fileRelativeUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileRelativeUrl')");
-                fileTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileTitle')");
-                whoUnpinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'whoUnpinned')");
-                if (fileFilename != null && userLogin != null && fileId != null && fileRelativeUrl != null && fileTitle != null && whoUnpinned != null)
-                    break;
-                Thread.Sleep(500);
+                var json = JsonConvert.SerializeObject(fileUnpinned);
+                Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                dictionary.TryGetValue("userLogin", out userLogin);
+                dictionary.TryGetValue("fileFilename", out fileFilename);
+                dictionary.TryGetValue("fileId", out fileId);
+                dictionary.TryGetValue("fileRelativeUrl", out fileRelativeUrl);
+                dictionary.TryGetValue("fileTitle", out fileTitle);
+                dictionary.TryGetValue("whoUnpinned", out whoUnpinned);
             }
 
+            Assert.NotNull(fileUnpinned);
             Assert.NotNull(fileFilename);
             Assert.NotNull(userLogin);
             Assert.NotNull(fileId);

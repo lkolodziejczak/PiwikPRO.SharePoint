@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Support.PageObjects;
+using System.Threading;
 
 namespace PiwikPRO.SharePoint.Tests.Pages
 {
@@ -59,7 +60,8 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             TypeEmail(login);
             ClickNextButton();
             TypePassword(password);
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#i0118"))); //waiting for "next" button
+            Thread.Sleep(1000);
+            //wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#i0118"))); //waiting for "next" button
             ClickNextButton();
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#idBtn_Back"))); //waiting for "No" button
             ClickStaySingedInNoButton();
