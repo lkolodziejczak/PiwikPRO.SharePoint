@@ -23,7 +23,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.CssSelector, Using = "#i0116")]
         private IWebElement emailInput;
 
-        [FindsBy(How = How.CssSelector, Using = "#idSIButton9")]
+        [FindsBy(How = How.XPath, Using = "//input[@type='submit']")]
         private IWebElement nextButton;
 
         [FindsBy(How = How.XPath, Using = "//input[@name='passwd']")]

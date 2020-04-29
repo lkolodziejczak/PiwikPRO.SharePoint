@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using PiwikPRO.SharePoint.Tests.Pages;
 
@@ -36,52 +32,34 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         {
             var sharePointSite = new SharepointSitePage(_webDriver);
             IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-            
             WaitForLoad(_webDriver);
             sharePointSite.AddComment("test");
-
             Thread.Sleep(1500);
-
-
             object commentItem = null;
+            string itemUrl = null;
             string userLogin = null;
-            string pageUrl = null;
+            string commentUrl = null;
             string itemAuthorUserName = null;
-
-
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 30; i++)
             {
-                //WebDriverWait wait = new WebDriverWait(_webDriver, new TimeSpan(0, 0, 15));
-                //wait.Until(wd => jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentItem')"));
                 commentItem = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentItem')");
-                if(commentItem !=null)
+                if (commentItem != null)
                 {
                     var json = JsonConvert.SerializeObject(commentItem);
-                    Dictionary<string,string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                     dictionary.TryGetValue("userLogin", out userLogin);
-                    dictionary.TryGetValue("pageUrl", out pageUrl);
+                    dictionary.TryGetValue("commentUrl", out commentUrl);
                     dictionary.TryGetValue("itemAuthorUserName", out itemAuthorUserName);
+                    dictionary.TryGetValue("itemUrl", out itemUrl);
+                    break;
                 }
-               // if (commentItem != null)
-                //{
-                   // userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin').userLogin");
-                   // pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl').pageUrl");
-                   // itemAuthorUserName = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemAuthorUserName').itemAuthorUserName");
-                //}
-                //userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
-                //pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl')");
-                //itemAuthorUserName = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemAuthorUserName')");
-                //if (commentItem != null & userLogin != null & pageUrl != null & itemAuthorUserName != null)
-               // if(commentItem != null && commentItem[userLogin] != null && commentItem.pageUrl != null && commentItem.itemAuthorUserName != null)
-                //    break;
-                Thread.Sleep(500);
+                Thread.Sleep(100);
             }
-
             Assert.NotNull(commentItem);
             Assert.NotNull(userLogin);
-            Assert.NotNull(pageUrl);
+            Assert.NotNull(commentUrl);
             Assert.NotNull(itemAuthorUserName);
-           
+            Assert.NotNull(itemUrl);
         }
 
         [Test]
@@ -89,64 +67,107 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         {
             var sharePointSite = new SharepointSitePage(_webDriver);
             IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-
+            //WaitForLoad(_webDriver);
+            Thread.Sleep(1000);
             sharePointSite.ClickLikePage();
-
+            //WaitForLoad(_webDriver);
             sharePointSite.ClickUnlikePage();
+            //Thread.Sleep(1000);
 
             object likeItem = null;
+            string likeItemContentTypeName = null;
+            string likeUserLogin = null;
+            string likeItemAuthorUserName = null;
+            string likeItemUrl = null;
+            
             object unlikeItem = null;
-            object userLogin = null;
-            object pageUrl = null;
-            object itemAuthorUserName = null;
-            for (int i = 0; i < 10; i++)
+            string unlikeItemContentTypeName = null;
+            string unlikeUserLogin = null;
+            string unlikeItemAuthorUserName = null;
+            string unlikeItemUrl = null;
+            for (int i = 0; i < 30; i++)
             {
                 likeItem = jse.ExecuteScript("return dataLayer.find(x => x.event === 'likeItem')");
-                unlikeItem = jse.ExecuteScript("return dataLayer.find(x => x.event === 'unlikeItem')");
-                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
-                pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl')");
-                itemAuthorUserName = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemAuthorUserName')");
-                if (likeItem != null & unlikeItem != null & userLogin != null & pageUrl != null & itemAuthorUserName != null)
+                if (likeItem != null )
+                {
+                    var jsonLike = JsonConvert.SerializeObject(likeItem);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonLike);
+                    dictionary.TryGetValue("itemContentTypeName", out likeItemContentTypeName);
+                    dictionary.TryGetValue("userLogin", out likeUserLogin);
+                    dictionary.TryGetValue("itemAuthorUserName", out likeItemAuthorUserName);
+                    dictionary.TryGetValue("itemUrl", out likeItemUrl);
                     break;
-                Thread.Sleep(100);
+                }
+                Thread.Sleep(300);
             }
-
+            Thread.Sleep(500);
+            for (int i = 0; i < 30; i++)
+            {
+                unlikeItem = jse.ExecuteScript("return dataLayer.find(x => x.event === 'unlikeItem')");
+                if (unlikeItem != null)
+                {
+                    var jsonUnlike = JsonConvert.SerializeObject(unlikeItem);
+                    Dictionary<string, string> dictionary2 = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonUnlike);
+                    dictionary2.TryGetValue("itemContentTypeName", out unlikeItemContentTypeName);
+                    dictionary2.TryGetValue("userLogin", out unlikeUserLogin);
+                    dictionary2.TryGetValue("itemAuthorUserName", out unlikeItemAuthorUserName);
+                    dictionary2.TryGetValue("itemUrl", out unlikeItemUrl);
+                    break;
+                }
+                Thread.Sleep(300);
+            }
             Assert.NotNull(likeItem);
+            Assert.NotNull(likeItemContentTypeName);
+            Assert.NotNull(likeUserLogin);
+            Assert.NotNull(likeItemAuthorUserName);
+            Assert.NotNull(likeItemUrl);
+
             Assert.NotNull(unlikeItem);
-            Assert.NotNull(userLogin);
-            Assert.NotNull(pageUrl);
-            Assert.NotNull(itemAuthorUserName);
+            Assert.NotNull(unlikeItemContentTypeName);
+            Assert.NotNull(unlikeUserLogin);
+            Assert.NotNull(unlikeItemAuthorUserName);
+            Assert.NotNull(unlikeItemUrl);
         }
+
         [Test]
         public void LikeComment()
         {
             var sharePointSite = new SharepointSitePage(_webDriver);
             IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-
+            WaitForLoad(_webDriver);
             sharePointSite.AddComment("test");
-
+            WaitForLoad(_webDriver);
             sharePointSite.ClickLikeComment();
-            Thread.Sleep(500);
+            Thread.Sleep(5000);
 
             object likeComment = null;
-            object commentAuthor = null;
-            object userLogin = null;
-            object commentUrl = null;
-            for (int i = 0; i < 10; i++)
+            string commentAuthor = null;
+            string userLogin = null;
+            string commentUrl = null;
+            string itemUrl = null;
+            string itemAuthorUserName = null;
+            for (int i = 0; i < 30; i++)
             {
                 likeComment = jse.ExecuteScript("return dataLayer.find(x => x.event === 'likeComment')");
-                commentAuthor = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentAuthor')");
-                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
-                commentUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentUrl')");
-                if (likeComment != null & commentAuthor != null & userLogin != null & commentUrl != null)
+                if (likeComment != null)
+                {
+                    var json = JsonConvert.SerializeObject(likeComment);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("commentAuthor", out commentAuthor);
+                    dictionary.TryGetValue("userLogin", out userLogin);
+                    dictionary.TryGetValue("commentUrl", out commentUrl);
+                    dictionary.TryGetValue("itemUrl", out itemUrl);
+                    dictionary.TryGetValue("itemAuthorUserName", out itemAuthorUserName);
                     break;
+                }
                 Thread.Sleep(500);
             }
-
             Assert.NotNull(likeComment);
             Assert.NotNull(commentAuthor);
             Assert.NotNull(userLogin);
             Assert.NotNull(commentUrl);
+            Assert.NotNull(itemUrl);
+            Assert.NotNull(itemAuthorUserName);
         }
 
         [Test]
@@ -154,84 +175,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         {
             var sharePointSite = new SharepointSitePage(_webDriver);
             IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-
             sharePointSite.AddComment("test");
-
+            WaitForLoad(_webDriver);
             sharePointSite.AddReplyComment("test");
             Thread.Sleep(500);
             object commentReply = null;
-            object commentAuthor = null;
-            object commentReplyUrl = null;
-            object commentUrl = null;
-            for (int i = 0; i < 10; i++)
+            string commentAuthor = null;
+            string commentReplyUrl = null;
+            string commentUrl = null;
+            for (int i = 0; i < 30; i++)
             {
                 commentReply = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentReply')");
-                commentAuthor = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentAuthor')");
-                commentReplyUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentReplyUrl')");
-                commentUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentUrl')");
-                if (commentReply != null & commentAuthor != null & commentReplyUrl != null & commentUrl != null)
+                if (commentReply != null)
+                {
+                    var json = JsonConvert.SerializeObject(commentReply);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("commentAuthor", out commentAuthor);
+                    dictionary.TryGetValue("commentReplyUrl", out commentReplyUrl);
+                    dictionary.TryGetValue("commentUrl", out commentUrl);
                     break;
-                Thread.Sleep(500);
+                }
+                Thread.Sleep(100);
             }
-
             Assert.NotNull(commentReply);
             Assert.NotNull(commentAuthor);
             Assert.NotNull(commentReplyUrl);
             Assert.NotNull(commentUrl);
-        }
-
-        [Test]
-        public void ReplyCommentLike()
-        {
-            var sharePointSite = new SharepointSitePage(_webDriver);
-            IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-
-            sharePointSite.AddComment("test");
-
-            sharePointSite.AddReplyComment("test");
-
-            sharePointSite.ClickCommentReplyLike();
-            Thread.Sleep(500);
-
-            object likeComment = null;
-            for (int i = 0; i < 10; i++)
-            {
-                likeComment = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentReply')");
-                if (likeComment != null)
-                    break;
-                Thread.Sleep(500);
-            }
-
-            Assert.NotNull(likeComment);
-
-        }
-
-        [Test]
-        public void ReplyCommentUnlike()
-        {
-            var sharePointSite = new SharepointSitePage(_webDriver);
-            IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-
-            sharePointSite.AddComment("test");
-
-            sharePointSite.AddReplyComment("test");
-
-            sharePointSite.ClickCommentReplyLike();
-
-            sharePointSite.ClickCommentReplyUnlike();
-
-            Thread.Sleep(500);
-
-            object unlikeComment = null;
-            for (int i = 0; i < 10; i++)
-            {
-                unlikeComment = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentReply')");
-                if (unlikeComment != null)
-                    break;
-                Thread.Sleep(500);
-            }
-
-            Assert.NotNull(unlikeComment); 
         }
 
         [Test]
@@ -242,23 +211,35 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2000);
 
             object pageView = null;
-            object pageUrl = null;
-            object pageWebTitle = null;
-            object userLogin = null;
-            for (int i = 0; i < 10; i++)
+            string pageSiteId = null;
+            string pageUrl = null;
+            string pageWebId = null;
+            string pageWebTitle = null;
+            string url = null;
+            string userLogin = null;
+            for (int i = 0; i < 30; i++)
             {
                 pageView = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageView')");
-                pageUrl = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUrl')");
-                pageWebTitle = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageWebTitle')");
-                userLogin = jse.ExecuteScript("return dataLayer.find(x => x.event === 'userLogin')");
-                if (pageView != null & pageUrl != null & pageWebTitle != null & userLogin != null)
+                if (pageView != null)
+                {
+                    var json = JsonConvert.SerializeObject(pageView);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("pageSiteId", out pageSiteId);
+                    dictionary.TryGetValue("pageUrl", out pageUrl);
+                    dictionary.TryGetValue("pageWebId", out pageWebId);
+                    dictionary.TryGetValue("pageWebTitle", out pageWebTitle);
+                    dictionary.TryGetValue("url", out url);
+                    dictionary.TryGetValue("userLogin", out userLogin);
                     break;
-                Thread.Sleep(500);
+                }
+                Thread.Sleep(100);
             }
-
             Assert.NotNull(pageView); 
+            Assert.NotNull(pageSiteId); 
             Assert.NotNull(pageUrl); 
+            Assert.NotNull(pageWebId); 
             Assert.NotNull(pageWebTitle); 
+            Assert.NotNull(url); 
             Assert.NotNull(userLogin); 
         }
     }
