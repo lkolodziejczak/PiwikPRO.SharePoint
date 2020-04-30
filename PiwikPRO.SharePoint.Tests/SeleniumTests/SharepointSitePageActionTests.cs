@@ -11,15 +11,19 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 {
     class SharepointSitePageActionTests : TestBase
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void BeforeTest()
         {
             var loginPage = new LoginPage(_webDriver);
             var sharePointSite = new SharepointSitePage(_webDriver);
             loginPage.LoginToSharepoint(sharepointUserToTest, sharepointUserPasswordToTest);
-            _webDriver.Navigate().GoToUrl(testPageUrl);
         }
-
+        [SetUp]
+        public void ForEachTest()
+        {
+            _webDriver.Navigate().GoToUrl(testPageUrl);
+            Thread.Sleep(1500);
+        }
         public static void WaitForLoad(IWebDriver driver, int timeoutSec = 15)
         {
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
@@ -32,9 +36,8 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         {
             var sharePointSite = new SharepointSitePage(_webDriver);
             IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-            WaitForLoad(_webDriver);
             sharePointSite.AddComment("test");
-            Thread.Sleep(1500);
+           
             object commentItem = null;
             string itemUrl = null;
             string userLogin = null;
@@ -67,12 +70,11 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         {
             var sharePointSite = new SharepointSitePage(_webDriver);
             IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-            //WaitForLoad(_webDriver);
             Thread.Sleep(1000);
             sharePointSite.ClickLikePage();
-            //WaitForLoad(_webDriver);
+            Thread.Sleep(2500);
             sharePointSite.ClickUnlikePage();
-            //Thread.Sleep(1000);
+            Thread.Sleep(2500);
 
             object likeItem = null;
             string likeItemContentTypeName = null;
@@ -134,11 +136,10 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         {
             var sharePointSite = new SharepointSitePage(_webDriver);
             IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-            WaitForLoad(_webDriver);
             sharePointSite.AddComment("test");
-            WaitForLoad(_webDriver);
+            Thread.Sleep(1500);
             sharePointSite.ClickLikeComment();
-            Thread.Sleep(5000);
+            Thread.Sleep(2500);
 
             object likeComment = null;
             string commentAuthor = null;
@@ -208,7 +209,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         {
             var sharePointSite = new SharepointSitePage(_webDriver);
             IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
 
             object pageView = null;
             string pageSiteId = null;
