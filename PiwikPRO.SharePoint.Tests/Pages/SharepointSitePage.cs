@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Support.PageObjects;
+using System.Threading;
 
 namespace PiwikPRO.SharePoint.Tests.Pages
 {
@@ -31,7 +32,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='sp-comment-post']")]
         private IWebElement addCommentButton;
 
-        [FindsBy(How = How.XPath, Using = "(//i[@data-icon-name='Like'])")]
+        [FindsBy(How = How.XPath, Using = "(//i[@data-icon-name='Like'])[2]")]
         private IWebElement likeCommentButton;
 
         [FindsBy(How = How.XPath, Using = "//i[@data-icon-name='LikeSolid']")]
@@ -55,14 +56,20 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         public void ClickLikePage()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//i[@data-icon-name='Like']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='sp-comment-input']")));
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//aside[@data-automation-id='sp-socialbar']")));
+            Thread.Sleep(500);
             likePageButton.Click();
+            Thread.Sleep(1500);
+
         }
 
         public void ClickUnlikePage()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//i[@data-icon-name='LikeSolid']")));
+            Thread.Sleep(500);
             unlikePageButton.Click();
         }
 
@@ -70,17 +77,22 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='sp-comment-input']")));
+            Thread.Sleep(1000);
             commentInput.Click();
             commentInput.SendKeys(comment);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='sp-comment-post']")));
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automation-id='sp-comment-post']")));
 
             addCommentButton.Click();
+            Thread.Sleep(1500);
         }
 
         public void ClickLikeComment()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//i[@data-icon-name='Like'])[1]")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='sp-comment-input']")));
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("(//i[@data-icon-name='Like'])[2]")));
             likeCommentButton.Click();
         }
 

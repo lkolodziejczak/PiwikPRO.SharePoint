@@ -25,7 +25,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
         public IWebDriver _webDriver;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             new DriverManager().SetUpDriver(new ChromeConfig());
@@ -36,7 +36,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             _webDriver.Navigate().GoToUrl("http://phkogifi.sharepoint.com/");
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearnDown()
         {
             _webDriver.Close();

@@ -61,7 +61,6 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             ClickNextButton();
             TypePassword(password);
             Thread.Sleep(1000);
-            //wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#i0118"))); //waiting for "next" button
             ClickNextButton();
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#idBtn_Back"))); //waiting for "No" button
             ClickStaySingedInNoButton();
