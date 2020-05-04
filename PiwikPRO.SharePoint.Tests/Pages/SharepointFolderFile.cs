@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -60,6 +61,9 @@ namespace PiwikPRO.SharePoint.Tests.Pages
 
         [FindsBy(How = How.ClassName, Using = "ms-Button--primary")]
         private IWebElement shareWindowSendButton;
+
+        [FindsBy(How = How.XPath, Using = "//div[@data-automationid='DetailsRowCell']//i")]
+        private IWebElement listItemCellIcon;
 
         public SharepointFolderFile(IWebDriver driver)
         {
@@ -127,7 +131,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='createFolderCommand']")));
             newFolderFromNewMenu.Click();
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter your folder name']")));
-            folderfromTopMenuTextInput.SendKeys("FolderToTest"+DateTime.Now.ToString("hhmmss"));
+            folderfromTopMenuTextInput.SendKeys("FolderToTest" + DateTime.Now.ToString("hhmmss"));
             Thread.Sleep(500);
             folderfromTopMenuTextInput.SendKeys(Keys.Enter);
         }
@@ -135,11 +139,10 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         public void FileSharedFromTopMenu(string shareToWho)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            fileGrid.Click();
+            IWebElement fileIconElem = GetFileElementFromList();
+            fileIconElem.Click();
             Thread.Sleep(500);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")));
-            dotShowActionsMenu.Click();
-            Thread.Sleep(500);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='shareCommand']")));
             fileShareFromTopMenu.Click();
             driver.SwitchTo().Frame("shareFrame");
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
@@ -156,9 +159,17 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         public void FileSharedFromContextMenu(string shareToWho)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            fileGrid.Click();
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")));
-            dotShowActionsMenu.Click();
+            IWebElement fileIconElem = GetFileElementFromList();
+            fileIconElem.Click();
+            Thread.Sleep(500);
+            foreach (var item in driver.FindElements(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")))
+            {
+                if (item.Displayed)
+                {
+                    item.Click();
+                    break;
+                }
+            }
             Thread.Sleep(500);
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@title='Share the selected item with other people']//button[@data-automationid='shareCommand']")));
             Thread.Sleep(300);
@@ -177,10 +188,18 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         public void FileSharedFromGridMenu(string shareToWho)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            fileGrid.Click();
+            IWebElement fileIconElem = GetFileElementFromList();
+            fileIconElem.Click();
             Thread.Sleep(500);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='FieldRender-ShareHero']")));
-            fileShareFromGridMenu.Click();
+
+            foreach (var item in driver.FindElements(By.XPath("//button[@data-automationid='FieldRender-ShareHero']")))
+            {
+                if (item.Displayed)
+                {
+                    item.Click();
+                    break;
+                }
+            }
             driver.SwitchTo().Frame("shareFrame");
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
             Thread.Sleep(300);
@@ -191,6 +210,60 @@ namespace PiwikPRO.SharePoint.Tests.Pages
 
             shareWindowSendButton.Click();
             driver.SwitchTo().DefaultContent();
+        }
+
+        private IWebElement GetFolderElementFromList()
+        {
+            IWebElement elemToReturn = null;
+            foreach (var item in driver.FindElements(By.XPath("//div[@data-automationid='DetailsRowCell']//i")))
+            {
+                if (item.GetAttribute("aria-label") != null)
+                {
+                    if (item.GetAttribute("aria-label").ToLower().Equals("folder"))
+                    {
+                        elemToReturn = item;
+                        break;
+                    }
+                }
+            }
+            return elemToReturn;
+        }
+
+        private IWebElement GetFileElementFromList()
+        {
+            IWebElement elemToReturn = null;
+            ReadOnlyCollection<IWebElement> itemsColl = driver.FindElements(By.XPath("//div[@data-automationid='DetailsRowCell']//i"));
+
+            foreach (IWebElement item in itemsColl)
+            {
+                if (item.GetAttribute("aria-label") != null)
+                {
+                    if (!item.GetAttribute("aria-label").ToLower().Equals("folder") && !item.GetAttribute("aria-label").ToLower().Equals("aspx")
+                        && !item.GetAttribute("aria-label").ToLower().Equals("html") && !item.GetAttribute("aria-label").ToLower().Equals("this item is new"))
+                    {
+                        elemToReturn = item;
+                        break;
+                    }
+                }
+            }
+            return elemToReturn;
+        }
+
+        private IWebElement GetPageElementFromList()
+        {
+            IWebElement elemToReturn = null;
+            foreach (var item in driver.FindElements(By.XPath("//div[@data-automationid='DetailsRowCell']//i")))
+            {
+                if (item.GetAttribute("aria-label") != null)
+                {
+                    if ((item.GetAttribute("aria-label").ToLower().Equals("aspx") || item.GetAttribute("aria-label").ToLower().Equals("html")) && !item.GetAttribute("aria-label").ToLower().Equals("this item is new"))
+                    {
+                        elemToReturn = item;
+                        break;
+                    }
+                }
+            }
+            return elemToReturn;
         }
     }
 }
