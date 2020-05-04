@@ -20,10 +20,13 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         public string testPageUrl = "https://phkogifi.sharepoint.com/sites/PH/SitePages/Test-Page.aspx";
         public string documentListWithFileUrl = "https://phkogifi.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx";
         public string shareToWho = "lkolodz";
+        public string sitePagesLibrary = "https://phkogifi.sharepoint.com/sites/PH/SitePages/Forms/ByAuthor.aspx";
+        public string siteContents = "https://phkogifi.sharepoint.com/sites/PH/_layouts/15/viewlsts.aspx?view=14";
+        public string homePage = "https://phkogifi.sharepoint.com/sites/PH/";
 
         public IWebDriver _webDriver;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             new DriverManager().SetUpDriver(new ChromeConfig());
@@ -34,7 +37,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             _webDriver.Navigate().GoToUrl("http://phkogifi.sharepoint.com/");
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearnDown()
         {
             _webDriver.Close();

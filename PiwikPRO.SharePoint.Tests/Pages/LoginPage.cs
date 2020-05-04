@@ -23,7 +23,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.CssSelector, Using = "#i0116")]
         private IWebElement emailInput;
 
-        [FindsBy(How = How.CssSelector, Using = "#idSIButton9")]
+        [FindsBy(How = How.XPath, Using = "//input[@type='submit']")]
         private IWebElement nextButton;
 
         [FindsBy(How = How.XPath, Using = "//input[@name='passwd']")]
@@ -56,15 +56,12 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         public void LoginToSharepoint(string login, string password)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
-            Thread.Sleep(1000);
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("#i0116"))); //waiting for "next" button
             TypeEmail(login);
             ClickNextButton();
             TypePassword(password);
-            Thread.Sleep(2000);
-            //wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#i0118"))); //waiting for "next" button
-            ClickNextButton();
             Thread.Sleep(1000);
+            ClickNextButton();
             wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#idBtn_Back"))); //waiting for "No" button
             ClickStaySingedInNoButton();
 
