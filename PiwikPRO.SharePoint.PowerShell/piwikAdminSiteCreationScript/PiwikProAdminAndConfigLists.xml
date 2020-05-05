@@ -3,28 +3,6 @@
   <pnp:Preferences Generator="OfficeDevPnP.Core, Version=3.17.2001.2, Culture=neutral, PublicKeyToken=5e633289e95c321a" />
   <pnp:Templates ID="CONTAINER-TEMPLATE-3262CF3DC0914F67BFCD814F9CEEDDEA">
     <pnp:ProvisioningTemplate ID="TEMPLATE-3262CF3DC0914F67BFCD814F9CEEDDEA" Version="1" BaseSiteTemplate="SITEPAGEPUBLISHING#0" Scope="RootSite">
-	  <pnp:PropertyBagEntries>
-        <pnp:PropertyBagEntry Key="piwik_templateusegoalpageedited" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_sha3" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_templatesenddepartment" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_templatesendusername" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_enforcessl" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_templateusegoalpageadded" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="sharepointhelpoverride" Value="SPOLite" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_templatesendjobtitle" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_templatesendoffice" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_templateusegoaldocumentadded" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_containersurl" Value="//kogifi.containers.piwik.pro/" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_serviceurl" Value="kogifi.piwik.pro" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_listname" Value="Piwik Pro Site Directory" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_trackerjsscripturl" Value="https://kogifidev3.sharepoint.com/Style Library/js/piwikTracker.js" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_templatesenduserencoded" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_templatesenduserextendedinfo" Value="true" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_clientid" Value="JFXCbR26q8wQn5GhqKHQqAQNYNNl0cRR" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_clientsecret" Value="sAQmq4IXNa9HSnwra4k7Sjzxgi0Xe82AIOwrDdjXiop0ZO1zjSxA3Xjtj0sqJ3rEOIuiDeVLiyBVlNac" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_oldapitoken" Value="ac665b274143d3c994c7426c621e8422" Overwrite="false" />
-        <pnp:PropertyBagEntry Key="piwik_adminsiteurl" Value="https://piwikpro.madeinpoint.com/sites/piwikproadmin" Overwrite="false" />		
-      </pnp:PropertyBagEntries>	
       <pnp:Security AssociatedOwnerGroup="{sitetitle} Owners" AssociatedMemberGroup="{sitetitle} Members" AssociatedVisitorGroup="{sitetitle} Visitors">
 	    <pnp:AdditionalMembers>
           <pnp:User Name="c:0-.f|rolemanager|spo-grid-all-users/4b4b59ce-320a-4486-ac2b-7720f6661dd3" />
