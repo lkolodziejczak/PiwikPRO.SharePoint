@@ -121,28 +121,19 @@ function ApplyPropertyBag {
     Param(
     $SiteUrl
     )
-    Add-Type -Path ".\Microsoft.SharePoint.Client.dll"
-    Add-Type -Path ".\Microsoft.SharePoint.Client.Runtime.dll"
-    $pass = ConvertTo-SecureString $global:sharePointPassword -AsPlainText -Force;
-    $Credentials = New-Object Microsoft.SharePoint.Client.SharePointOnlineCredentials($global:sharePointUserName, $pass)
-   
-    $Ctx = New-Object Microsoft.SharePoint.Client.ClientContext($SiteURL)
-    $Ctx.Credentials = $Credentials
-      
-    $Web = $Ctx.Web
-    $Ctx.Load($Web)
-    $Ctx.Load($Web.AllProperties)
-    $Ctx.ExecuteQuery()
+    Try {
+        $pass = ConvertTo-SecureString $global:sharePointPassword -AsPlainText -Force;
+        $Credentials = New-Object -TypeName System.Management.Automation.PSCredential -argumentlist $global:sharePointUserName, $(convertto-securestring $global:sharePointPassword -asplaintext -force)
+        Connect-PnPOnline -Url $SiteUrl -Credentials $Credentials
   
-    foreach ($h in $global:propertyBag.Keys)
-    {   
-        $Web.AllProperties[$h] = $($global:propertyBag.Item($h))
-        $Web.Update()
-        $Ctx.ExecuteQuery()
-  
-        Write-Host -f Green "Property Bag Key '$h' Value Updated to: " $($global:propertyBag.Item($h))
+        foreach ($h in $global:propertyBag.Keys) {   
+            Set-PnPPropertyBagValue -Key $h -Value $($global:propertyBag.Item($h))
+            Write-Host -f Green "Property Bag Key '$h' Value Updated to: " $($global:propertyBag.Item($h))
+        }
     }
-
+    Finally {
+        Disconnect-PnPOnline
+    }
 
 }
 
