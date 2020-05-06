@@ -4,18 +4,40 @@
         [Parameter(Position=0,Mandatory=$true)]
         [string]$sharePointUrl, # "https://kogifidev3.sharepoint.com"
         [Parameter(Position=1,Mandatory=$true)]
-        [string]$newSiteName, # "PiwikAdmin"
-        [Parameter(Position=2,Mandatory=$true)]
-        [string]$filepath # = ".\PiwikProAdminAndConfigLists.xml"
-
+        [string]$newSiteName # "PiwikAdmin"
     )
+$global:filepath = ".\PiwikProAdminAndConfigLists.xml"
 $global:sharePointCredentials = $null
 $global:sharePointUserName = $sharePointUserName
 $global:sharePointPassword = $sharePointPassword
+$global:sharePointUrl = $sharePointUrl
 $global:MFAInUse = $useMFA.IsPresent
 $IsNewInstallation = $true
 $newSiteNameUrl = "{0}/sites/{1}" -f $sharePointUrl, $newSiteName
 $isTemplateFileExists = Test-Path $filepath -PathType Leaf
+$global:propertyBag = @{
+    piwik_templateusegoalpageedited = "true"
+    piwik_sha3 = "true"
+    piwik_templatesenddepartment = "true"
+    piwik_templatesendusername = "true"
+    piwik_enforcessl = "true"
+    piwik_templateusegoalpageadded = "true"
+    sharepointhelpoverride = "SPOLite"
+    piwik_templatesendjobtitle = "true"
+    piwik_templatesendoffice = "true"
+    piwik_templateusegoaldocumentadded = "true"
+    piwik_containersurl = "//kogifi.containers.piwik.pro/"
+    piwik_serviceurl = "kogifi.piwik.pro"
+    piwik_listname = "Piwik Pro Site Directory"
+    piwik_trackerjsscripturl = "https://kogifidev3.sharepoint.com/Style Library/js/piwikTracker.js"
+    piwik_templatesenduserencoded = "true"
+    piwik_templatesenduserextendedinfo = "true"
+    piwik_clientid = "JFXCbR26q8wQn5GhqKHQqAQNYNNl0cRR"
+    piwik_clientsecret = "sAQmq4IXNa9HSnwra4k7Sjzxgi0Xe82AIOwrDdjXiop0ZO1zjSxA3Xjtj0sqJ3rEOIuiDeVLiyBVlNac"
+    piwik_oldapitoken = "ac665b274143d3c994c7426c621e8422"
+    piwik_adminsiteurl = "https://piwikpro.madeinpoint.com/sites/piwikproadmin"
+}
+
 function Ensure-PnPConnection {
     Param (
         $url
@@ -54,30 +76,67 @@ function Ensure-PnPConnection {
         throw "Error connecting site $url"
     }
 }
+
 function CheckSiteExistence {
     Param (
     $url
     )
-$site = ""
-Try
-{
-    Write-Host "Checking, if site already exists..."
-    $site = Get-PnPTenantSite -Url $url -ErrorAction SilentlyContinue
+    $site = ""
+    Try
+    {
+        Write-Host "Checking, if site already exists..."
+        $site = Get-PnPTenantSite -Url $url -ErrorAction SilentlyContinue
+    }
+    Catch
+    {    
+    }
+    if ($site -ne $null)
+    {
+        Write-Host "Site already exists, use existing..." -ForegroundColor Yellow
+        return $true
+    }
+    else
+    {
+        Write-Host "Site doesn't exist, creating new..." -ForegroundColor Green
+        return $false
+    }
 }
-Catch
-{    
+
+function EnableAddAndCustomizePages {
+    Param(
+    $siteNameUrl,
+    $tenantUr
+    )
+    $Credentials = New-Object -TypeName System.Management.Automation.PSCredential -argumentlist $global:sharePointUserName, $(convertto-securestring $global:sharePointPassword -asplaintext -force)
+  
+    $urlSplitted = $global:sharePointUrl.Split(".")
+    $tenantName = "$($urlSplitted[0])-admin"
+    $WebUrl = "$($tenantName).sharepoint.com"
+    Connect-SPOService $WebUrl -Credential $Credentials
+    Set-SPOSite $siteNameUrl -DenyAddAndCustomizePages 0
+    Disconnect-SPOService
 }
-if ($site -ne $null)
-{
-    Write-Host "Site already exists, use existing..." -ForegroundColor Yellow
-    return $true
+
+function ApplyPropertyBag {
+    Param(
+    $SiteUrl
+    )
+    Try {
+        $pass = ConvertTo-SecureString $global:sharePointPassword -AsPlainText -Force;
+        $Credentials = New-Object -TypeName System.Management.Automation.PSCredential -argumentlist $global:sharePointUserName, $(convertto-securestring $global:sharePointPassword -asplaintext -force)
+        Connect-PnPOnline -Url $SiteUrl -Credentials $Credentials
+  
+        foreach ($h in $global:propertyBag.Keys) {   
+            Set-PnPPropertyBagValue -Key $h -Value $($global:propertyBag.Item($h))
+            Write-Host -f Green "Property Bag Key '$h' Value Updated to: " $($global:propertyBag.Item($h))
+        }
+    }
+    Finally {
+        Disconnect-PnPOnline
+    }
+
 }
-else
-{
-    Write-Host "Site doesn't exist, creating new..." -ForegroundColor Green
-    return $false
-}
-}
+
 if ($isTemplateFileExists -eq $true) {
 Ensure-PnPConnection -url $sharePointUrl
 $siteExist = CheckSiteExistence -url $newSiteNameUrl
@@ -93,3 +152,5 @@ Write-Host "Finished" -ForegroundColor Green
 } else {
 Write-Host "Template file not found, nothing to do, exiting." -ForegroundColor Red
 }
+EnableAddAndCustomizePages -siteNameUrl $newSiteNameUrl
+ApplyPropertyBag -SiteUrl $newSiteNameUrl
