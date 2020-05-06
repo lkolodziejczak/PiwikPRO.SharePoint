@@ -56,6 +56,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         public void LoginToSharepoint(string login, string password)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
+            Thread.Sleep(500);
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("#i0116"))); //waiting for "next" button
             TypeEmail(login);
             ClickNextButton();

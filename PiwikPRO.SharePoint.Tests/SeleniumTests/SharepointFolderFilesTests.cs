@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using OpenQA.Selenium;
 using PiwikPRO.SharePoint.Tests.Pages;
 using System;
@@ -37,7 +38,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             string fileFilename = null;
             string userLogin = null;
             string fileId = null;
-            string fileRelativeUrl = null;
+            string fileUrl = null;
             string fileTitle = null;
             string whoPinned = null;
 
@@ -51,7 +52,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     dictionary.TryGetValue("userLogin", out userLogin);
                     dictionary.TryGetValue("fileFilename", out fileFilename);
                     dictionary.TryGetValue("fileId", out fileId);
-                    dictionary.TryGetValue("fileRelativeUrl", out fileRelativeUrl);
+                    dictionary.TryGetValue("fileUrl", out fileUrl);
                     dictionary.TryGetValue("fileTitle", out fileTitle);
                     dictionary.TryGetValue("whoPinned", out whoPinned);
                     break;
@@ -63,7 +64,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(fileFilename);
             Assert.NotNull(userLogin);
             Assert.NotNull(fileId);
-            Assert.NotNull(fileRelativeUrl);
+            Assert.NotNull(fileUrl);
             Assert.NotNull(fileTitle);
             Assert.NotNull(whoPinned);
         }
@@ -80,7 +81,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             string fileFilename = null;
             string userLogin = null;
             string fileId = null;
-            string fileRelativeUrl = null;
+            string fileUrl = null;
             string fileTitle = null;
             string whoPinned = null;
 
@@ -94,7 +95,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     dictionary.TryGetValue("userLogin", out userLogin);
                     dictionary.TryGetValue("fileFilename", out fileFilename);
                     dictionary.TryGetValue("fileId", out fileId);
-                    dictionary.TryGetValue("fileRelativeUrl", out fileRelativeUrl);
+                    dictionary.TryGetValue("fileUrl", out fileUrl);
                     dictionary.TryGetValue("fileTitle", out fileTitle);
                     dictionary.TryGetValue("whoPinned", out whoPinned);
                     break;
@@ -105,7 +106,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(fileFilename);
             Assert.NotNull(userLogin);
             Assert.NotNull(fileId);
-            Assert.NotNull(fileRelativeUrl);
+            Assert.NotNull(fileUrl);
             Assert.NotNull(fileTitle);
             Assert.NotNull(whoPinned);
         }
@@ -122,7 +123,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             string fileFilename = null;
             string userLogin = null;
             string fileId = null;
-            string fileRelativeUrl = null;
+            string fileUrl = null;
             string fileTitle = null;
             string whoUnpinned = null;
 
@@ -136,7 +137,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     dictionary.TryGetValue("userLogin", out userLogin);
                     dictionary.TryGetValue("fileFilename", out fileFilename);
                     dictionary.TryGetValue("fileId", out fileId);
-                    dictionary.TryGetValue("fileRelativeUrl", out fileRelativeUrl);
+                    dictionary.TryGetValue("fileUrl", out fileUrl);
                     dictionary.TryGetValue("fileTitle", out fileTitle);
                     dictionary.TryGetValue("whoUnpinned", out whoUnpinned);
                     break;
@@ -148,7 +149,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(fileFilename);
             Assert.NotNull(userLogin);
             Assert.NotNull(fileId);
-            Assert.NotNull(fileRelativeUrl);
+            Assert.NotNull(fileUrl);
             Assert.NotNull(fileTitle);
             Assert.NotNull(whoUnpinned);
         }
@@ -165,7 +166,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             string fileFilename = null;
             string userLogin = null;
             string fileId = null;
-            string fileRelativeUrl = null;
+            string fileUrl = null;
             string fileTitle = null;
             string whoUnpinned = null;
 
@@ -179,7 +180,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     dictionary.TryGetValue("userLogin", out userLogin);
                     dictionary.TryGetValue("fileFilename", out fileFilename);
                     dictionary.TryGetValue("fileId", out fileId);
-                    dictionary.TryGetValue("fileRelativeUrl", out fileRelativeUrl);
+                    dictionary.TryGetValue("fileUrl", out fileUrl);
                     dictionary.TryGetValue("fileTitle", out fileTitle);
                     dictionary.TryGetValue("whoUnpinned", out whoUnpinned);
                     break;
@@ -191,7 +192,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(fileFilename);
             Assert.NotNull(userLogin);
             Assert.NotNull(fileId);
-            Assert.NotNull(fileRelativeUrl);
+            Assert.NotNull(fileUrl);
             Assert.NotNull(fileTitle);
             Assert.NotNull(whoUnpinned);
         }
@@ -354,6 +355,153 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(filename);
             Assert.NotNull(fileExt);
             Assert.NotNull(docLocalizaton);
+        }
+
+        [Test]
+        public void ShareFolderFromTopMenu()
+        {
+            Thread.Sleep(2500);
+            sharePointSite.FolderSharedFromTopMenu(shareToWho);
+
+            Thread.Sleep(2500);
+
+            object folderShared = null;
+            string sharedWith = null;
+            string whoShared = null;
+            string contentType = null;
+            string folderUrl = null;
+            string folderTitle = null;
+            string folderId = null;
+            string typeOfShare = null;
+
+
+            for (int i = 0; i < 20; i++)
+            {
+                folderShared = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderShared')");
+                if (folderShared != null)
+                {
+                    var json = JsonConvert.SerializeObject(folderShared);
+                    Dictionary<string, object> dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                    Dictionary<string, string> dString = dictionary.ToDictionary(k => k.Key, k => Convert.ToString(k.Value));
+                    dString.TryGetValue("sharedWith", out sharedWith);
+                    dString.TryGetValue("whoShared", out whoShared);
+                    dString.TryGetValue("contentType", out contentType);
+                    dString.TryGetValue("folderUrl", out folderUrl);
+                    dString.TryGetValue("folderTitle", out folderTitle);
+                    dString.TryGetValue("folderId", out folderId);
+                    dString.TryGetValue("typeOfShare", out typeOfShare);
+                    break;
+                }
+                Thread.Sleep(500);
+            }
+
+
+            Assert.NotNull(folderShared);
+            Assert.NotNull(sharedWith);
+            Assert.NotNull(whoShared);
+            Assert.NotNull(contentType);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(folderTitle);
+            Assert.NotNull(folderId);
+            Assert.NotNull(typeOfShare);
+        }
+
+        [Test]
+        public void ShareFolderFromGridMenu()
+        {
+            Thread.Sleep(2500);
+            sharePointSite.FolderSharedFromGridMenu(shareToWho);
+
+            Thread.Sleep(2500);
+
+            object folderShared = null;
+            string sharedWith = null;
+            string whoShared = null;
+            string contentType = null;
+            string folderUrl = null;
+            string folderTitle = null;
+            string folderId = null;
+            string typeOfShare = null;
+
+
+            for (int i = 0; i < 20; i++)
+            {
+                folderShared = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderShared')");
+                if (folderShared != null)
+                {
+                    var json = JsonConvert.SerializeObject(folderShared);
+                    Dictionary<string, object> dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                    Dictionary<string, string> dString = dictionary.ToDictionary(k => k.Key, k => Convert.ToString(k.Value));
+                    dString.TryGetValue("sharedWith", out sharedWith);
+                    dString.TryGetValue("whoShared", out whoShared);
+                    dString.TryGetValue("contentType", out contentType);
+                    dString.TryGetValue("folderUrl", out folderUrl);
+                    dString.TryGetValue("folderTitle", out folderTitle);
+                    dString.TryGetValue("folderId", out folderId);
+                    dString.TryGetValue("typeOfShare", out typeOfShare);
+                    break;
+                }
+                Thread.Sleep(500);
+            }
+
+
+            Assert.NotNull(folderShared);
+            Assert.NotNull(sharedWith);
+            Assert.NotNull(whoShared);
+            Assert.NotNull(contentType);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(folderTitle);
+            Assert.NotNull(folderId);
+            Assert.NotNull(typeOfShare);
+        }
+
+        [Test]
+        public void ShareFolderFromContextMenu()
+        {
+            Thread.Sleep(2500);
+            sharePointSite.FolderSharedFromContextMenu(shareToWho);
+
+            Thread.Sleep(2500);
+
+            object folderShared = null;
+            string sharedWith = null;
+            string whoShared = null;
+            string contentType = null;
+            string folderUrl = null;
+            string folderTitle = null;
+            string folderId = null;
+            string typeOfShare = null;
+
+
+            for (int i = 0; i < 20; i++)
+            {
+                folderShared = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderShared')");
+                if (folderShared != null)
+                {
+                    var json = JsonConvert.SerializeObject(folderShared);
+                    Dictionary<string, object> dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                    Dictionary<string, string> dString = dictionary.ToDictionary(k => k.Key, k => Convert.ToString(k.Value));
+                    dString.TryGetValue("sharedWith", out sharedWith);
+                    dString.TryGetValue("whoShared", out whoShared);
+                    dString.TryGetValue("contentType", out contentType);
+                    dString.TryGetValue("folderUrl", out folderUrl);
+                    dString.TryGetValue("folderTitle", out folderTitle);
+                    dString.TryGetValue("folderId", out folderId);
+                    dString.TryGetValue("typeOfShare", out typeOfShare);
+                    break;
+                }
+                Thread.Sleep(500);
+            }
+
+
+            Assert.NotNull(folderShared);
+            Assert.NotNull(sharedWith);
+            Assert.NotNull(whoShared);
+            Assert.NotNull(contentType);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(folderTitle);
+            Assert.NotNull(folderId);
+            Assert.NotNull(typeOfShare);
         }
     }
 }

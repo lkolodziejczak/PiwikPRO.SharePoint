@@ -74,8 +74,8 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         public void FilePinToTopFromTopMenu()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            //wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@data-automationid='DetailsRowCheck'][1]")));
-            fileGrid.Click();
+            IWebElement fileIconElem = GetFileElementFromList();
+            fileIconElem.Click();
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='pinItemCommand']")));
             filePinToTopFromTopMenu.Click();
         }
@@ -83,18 +83,27 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         public void FilePinToTopFromContextMenu()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            fileGrid.Click();
-            Thread.Sleep(1000);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")));
-            dotShowActionsMenu.Click();
-            Thread.Sleep(200);
+            IWebElement fileIconElem = GetFileElementFromList();
+            fileIconElem.Click();
+            Thread.Sleep(500);
+            foreach (var item in driver.FindElements(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")))
+            {
+                if (item.Displayed)
+                {
+                    item.Click();
+                    break;
+                }
+            }
+            Thread.Sleep(500);
             filePinToTopFromContextMenu.Click();
         }
 
         public void FileUnPinToTopFromTopMenu()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            fileGrid.Click();
+            IWebElement fileIconElem = GetFileElementFromList();
+            fileIconElem.Click();
+            Thread.Sleep(500);
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='editPinnedItemCommand']")));
             fileEditPinToTopFromTopMenu.Click();
 
@@ -107,10 +116,17 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         public void FileUnPinToTopFromContextMenu()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            fileGrid.Click();
-            Thread.Sleep(1000);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")));
-            dotShowActionsMenu.Click();
+            IWebElement fileIconElem = GetFileElementFromList();
+            fileIconElem.Click();
+            Thread.Sleep(500);
+            foreach (var item in driver.FindElements(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")))
+            {
+                if (item.Displayed)
+                {
+                    item.Click();
+                    break;
+                }
+            }
             Thread.Sleep(500);
 
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//button[@data-automationid='editPinnedItemCommand'])[2]")));
@@ -144,7 +160,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             Thread.Sleep(500);
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='shareCommand']")));
             fileShareFromTopMenu.Click();
-            driver.SwitchTo().Frame("shareFrame");
+            wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
             Thread.Sleep(300);
             shareWindowInput.SendKeys(shareToWho);
@@ -174,7 +190,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@title='Share the selected item with other people']//button[@data-automationid='shareCommand']")));
             Thread.Sleep(300);
             fileShareFromContextMenu.Click();
-            driver.SwitchTo().Frame("shareFrame");
+            wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
             Thread.Sleep(300);
             shareWindowInput.SendKeys(shareToWho);
@@ -200,7 +216,84 @@ namespace PiwikPRO.SharePoint.Tests.Pages
                     break;
                 }
             }
-            driver.SwitchTo().Frame("shareFrame");
+            wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
+            Thread.Sleep(300);
+            shareWindowInput.SendKeys(shareToWho);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Suggestions-itemButton")));
+            shareWindowInput.SendKeys(Keys.Enter);
+            Thread.Sleep(1500);
+
+            shareWindowSendButton.Click();
+            driver.SwitchTo().DefaultContent();
+        }
+
+        public void FolderSharedFromTopMenu(string shareToWho)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement folderIconElem = GetFolderElementFromList();
+            folderIconElem.Click();
+            Thread.Sleep(500);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='shareCommand']")));
+            fileShareFromTopMenu.Click();
+            wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
+            Thread.Sleep(300);
+            shareWindowInput.SendKeys(shareToWho);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Suggestions-itemButton")));
+            shareWindowInput.SendKeys(Keys.Enter);
+            Thread.Sleep(1500);
+
+            shareWindowSendButton.Click();
+            driver.SwitchTo().DefaultContent();
+        }
+
+        public void FolderSharedFromContextMenu(string shareToWho)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement folderIconElem = GetFolderElementFromList();
+            folderIconElem.Click();
+            Thread.Sleep(500);
+            foreach (var item in driver.FindElements(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")))
+            {
+                if (item.Displayed)
+                {
+                    item.Click();
+                    break;
+                }
+            }
+            Thread.Sleep(500);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@title='Share the selected item with other people']//button[@data-automationid='shareCommand']")));
+            Thread.Sleep(300);
+            fileShareFromContextMenu.Click();
+            wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
+            Thread.Sleep(300);
+            shareWindowInput.SendKeys(shareToWho);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Suggestions-itemButton")));
+            shareWindowInput.SendKeys(Keys.Enter);
+            Thread.Sleep(1500);
+
+            shareWindowSendButton.Click();
+            driver.SwitchTo().DefaultContent();
+        }
+
+        public void FolderSharedFromGridMenu(string shareToWho)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement folderIconElem = GetFolderElementFromList();
+            folderIconElem.Click();
+            Thread.Sleep(500);
+
+            foreach (var item in driver.FindElements(By.XPath("//button[@data-automationid='FieldRender-ShareHero']")))
+            {
+                if (item.Displayed)
+                {
+                    item.Click();
+                    break;
+                }
+            }
+            wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
             Thread.Sleep(300);
             shareWindowInput.SendKeys(shareToWho);
