@@ -65,6 +65,18 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//div[@data-automationid='DetailsRowCell']//i")]
         private IWebElement listItemCellIcon;
 
+        [FindsBy(How = How.XPath, Using = "//div[@data-automationid='itemCard'][contains(@aria-label,'Folder')]//span[@role='checkbox']")]
+        private IWebElement folderPinnedToTopItem;
+
+        [FindsBy(How = How.XPath, Using = "(//button[@data-automationid='deleteCommand'])[2]")]
+        private IWebElement folderDeleteContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='deleteCommand']")]
+        private IWebElement folderDeleteTopMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='confirmbutton']")]
+        private IWebElement folderDeleteContextMenuConfirm;
+
         public SharepointFolderFile(IWebDriver driver)
         {
             this.driver = driver;
@@ -303,6 +315,82 @@ namespace PiwikPRO.SharePoint.Tests.Pages
 
             shareWindowSendButton.Click();
             driver.SwitchTo().DefaultContent();
+        }
+
+        public void FolderPinToTopFromTopMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement fileIconElem = GetFolderElementFromList();
+            fileIconElem.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='pinItemCommand']")));
+            filePinToTopFromTopMenu.Click();
+        }
+
+        public void FolderPinToTopFromContextMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement fileIconElem = GetFolderElementFromList();
+            fileIconElem.Click();
+            Thread.Sleep(500);
+            foreach (var item in driver.FindElements(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")))
+            {
+                if (item.Displayed)
+                {
+                    item.Click();
+                    break;
+                }
+            }
+            Thread.Sleep(500);
+            filePinToTopFromContextMenu.Click();
+        }
+
+        public void FolderUnPinToTopFromTopMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            Thread.Sleep(500);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@data-automationid='itemCard'][contains(@aria-label,'Folder')]")));
+            folderPinnedToTopItem.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='editPinnedItemCommand']")));
+            fileEditPinToTopFromTopMenu.Click();
+
+            Thread.Sleep(500);
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='removePinnedItemCommand']")));
+            fileUnPinToTopFromTopMenu.Click();
+        }
+
+        public void FolderDeletedContextMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement fileIconElem = GetFolderElementFromList();
+            fileIconElem.Click();
+            Thread.Sleep(500);
+            foreach (var item in driver.FindElements(By.XPath("//button[@data-automationid='FieldRender-DotDotDot']")))
+            {
+                if (item.Displayed)
+                {
+                    item.Click();
+                    break;
+                }
+            }
+            Thread.Sleep(500);
+            folderDeleteContextMenu.Click();
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='confirmbutton']")));
+            folderDeleteContextMenuConfirm.Click();
+        }
+
+        public void FolderDeletedFromTopMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement fileIconElem = GetFolderElementFromList();
+            fileIconElem.Click();
+            Thread.Sleep(500);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='deleteCommand']")));
+            folderDeleteTopMenu.Click();
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='confirmbutton']")));
+            folderDeleteContextMenuConfirm.Click();
         }
 
         private IWebElement GetFolderElementFromList()

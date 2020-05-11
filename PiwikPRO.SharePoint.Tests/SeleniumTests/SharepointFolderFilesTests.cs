@@ -503,5 +503,208 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(folderId);
             Assert.NotNull(typeOfShare);
         }
+
+        [Test]
+        public void FolderPinToTopFromTopMenu()
+        {
+            Thread.Sleep(2500);
+            sharePointSite.FolderPinToTopFromTopMenu();
+
+            Thread.Sleep(2500);
+
+            object folderPinnedToTop = null;
+            string foldername = null;
+            string userLogin = null;
+            string folderId = null;
+            string folderUrl = null;
+            string folderTitle = null;
+            string whoPinned = null;
+
+            for (int i = 0; i < 20; i++)
+            {
+                folderPinnedToTop = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderPinnedToTop')");
+                if (folderPinnedToTop != null)
+                {
+                    var json = JsonConvert.SerializeObject(folderPinnedToTop);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("userLogin", out userLogin);
+                    dictionary.TryGetValue("foldername", out foldername);
+                    dictionary.TryGetValue("folderId", out folderId);
+                    dictionary.TryGetValue("folderUrl", out folderUrl);
+                    dictionary.TryGetValue("folderTitle", out folderTitle);
+                    dictionary.TryGetValue("whoPinned", out whoPinned);
+                    break;
+                }
+                Thread.Sleep(500);
+            }
+
+            Assert.NotNull(folderPinnedToTop);
+            Assert.NotNull(foldername);
+            Assert.NotNull(userLogin);
+            Assert.NotNull(folderId);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(folderTitle);
+            Assert.NotNull(whoPinned);
+        }
+
+        [Test]
+        public void FolderPinToTopFromContextMenu()
+        {
+            Thread.Sleep(3500);
+            sharePointSite.FolderPinToTopFromContextMenu();
+
+            Thread.Sleep(2500);
+
+            object folderPinnedToTop = null;
+            string foldername = null;
+            string userLogin = null;
+            string folderId = null;
+            string folderUrl = null;
+            string folderTitle = null;
+            string whoPinned = null;
+
+            for (int i = 0; i < 20; i++)
+            {
+                folderPinnedToTop = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderPinnedToTop')");
+                if (folderPinnedToTop != null)
+                {
+                    var json = JsonConvert.SerializeObject(folderPinnedToTop);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("userLogin", out userLogin);
+                    dictionary.TryGetValue("foldername", out foldername);
+                    dictionary.TryGetValue("folderId", out folderId);
+                    dictionary.TryGetValue("folderUrl", out folderUrl);
+                    dictionary.TryGetValue("folderTitle", out folderTitle);
+                    dictionary.TryGetValue("whoPinned", out whoPinned);
+                    break;
+                }
+                Thread.Sleep(500);
+            }
+
+            Assert.NotNull(folderPinnedToTop);
+            Assert.NotNull(foldername);
+            Assert.NotNull(userLogin);
+            Assert.NotNull(folderId);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(folderTitle);
+            Assert.NotNull(whoPinned);
+        }
+
+        [Test]
+        public void FolderUnPinToTopFromTopMenu()
+        {
+            Thread.Sleep(2500);
+            sharePointSite.FolderUnPinToTopFromTopMenu();
+
+            Thread.Sleep(2500);
+
+            object folderUnpinned = null;
+            string foldername = null;
+            string userLogin = null;
+            string folderId = null;
+            string folderUrl = null;
+            string folderTitle = null;
+            string whoUnpinned = null;
+
+            for (int i = 0; i < 20; i++)
+            {
+                folderUnpinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderUnpinned')");
+                if (folderUnpinned != null)
+                {
+                    var json = JsonConvert.SerializeObject(folderUnpinned);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("userLogin", out userLogin);
+                    dictionary.TryGetValue("foldername", out foldername);
+                    dictionary.TryGetValue("folderId", out folderId);
+                    dictionary.TryGetValue("folderUrl", out folderUrl);
+                    dictionary.TryGetValue("folderTitle", out folderTitle);
+                    dictionary.TryGetValue("whoUnpinned", out whoUnpinned);
+                    break;
+                }
+                Thread.Sleep(500);
+            }
+
+            Assert.NotNull(folderUnpinned);
+            Assert.NotNull(foldername);
+            Assert.NotNull(userLogin);
+            Assert.NotNull(folderId);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(folderTitle);
+            Assert.NotNull(whoUnpinned);
+        }
+
+        [Test]
+        public void FolderDeletedFromContextMenu()
+        {
+            Thread.Sleep(2500);
+            sharePointSite.FolderDeletedContextMenu();
+
+            Thread.Sleep(2500);
+
+            object folderDeleted = null;
+            string folderSize = null;
+            string folderUrl = null;
+            string folderTitle = null;
+            string whoDeleted = null;
+
+            for (int i = 0; i < 20; i++)
+            {
+                folderDeleted = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderDeleted')");
+                if (folderDeleted != null)
+                {
+                    var json = JsonConvert.SerializeObject(folderDeleted);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("folderSize", out folderSize);
+                    dictionary.TryGetValue("FolderUrl", out folderUrl);
+                    dictionary.TryGetValue("folderTitle", out folderTitle);
+                    dictionary.TryGetValue("whoDeleted", out whoDeleted);
+                    break;
+                }
+                Thread.Sleep(500);
+            }
+
+            Assert.NotNull(folderDeleted);
+            Assert.NotNull(folderSize);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(folderTitle);
+            Assert.NotNull(whoDeleted);
+        }
+
+        [Test]
+        public void FolderDeletedFromTopMenu()
+        {
+            Thread.Sleep(2500);
+            sharePointSite.FolderDeletedFromTopMenu();
+
+            Thread.Sleep(2500);
+
+            object folderDeleted = null;
+            string folderSize = null;
+            string folderUrl = null;
+            string folderTitle = null;
+            string whoDeleted = null;
+
+            for (int i = 0; i < 20; i++)
+            {
+                folderDeleted = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderDeleted')");
+                if (folderDeleted != null)
+                {
+                    var json = JsonConvert.SerializeObject(folderDeleted);
+                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("folderSize", out folderSize);
+                    dictionary.TryGetValue("FolderUrl", out folderUrl);
+                    dictionary.TryGetValue("folderTitle", out folderTitle);
+                    dictionary.TryGetValue("whoDeleted", out whoDeleted);
+                    break;
+                }
+                Thread.Sleep(500);
+            }
+
+            Assert.NotNull(folderDeleted);
+            Assert.NotNull(folderSize);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(folderTitle);
+            Assert.NotNull(whoDeleted);
+        }
     }
 }
