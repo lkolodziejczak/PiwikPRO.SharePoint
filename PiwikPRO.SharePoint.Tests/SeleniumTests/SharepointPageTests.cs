@@ -333,49 +333,49 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(documentTemplateUrl);
             }
         }
-        //[Test]
-        //public void NewListFromSiteContentsCreation()
-        //{
-        //    _webDriver.Navigate().GoToUrl(siteContents);
-        //    Thread.Sleep(1500);
+        [Test]
+        public void NewListFromSiteContentsCreation()
+        {
+            _webDriver.Navigate().GoToUrl(siteContents);
+            Thread.Sleep(1500);
 
-        //    sharePointSite.NewListFromSiteContentsCreation();
-        //    {
-        //        var sharePointSite = new SharepointSitePage(_webDriver);
-        //        IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-        //        Thread.Sleep(2000);
+            sharePointSite.NewListFromSiteContentsCreation();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
 
-        //        object listCreated = null;
-        //        string createdBy = null;
-        //        string listTitle = null;
-        //        string listUrl = null;
-        //        string listId = null;
-        //        string documentTemplateUrl = null;
+                object listCreated = null;
+                string createdBy = null;
+                string listTitle = null;
+                string listUrl = null;
+                string listId = null;
+                string documentTemplateUrl = null;
 
-        //        for (int i = 0; i < 30; i++)
-        //        {
-        //            listCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'listCreated')");
-        //            if (listCreated != null)
-        //            {
-        //                var json = JsonConvert.SerializeObject(listCreated);
-        //                Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-        //                dictionary.TryGetValue("createdBy", out createdBy);
-        //                dictionary.TryGetValue("listTitle", out listTitle);
-        //                dictionary.TryGetValue("listUrl", out listUrl);
-        //                dictionary.TryGetValue("listId", out listId);
-        //                dictionary.TryGetValue("documentTemplateUrl", out documentTemplateUrl);
-        //                break;
-        //            }
-        //            Thread.Sleep(100);
-        //        }
-        //        Assert.NotNull(listCreated);
-        //        Assert.NotNull(createdBy);
-        //        Assert.NotNull(listTitle);
-        //        Assert.NotNull(listUrl);
-        //        Assert.NotNull(listId);
-        //        Assert.NotNull(documentTemplateUrl);
-        //    }
-        //}
+                for (int i = 0; i < 30; i++)
+                {
+                    listCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'listCreated')");
+                    if (listCreated != null)
+                    {
+                        var json = JsonConvert.SerializeObject(listCreated);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("createdBy", out createdBy);
+                        dictionary.TryGetValue("listTitle", out listTitle);
+                        dictionary.TryGetValue("listUrl", out listUrl);
+                        dictionary.TryGetValue("listId", out listId);
+                        dictionary.TryGetValue("documentTemplateUrl", out documentTemplateUrl);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(listCreated);
+                Assert.NotNull(createdBy);
+                Assert.NotNull(listTitle);
+                Assert.NotNull(listUrl);
+                Assert.NotNull(listId);
+                Assert.NotNull(documentTemplateUrl);
+            }
+        }
         [Test]
         public void NewSubsiteFromSiteContentsCreation()
         {

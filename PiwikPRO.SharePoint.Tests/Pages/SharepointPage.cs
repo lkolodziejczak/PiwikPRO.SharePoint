@@ -226,7 +226,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             newMenuItemFromSiteContents.Click();
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-ContextualMenu-Callout")));
             newListFromSiteContentsButton.Click();
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input.ms-TextField-field")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-TextField-field")));
             newListPageNameInput.Click();
             newListPageNameInput.SendKeys($"testlist{random}");
             showInLocalNavCheckbox.Click();
@@ -251,6 +251,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//span[@data-automationid='splitbuttonprimary']")));
             Thread.Sleep(1000);
             newListButton.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("od-ItemsScopeItemContent-header")));
             //Thread.Sleep(2500);
             return $"testlist{random}";
 
