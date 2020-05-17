@@ -459,6 +459,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             sharePointSite.NewListFromHomePageCreation();
             Thread.Sleep(1000);
             sharePointSite.NewListItemCreation();
+            sharePointSite.ListItemDirectView();
 
             {
                 var sharePointSite = new SharepointSitePage(_webDriver);
@@ -492,6 +493,704 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(listUrl);
                 Assert.NotNull(listTitle);
                 Assert.NotNull(listID);
+                Assert.NotNull(itemTitle);
+                Assert.NotNull(itemUrl);
+
+            }
+        }
+        [Test]
+        public void NewDocumentLibraryFromHomePageCreation()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.NewDocumentLibraryFromHomePageCreation();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object documentLibraryCreated = null;
+                string createdBy = null;
+                string listTitle = null;
+                string listUrl = null;
+                string listId = null;
+                string documentTemplateUrl = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    documentLibraryCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'documentLibraryCreated')");
+                    if (documentLibraryCreated != null)
+                    {
+                        var json = JsonConvert.SerializeObject(documentLibraryCreated);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("createdBy", out createdBy);
+                        dictionary.TryGetValue("listTitle", out listTitle);
+                        dictionary.TryGetValue("listUrl", out listUrl);
+                        dictionary.TryGetValue("listId", out listId);
+                        dictionary.TryGetValue("documentTemplateUrl", out documentTemplateUrl);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(documentLibraryCreated);
+                Assert.NotNull(createdBy);
+                Assert.NotNull(listTitle);
+                Assert.NotNull(listUrl);
+                Assert.NotNull(listId);
+                Assert.NotNull(documentTemplateUrl);
+            }
+        }
+
+        [Test]
+        public void PromoteAddPageToNavigation()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromoteAddPageToNavigation();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pageAddToNavigation = null;
+                string whoAddedToNavigation = null;
+                string fileUrl = null;
+                string fileTitle = null;
+                string fileId = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pageAddToNavigation = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageAddToNavigation')");
+                    if (pageAddToNavigation != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageAddToNavigation);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("whoAddedToNavigation", out whoAddedToNavigation);
+                        dictionary.TryGetValue("fileUrl", out fileUrl);
+                        dictionary.TryGetValue("fileTitle", out fileTitle);
+                        dictionary.TryGetValue("fileId", out fileId);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pageAddToNavigation);
+                Assert.NotNull(whoAddedToNavigation);
+                Assert.NotNull(fileUrl);
+                Assert.NotNull(fileTitle);
+                Assert.NotNull(fileId);
+            }
+        }
+        [Test]
+        public void PromoteAddPageToNavigationExistingPage()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromoteAddPageToNavigationExistingPage();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pageAddToNavigation = null;
+                string whoAddedToNavigation = null;
+                string fileUrl = null;
+                string fileTitle = null;
+                string fileId = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pageAddToNavigation = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageAddToNavigation')");
+                    if (pageAddToNavigation != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageAddToNavigation);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("whoAddedToNavigation", out whoAddedToNavigation);
+                        dictionary.TryGetValue("fileUrl", out fileUrl);
+                        dictionary.TryGetValue("fileTitle", out fileTitle);
+                        dictionary.TryGetValue("fileId", out fileId);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pageAddToNavigation);
+                Assert.NotNull(whoAddedToNavigation);
+                Assert.NotNull(fileUrl);
+                Assert.NotNull(fileTitle);
+                Assert.NotNull(fileId);
+            }
+        }
+        [Test]
+        public void PromotePostAsNews()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromotePostAsNews();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pagePromoteAsNews = null;
+                string pageUrl = null;
+                string pageTitle = null;
+                string pageId = null;
+                string whoPromoted = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pagePromoteAsNews = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pagePromoteAsNews')");
+                    if (pagePromoteAsNews != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pagePromoteAsNews);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("whoPromoted", out whoPromoted);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pagePromoteAsNews);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+                Assert.NotNull(whoPromoted);
+            }
+        }
+        [Test]
+        public void PromotePostAsNewsExistingPage()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromotePostAsNewsExistingPage();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pagePromoteAsNews = null;
+                string pageUrl = null;
+                string pageTitle = null;
+                string pageId = null;
+                string whoPromoted = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pagePromoteAsNews = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pagePromoteAsNews')");
+                    if (pagePromoteAsNews != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pagePromoteAsNews);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("whoPromoted", out whoPromoted);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pagePromoteAsNews);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+                Assert.NotNull(whoPromoted);
+            }
+        }
+        [Test]
+        public void PromoteSendByEmail()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromoteSendByEmail();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pagePromoteEmail = null;
+                string pageUrl = null;
+                string pageTitle = null;
+                string pageId = null;
+                string whoPromoted = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pagePromoteEmail = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pagePromoteEmail')");
+                    if (pagePromoteEmail != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pagePromoteEmail);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("whoPromoted", out whoPromoted);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pagePromoteEmail);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+                Assert.NotNull(whoPromoted);
+            }
+        }
+        [Test]
+        public void PromoteSendByEmailExistingPage()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromoteSendByEmailExistingPage();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pagePromoteEmail = null;
+                string pageUrl = null;
+                string pageTitle = null;
+                string pageId = null;
+                string whoPromoted = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pagePromoteEmail = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pagePromoteEmail')");
+                    if (pagePromoteEmail != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pagePromoteEmail);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("whoPromoted", out whoPromoted);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pagePromoteEmail);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+                Assert.NotNull(whoPromoted);
+            }
+        }
+        [Test]
+        public void PromoteSaveAsPageTemplate()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromoteSaveAsPageTemplate();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pagePromoteSaveAsTemplate = null;
+                string pageUrl = null;
+                string pageTitle = null;
+                string pageId = null;
+                string whoPromoted = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pagePromoteSaveAsTemplate = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pagePromoteSaveAsTemplate')");
+                    if (pagePromoteSaveAsTemplate != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pagePromoteSaveAsTemplate);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("whoPromoted", out whoPromoted);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pagePromoteSaveAsTemplate);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+                Assert.NotNull(whoPromoted);
+            }
+        }
+        [Test]
+        public void PromoteSaveAsPageTemplateExistingPage()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromoteSaveAsPageTemplateExistingPage();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pagePromoteSaveAsTemplate = null;
+                string pageUrl = null;
+                string pageTitle = null;
+                string pageId = null;
+                string whoPromoted = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pagePromoteSaveAsTemplate = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pagePromoteSaveAsTemplate')");
+                    if (pagePromoteSaveAsTemplate != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pagePromoteSaveAsTemplate);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("whoPromoted", out whoPromoted);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pagePromoteSaveAsTemplate);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+                Assert.NotNull(whoPromoted);
+            }
+        }
+        [Test]
+        public void PromoteCopyAddress()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromoteCopyAddress();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pagePromoteCopyLink = null;
+                string pageUrl = null;
+                string pageTitle = null;
+                string pageId = null;
+                string whoPromoted = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pagePromoteCopyLink = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pagePromoteCopyLink')");
+                    if (pagePromoteCopyLink != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pagePromoteCopyLink);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("whoPromoted", out whoPromoted);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pagePromoteCopyLink);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+                Assert.NotNull(whoPromoted);
+            }
+        }
+   
+        public void PromoteCopyAddressExistingPage()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PromoteCopyAddressExistingPage();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pagePromoteCopyLink = null;
+                string pageUrl = null;
+                string pageTitle = null;
+                string pageId = null;
+                string whoPromoted = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pagePromoteCopyLink = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pagePromoteCopyLink')");
+                    if (pagePromoteCopyLink != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pagePromoteCopyLink);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("whoPromoted", out whoPromoted);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pagePromoteCopyLink);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+                Assert.NotNull(whoPromoted);
+            }
+        }
+        [Test]
+        public void PageCopyLink()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            string pageName = sharePointSite.SitePageFromHomePageCreation();
+            _webDriver.Navigate().GoToUrl(sitePagesLibrary);
+            sharePointSite.PageCopyLink(pageName);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object fileFolderPageCopyLink = null;
+                string whoCopied = null;
+                string elUrl = null;
+                string elTitle = null;
+                string elId = null;
+                string elUniqueId = null;
+                string objectType = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    fileFolderPageCopyLink = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileFolderPageCopyLink')");
+                    if (fileFolderPageCopyLink != null)
+                    {
+                        var json = JsonConvert.SerializeObject(fileFolderPageCopyLink);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("whoCopied", out whoCopied);
+                        dictionary.TryGetValue("elUrl", out elUrl);
+                        dictionary.TryGetValue("elTitle", out elTitle);
+                        dictionary.TryGetValue("elId", out elId);
+                        dictionary.TryGetValue("elUniqueId", out elUniqueId);
+                        dictionary.TryGetValue("objectType", out objectType);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(fileFolderPageCopyLink);
+                Assert.NotNull(whoCopied);
+                Assert.NotNull(elUrl);
+                Assert.NotNull(elTitle);
+                Assert.NotNull(elId);
+                Assert.NotNull(elUniqueId);
+                Assert.NotNull(objectType);
+            }
+        }
+        [Test]
+        public void PagePinToTopAndUnpinned()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            string pagename = sharePointSite.SitePageFromHomePageCreation();
+            _webDriver.Navigate().GoToUrl(sitePagesLibrary);
+            sharePointSite.PagePinToTopAndUnpinned(pagename);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pagePinnedToTop = null;
+                string whoPinned = null;
+                string pageUrlPinnedToTop = null;
+                string pageNamePinnedToTop = null;
+                string pageTitlePinnedToTop = null;
+                string pageIdPinnedToTop = null;
+
+                object pageUnpinned = null;
+                string whoUnpinned = null;
+                string pageUrlUnpinned = null;
+                string pageNameUnpinned = null;
+                string pageTitleUnpinned = null;
+                string pageIdUnpinned = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pagePinnedToTop = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pagePinnedToTop')");
+                    if (pagePinnedToTop != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pagePinnedToTop);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("whoPinned", out whoPinned);
+                        dictionary.TryGetValue("pageUrl", out pageUrlPinnedToTop);
+                        dictionary.TryGetValue("pageName", out pageNamePinnedToTop);
+                        dictionary.TryGetValue("pageTitle", out pageTitlePinnedToTop);
+                        dictionary.TryGetValue("pageId", out pageIdPinnedToTop);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Thread.Sleep(500);
+                for (int i = 0; i < 30; i++)
+                {
+                    pageUnpinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageUnpinned')");
+                    if (pageUnpinned != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageUnpinned);
+                        Dictionary<string, string> dictionary2 = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary2.TryGetValue("whoUnpinned", out whoUnpinned);
+                        dictionary2.TryGetValue("pageUrl", out pageUrlUnpinned);
+                        dictionary2.TryGetValue("pageName", out pageNameUnpinned);
+                        dictionary2.TryGetValue("pageTitle", out pageTitleUnpinned);
+                        dictionary2.TryGetValue("pageId", out pageIdUnpinned);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+
+                Assert.NotNull(pagePinnedToTop);
+                Assert.NotNull(whoPinned);
+                Assert.NotNull(pageUrlPinnedToTop);
+                Assert.NotNull(pageNamePinnedToTop);
+                Assert.NotNull(pageTitlePinnedToTop);
+                Assert.NotNull(pageIdPinnedToTop);
+
+                Assert.NotNull(pageUnpinned);
+                Assert.NotNull(whoUnpinned);
+                Assert.NotNull(pageUrlUnpinned);
+                Assert.NotNull(pageNameUnpinned);
+                Assert.NotNull(pageTitleUnpinned);
+                Assert.NotNull(pageIdUnpinned);
+            }
+        }
+        [Test]
+        public void PageMakeHomePage()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            string pagename = sharePointSite.SitePageFromHomePageCreation();
+            _webDriver.Navigate().GoToUrl(sitePagesLibrary);
+            sharePointSite.PageMakeHomePage(pagename);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pageMakeHomePage = null;
+                string whoSetHomePage = null;
+                string pageUrl = null;
+                string pageName = null;
+                string pageTitle = null;
+                string pageId = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pageMakeHomePage = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageMakeHomePage')");
+                    if (pageMakeHomePage != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageMakeHomePage);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("whoSetHomePage", out whoSetHomePage);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageName", out pageName);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pageMakeHomePage);
+                Assert.NotNull(whoSetHomePage);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageName);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+            }
+        }
+        [Test]
+        public void PageDelete()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            string pagename = sharePointSite.SitePageFromHomePageCreation();
+            _webDriver.Navigate().GoToUrl(sitePagesLibrary);
+            sharePointSite.PageDelete(pagename);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pageDeleted = null;
+                string pageWhoCreated = null;
+                string pageName = null;
+                string filesize = null;
+                string deletionDate = null;
+                string pageTitle = null;
+                string pageUrl = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pageDeleted = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageDeleted')");
+                    if (pageDeleted != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageDeleted);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("pageWhoCreated", out pageWhoCreated);
+                        dictionary.TryGetValue("pageName", out pageName);
+                        dictionary.TryGetValue("filesize", out filesize);
+                        dictionary.TryGetValue("deletionDate", out deletionDate);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pageDeleted);
+                Assert.NotNull(pageWhoCreated);
+                Assert.NotNull(pageName);
+                Assert.NotNull(filesize);
+                Assert.NotNull(deletionDate);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(pageUrl);
+            }
+        }
+        [Test]
+        public void ListItemShare()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+            sharePointSite.NewListFromHomePageCreation();
+            Thread.Sleep(1000);
+            ;
+            sharePointSite.ListItemShare(sharePointSite.NewListItemCreation());
+
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object itemShared = null;
+                string whoShared = null;
+                string listUrl = null;
+                string listTitle = null;
+                string listId = null;
+                string itemTitle = null;
+                string itemUrl = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    itemShared = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemShared')");
+                    if (itemShared != null)
+                    {
+                        var json = JsonConvert.SerializeObject(itemShared);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("whoShared", out whoShared);
+                        dictionary.TryGetValue("listUrl", out listUrl);
+                        dictionary.TryGetValue("listTitle", out listTitle);
+                        dictionary.TryGetValue("listId", out listId);
+                        dictionary.TryGetValue("itemTitle", out itemTitle);
+                        dictionary.TryGetValue("itemUrl", out itemUrl);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(itemShared);
+                Assert.NotNull(whoShared);
+                Assert.NotNull(listUrl);
+                Assert.NotNull(listTitle);
+                Assert.NotNull(listId);
                 Assert.NotNull(itemTitle);
                 Assert.NotNull(itemUrl);
 

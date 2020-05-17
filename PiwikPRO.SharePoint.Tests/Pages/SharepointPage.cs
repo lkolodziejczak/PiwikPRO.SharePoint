@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using AngleSharp.Dom;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -59,6 +61,9 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='pageCommandBarPublishButton']")]
         private IWebElement publishButton;
 
+        [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='pageCommandBarSaveTemplateButton']")]
+        private IWebElement saveAsTemplateButton;
+
         [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='newslink-post-button']")]
         private IWebElement newsLinkButton;
 
@@ -76,6 +81,9 @@ namespace PiwikPRO.SharePoint.Tests.Pages
 
         [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='1']")]
         private IWebElement newListFromHomePageButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='2']")]
+        private IWebElement newDocumentLibraryFromHomePageButton;
 
         [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='5']")]
         private IWebElement newSubsiteFromSiteContentsButton;
@@ -122,6 +130,68 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@data-automationid='FieldRenderer-name']")]
         private IWebElement itemButton;
 
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='shareCommand']")]
+        private IWebElement shareFromContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='promoteAddToNav']")]
+        private IWebElement addPageToNavigationButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='promotePostToNews']")]
+        private IWebElement promoteAsNewsButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='promoteEmail']")]
+        private IWebElement promoteSendByEmailButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='savePageAsTemplate']")]
+        private IWebElement promoteSavePageAsTemplateButton;
+
+        [FindsBy(How = How.XPath, Using = "//input[@data-automation-id='sendByEmailDialogPeoplePicker']")]
+        private IWebElement peoplePickerInput;
+
+        [FindsBy(How = How.XPath, Using = "//input[starts-with(@class,'ms-BasePicker-input')]")]
+        private IWebElement peoplePickerForItemShareInput;
+
+        [FindsBy(How = How.ClassName, Using = "ms-PeoplePicker-personaContent")]
+        private IWebElement resultForPeoplePicker;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='sendByEmailDialogSendButton']")]
+        private IWebElement sendByEmailButton;
+
+        [FindsBy(How = How.ClassName, Using = "ms-Button--primary")]
+        private IWebElement sendButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[contains(@class,'copyButton_')]")]
+        private IWebElement copyAddressButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='promoteButton']")]
+        private IWebElement promoteButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='copyLinkCommand']")]
+        private IWebElement copyLinkFromContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='editPinnedItemCommand']")]
+        private IWebElement editPinFromContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='removePinnedItemCommand']")]
+        private IWebElement unpinFromContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='pinItemCommand']")]
+        private IWebElement pinItemFromContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='12']")]
+        private IWebElement makeHomePageFromContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='deleteCommand']")]
+        private IWebElement deleteFromContextMenu;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='switchLayoutCommand']")]
+        private IWebElement switchViewOnSitePagesButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='confirmbutton']")]
+        private IWebElement confirmDeletionButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='switchViewCommand_cf47a07c-e5d4-4f3d-9cb9-a57ba4002b42']")]
+        private IWebElement showAllPagesButton;
         public SharepointPage(IWebDriver driver)
         {
             this.driver = driver;
@@ -185,8 +255,10 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             Thread.Sleep(1000);
 
         }
-        public void SitePageFromHomePageCreation()
+        public string SitePageFromHomePageCreation()
         {
+            Random rnd = new Random();
+            int random = rnd.Next(999999);
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='pageCommandBarNewButton']")));
             newMenuItemFromHomePage.Click();
@@ -197,10 +269,140 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@data-automation-id='pageTitleInput']")));
             newSitePageNameInput.SendKeys(Keys.Tab);
             newSitePageNameInput.Clear();
-            newSitePageNameInput.SendKeys("Site Page Test");
+            newSitePageNameInput.SendKeys($"SitePageTest{random}");
             Thread.Sleep(1000);
             publishButton.Click();
             Thread.Sleep(1000);
+            return $"SitePageTest{random}";
+        }
+        public void ReloadPageClickPromoteButton()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().Refresh();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='promoteButton']")));
+            promoteButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+        }
+        public void PromoteAddPageToNavigation()
+        {
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            addPageToNavigationButton.Click();
+            Thread.Sleep(1000);
+        }
+        public void PromoteAddPageToNavigationExistingPage()
+        {
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            this.ReloadPageClickPromoteButton();
+            addPageToNavigationButton.Click();
+            Thread.Sleep(1000);
+        }
+        public void PromotePostAsNews()
+        {
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            promoteAsNewsButton.Click();
+            Thread.Sleep(1000);
+        }
+        public void PromotePostAsNewsExistingPage()
+        {
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            this.ReloadPageClickPromoteButton();
+            promoteAsNewsButton.Click();
+            Thread.Sleep(1000);
+        }
+        public void PromoteSendByEmail()
+        {
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            promoteSendByEmailButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@data-automation-id='sendByEmailDialogPeoplePicker']")));
+            peoplePickerInput.Click();
+            peoplePickerInput.SendKeys("mzywicki@phkogifi.onmicrosoft.com");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-PeoplePicker-pickerPersona")));
+            resultForPeoplePicker.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automation-id='sendByEmailDialogSendButton']")));
+            sendByEmailButton.Click();
+            Thread.Sleep(1000);
+        }
+        public void PromoteSendByEmailExistingPage()
+        {
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            this.ReloadPageClickPromoteButton();
+            promoteSendByEmailButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@data-automation-id='sendByEmailDialogPeoplePicker']")));
+            peoplePickerInput.Click();
+            peoplePickerInput.SendKeys("mzywicki@phkogifi.onmicrosoft.com");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-PeoplePicker-pickerPersona")));
+            resultForPeoplePicker.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automation-id='sendByEmailDialogSendButton']")));
+            sendByEmailButton.Click();
+            Thread.Sleep(1000);
+        }
+        public void PromoteSaveAsPageTemplate()
+        {
+            Random rnd = new Random();
+            int random = rnd.Next(999999);
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            promoteSavePageAsTemplateButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@data-automation-id='pageTitleInput']")));
+            newSitePageNameInput.SendKeys(Keys.Tab);
+            newSitePageNameInput.Clear();
+            newSitePageNameInput.SendKeys($"Site Page Template Test {random}");
+            Thread.Sleep(1000);
+            saveAsTemplateButton.Click();
+            Thread.Sleep(2000);
+        }
+        public void PromoteSaveAsPageTemplateExistingPage()
+        {
+            Random rnd = new Random();
+            int random = rnd.Next(999999);
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            this.ReloadPageClickPromoteButton();
+            promoteSavePageAsTemplateButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@data-automation-id='pageTitleInput']")));
+            newSitePageNameInput.SendKeys(Keys.Tab);
+            newSitePageNameInput.Clear();
+            newSitePageNameInput.SendKeys($"Site Page Template Test {random}");
+            Thread.Sleep(1000);
+            saveAsTemplateButton.Click();
+            Thread.Sleep(2000);
+        }
+        public void PromoteCopyAddress()
+        {
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            Thread.Sleep(500);
+            copyAddressButton.Click();
+            Thread.Sleep(500);
+            copyAddressButton.Click();
+            Thread.Sleep(2000);
+        }
+        public void PromoteCopyAddressExistingPage()
+        {
+            this.SitePageFromHomePageCreation();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-navigation")));
+            this.ReloadPageClickPromoteButton();
+            Thread.Sleep(500);
+            copyAddressButton.Click();
+            Thread.Sleep(500);
+            copyAddressButton.Click();
+            Thread.Sleep(2000);
         }
         public void NewsLinkFromHomePageCreation()
         {
@@ -290,19 +492,158 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             deleteListButton.Click();
             Thread.Sleep(300);
         }
-        public void NewListItemCreation()
+        public string NewListItemCreation()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            string listItemName = "testItem";
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//span[@data-automationid='splitbuttonprimary']")));
             newItemButton.Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("ms-TextField-field")));
             newItemInput.Click();
-            newItemInput.SendKeys("testItem");
+            newItemInput.SendKeys(listItemName);
             saveItemButton.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automationid='FieldRenderer-name']")));
+            Thread.Sleep(500);
+            return listItemName;
+        }
+        public void ListItemDirectView()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automationid='FieldRenderer-name']")));
             itemButton.Click();
             Thread.Sleep(500);
-            
+        }
+        public void ListItemShare(string listItemName)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automationid='FieldRenderer-name']")));
+            var row = wait.Until(x => x.FindElement(By.XPath($"//div[starts-with(@aria-label,'{listItemName}')]")));
+            var element = row.FindElement(By.XPath(".//button[@data-automationid='FieldRender-DotDotDot']"));
+            Actions action = new Actions(driver);
+            action.MoveToElement(element).Perform();
+            Thread.Sleep(1500);
+            element.Click();
+            shareFromContextMenu.Click();
+            Thread.Sleep(1500);
+            driver.SwitchTo().Frame("shareFrame");
+            Thread.Sleep(500);
+            //wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("//input[@role='textbox']")));
+            peoplePickerForItemShareInput.Click();
+            peoplePickerForItemShareInput.SendKeys("mzywicki@phkogifi.onmicrosoft.com");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-PeoplePicker-pickerPersona")));
+            resultForPeoplePicker.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("ms-Button--primary")));
+            sendButton.Click();
+            driver.SwitchTo().DefaultContent();
+            Thread.Sleep(1500);
+        }
+        public string NewDocumentLibraryFromHomePageCreation()
+        {
+            Random rnd = new Random();
+            int random = rnd.Next(999999);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='pageCommandBarNewButton']")));
+            newMenuItemFromHomePage.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-ContextualMenu-Callout")));
+            newDocumentLibraryFromHomePageButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-TextField-field")));
+            newListPageNameInput.Click();
+            newListPageNameInput.SendKeys($"testdocumentLibrary{random}");
+            showInLocalNavCheckbox.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//span[@data-automationid='splitbuttonprimary']")));
+            Thread.Sleep(1000);
+            newListButton.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("od-ItemsScopeItemContent-header")));
+            //Thread.Sleep(2500);
+            return $"testlist{random}";
+
+        }
+        public void PageCopyLink(string pageName)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='newCommand']")));
+            switchViewOnSitePagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='switchViewCommand_cf47a07c-e5d4-4f3d-9cb9-a57ba4002b42']")));
+            showAllPagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var row = wait.Until(x => x.FindElement(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var element = row.FindElement(By.XPath(".//button[@data-automationid='FieldRender-DotDotDot']"));
+            Actions action = new Actions(driver);
+            action.MoveToElement(element).Perform();
+            Thread.Sleep(200);
+            element.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='copyLinkCommand']")));
+            copyLinkFromContextMenu.Click();
+            Thread.Sleep(1500);
+
+        }
+        public void PagePinToTopAndUnpinned(string pageName)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='newCommand']")));
+            switchViewOnSitePagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='switchViewCommand_cf47a07c-e5d4-4f3d-9cb9-a57ba4002b42']")));
+            showAllPagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var row = wait.Until(x => x.FindElement(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var element = row.FindElement(By.XPath(".//button[@data-automationid='FieldRender-DotDotDot']"));
+            Actions action = new Actions(driver);
+            action.MoveToElement(element).Perform();
+            Thread.Sleep(200);
+            element.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='copyLinkCommand']")));
+            pinItemFromContextMenu.Click();
+            Thread.Sleep(1500);
+            var spotlightContainer = wait.Until(x => x.FindElement(By.XPath($"//div[starts-with(@class,'spotlightContainer')]")));
+            var elPinned = spotlightContainer.FindElement(By.XPath($".//div[starts-with(@aria-label,'{pageName}')]"));
+            var threeDotMenuButton = elPinned.FindElement(By.XPath($".//span[@data-automationid='splitbuttonprimary']"));
+            action.MoveToElement(elPinned).Perform();
+            Thread.Sleep(200);
+            threeDotMenuButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='editPinnedItemCommand']")));
+            editPinFromContextMenu.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='removePinnedItemCommand']")));
+            unpinFromContextMenu.Click();
+            Thread.Sleep(1000);
+        }
+
+        public void PageMakeHomePage(string pageName)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='newCommand']")));
+            switchViewOnSitePagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='switchViewCommand_cf47a07c-e5d4-4f3d-9cb9-a57ba4002b42']")));
+            showAllPagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var row = wait.Until(x => x.FindElement(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var element = row.FindElement(By.XPath(".//button[@data-automationid='FieldRender-DotDotDot']"));
+            Actions action = new Actions(driver);
+            action.MoveToElement(element).Perform();
+            Thread.Sleep(200);
+            element.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@aria-posinset='15']")));
+            makeHomePageFromContextMenu.Click();
+            Thread.Sleep(1500);
+        }
+        public void PageDelete(string pageName)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='newCommand']")));
+            switchViewOnSitePagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='switchViewCommand_cf47a07c-e5d4-4f3d-9cb9-a57ba4002b42']")));
+            showAllPagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var row = wait.Until(x => x.FindElement(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var element = row.FindElement(By.XPath(".//button[@data-automationid='FieldRender-DotDotDot']"));
+            Actions action = new Actions(driver);
+            action.MoveToElement(element).Perform();
+            Thread.Sleep(200);
+            element.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='deleteCommand']")));
+            deleteFromContextMenu.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automationid='confirmbutton']")));
+            confirmDeletionButton.Click();
+            Thread.Sleep(1500);
         }
     }
 }
