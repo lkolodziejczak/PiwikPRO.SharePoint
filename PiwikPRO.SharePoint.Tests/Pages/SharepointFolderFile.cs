@@ -53,10 +53,10 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@data-automationid='createFolderCommand']")]
         private IWebElement newFolderFromNewMenu;
 
-        [FindsBy(How = How.XPath, Using = "//input[@placeholder='Enter your folder name']")]
+        [FindsBy(How = How.CssSelector, Using = "div[role='dialog'] input")]
         private IWebElement folderfromTopMenuTextInput;
 
-        [FindsBy(How = How.XPath, Using = "//input[@placeholder='Enter a name or email address']")]
+        [FindsBy(How = How.CssSelector, Using = ".od-SendLink-email input")]
         private IWebElement shareWindowInput;
 
         [FindsBy(How = How.ClassName, Using = "ms-Button--primary")]
@@ -158,8 +158,8 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             Thread.Sleep(500);
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='createFolderCommand']")));
             newFolderFromNewMenu.Click();
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter your folder name']")));
-            folderfromTopMenuTextInput.SendKeys("FolderToTest" + DateTime.Now.ToString("hhmmss"));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("div[role='dialog'] input")));
+        folderfromTopMenuTextInput.SendKeys("FolderToTest" + DateTime.Now.ToString("hhmmss"));
             Thread.Sleep(500);
             folderfromTopMenuTextInput.SendKeys(Keys.Enter);
         }
@@ -173,7 +173,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='shareCommand']")));
             fileShareFromTopMenu.Click();
             wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".od-SendLink-email input")));
             Thread.Sleep(300);
             shareWindowInput.SendKeys(shareToWho);
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Suggestions-itemButton")));
@@ -203,7 +203,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             Thread.Sleep(300);
             fileShareFromContextMenu.Click();
             wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".od-SendLink-email input")));
             Thread.Sleep(300);
             shareWindowInput.SendKeys(shareToWho);
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Suggestions-itemButton")));
@@ -229,7 +229,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
                 }
             }
             wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".od-SendLink-email input")));
             Thread.Sleep(300);
             shareWindowInput.SendKeys(shareToWho);
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Suggestions-itemButton")));
@@ -249,7 +249,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='shareCommand']")));
             fileShareFromTopMenu.Click();
             wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".od-SendLink-email input")));
             Thread.Sleep(300);
             shareWindowInput.SendKeys(shareToWho);
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Suggestions-itemButton")));
@@ -279,7 +279,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             Thread.Sleep(300);
             fileShareFromContextMenu.Click();
             wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".od-SendLink-email input")));
             Thread.Sleep(300);
             shareWindowInput.SendKeys(shareToWho);
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Suggestions-itemButton")));
@@ -306,7 +306,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
                 }
             }
             wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Enter a name or email address']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".od-SendLink-email input")));
             Thread.Sleep(300);
             shareWindowInput.SendKeys(shareToWho);
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Suggestions-itemButton")));
