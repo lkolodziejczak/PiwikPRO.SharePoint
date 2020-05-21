@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ConfigValues.cs" />
     <Compile Include="Pages\LoginPage.cs" />
+    <Compile Include="Pages\Search.cs" />
     <Compile Include="Pages\SharepointFolderFile.cs" />
     <Compile Include="Pages\SharepointPage.cs" />
     <Compile Include="Pages\SharepointSitePage.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="PiwikPROWebJobTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeleniumTests\LoginTests.cs" />
+    <Compile Include="SeleniumTests\SearchTests.cs" />
     <Compile Include="SeleniumTests\SharepointFolderFilesTests.cs" />
     <Compile Include="SeleniumTests\SharepointPageTests.cs" />
     <Compile Include="SeleniumTests\SharepointSitePageActionTests.cs" />
