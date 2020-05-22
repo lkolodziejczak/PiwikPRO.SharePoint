@@ -47,7 +47,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 for (int i = 0; i < 30; i++)
                 {
                     searchEvent = jse.ExecuteScript("return dataLayer.find(x => x.event === 'search')");
-                    if (search != null)
+                    if (searchEvent != null)
                     {
                         var json = JsonConvert.SerializeObject(searchEvent);
                         Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
@@ -59,6 +59,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     Thread.Sleep(100);
                 }
                 Assert.NotNull(searchEvent);
+                Assert.NotNull(queryString);
                 Assert.NotNull(count);
                 Assert.NotNull(userLogin);
             }
