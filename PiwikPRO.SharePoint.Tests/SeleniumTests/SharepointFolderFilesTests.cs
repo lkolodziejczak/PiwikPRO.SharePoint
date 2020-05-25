@@ -706,5 +706,50 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(folderTitle);
             Assert.NotNull(whoDeleted);
         }
+        [Test]
+        public void FileUpload()
+        {
+            _webDriver.Navigate().GoToUrl(documentListWithFileUrl);
+            Thread.Sleep(1000);
+            sharePointSite.FileUpload();
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object fileUploaded = null;
+                string userID = null;
+                string libraryName = null;
+                string filesize = null;
+                string folderName = null;
+                string fileUniqueId = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    fileUploaded = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileUploaded')");
+                    if (fileUploaded != null)
+                    {
+                        var json = JsonConvert.SerializeObject(fileUploaded);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("libraryName", out libraryName);
+                        dictionary.TryGetValue("filesize", out filesize);
+                        dictionary.TryGetValue("folderName", out folderName);
+                        dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(fileUploaded);
+                Assert.NotNull(userID);
+                Assert.NotNull(libraryName);
+                Assert.NotNull(filesize);
+                Assert.NotNull(folderName);
+                Assert.NotNull(fileUniqueId);
+
+
+            }
+        }
     }
 }

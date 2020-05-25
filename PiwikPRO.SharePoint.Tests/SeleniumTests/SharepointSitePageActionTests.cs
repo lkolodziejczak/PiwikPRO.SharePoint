@@ -203,45 +203,5 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(commentReplyUrl);
             Assert.NotNull(commentUrl);
         }
-
-        [Test]
-        public void PageViewed()
-        {
-            var sharePointSite = new SharepointSitePage(_webDriver);
-            IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
-            Thread.Sleep(3000);
-
-            object pageView = null;
-            string pageSiteId = null;
-            string pageUrl = null;
-            string pageWebId = null;
-            string pageWebTitle = null;
-            string url = null;
-            string userLogin = null;
-            for (int i = 0; i < 30; i++)
-            {
-                pageView = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageView')");
-                if (pageView != null)
-                {
-                    var json = JsonConvert.SerializeObject(pageView);
-                    Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("pageSiteId", out pageSiteId);
-                    dictionary.TryGetValue("pageUrl", out pageUrl);
-                    dictionary.TryGetValue("pageWebId", out pageWebId);
-                    dictionary.TryGetValue("pageWebTitle", out pageWebTitle);
-                    dictionary.TryGetValue("url", out url);
-                    dictionary.TryGetValue("userLogin", out userLogin);
-                    break;
-                }
-                Thread.Sleep(100);
-            }
-            Assert.NotNull(pageView); 
-            Assert.NotNull(pageSiteId); 
-            Assert.NotNull(pageUrl); 
-            Assert.NotNull(pageWebId); 
-            Assert.NotNull(pageWebTitle); 
-            Assert.NotNull(url); 
-            Assert.NotNull(userLogin); 
-        }
     }
 }

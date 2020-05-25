@@ -1,9 +1,11 @@
-﻿using OpenQA.Selenium;
+﻿using AutoItX3Lib;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -76,6 +78,12 @@ namespace PiwikPRO.SharePoint.Tests.Pages
 
         [FindsBy(How = How.XPath, Using = "//button[@data-automationid='confirmbutton']")]
         private IWebElement folderDeleteContextMenuConfirm;
+
+        [FindsBy(How = How.XPath, Using = "//button[@data-automationid='uploadCommand']")]
+        private IWebElement uploadButton;
+
+        [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='1']")]
+        private IWebElement uploadFileButton;
 
         public SharepointFolderFile(IWebDriver driver)
         {
@@ -445,6 +453,30 @@ namespace PiwikPRO.SharePoint.Tests.Pages
                 }
             }
             return elemToReturn;
+        }
+        public void FileUpload()
+        {
+            Random rnd = new Random();
+            int random = rnd.Next(999999);
+            string tempPath = Path.GetTempPath();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='uploadCommand']")));
+            //var tempFile = File.CreateText($"{tempPath}TempFile{random}.txt");
+            //tempFile.WriteLine("testFile");
+            string tempfile = $"{tempPath}TempFile{random}.txt";
+            File.WriteAllText(tempfile, "testfile");
+            uploadButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@aria-posinset='1']")));
+            uploadFileButton.Click();
+            AutoItX3 autoIt = new AutoItX3();
+            autoIt.WinActivate("Otwieranie");
+            Thread.Sleep(2000);
+            //FileOpen(@ScriptDir & "\TempFile.txt", 1);
+            autoIt.Send(tempfile);
+            Thread.Sleep(2000);
+            autoIt.Send("{ENTER}");
+            Thread.Sleep(2000);
+            File.Delete(tempfile);
         }
     }
 }
