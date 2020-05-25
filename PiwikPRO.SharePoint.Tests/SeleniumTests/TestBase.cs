@@ -23,6 +23,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         public string sitePagesLibrary = "https://phkogifi.sharepoint.com/sites/PH/SitePages/Forms/ByAuthor.aspx";
         public string siteContents = "https://phkogifi.sharepoint.com/sites/PH/_layouts/15/viewlsts.aspx?view=14";
         public string homePage = "https://phkogifi.sharepoint.com/sites/PH/";
+        public string listToTest = "https://phkogifi.sharepoint.com/sites/PH/Lists/testowa%20lista/AllItems.aspx";
 
         public IWebDriver _webDriver;
 

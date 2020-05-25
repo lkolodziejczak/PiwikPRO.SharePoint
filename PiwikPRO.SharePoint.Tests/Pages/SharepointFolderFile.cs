@@ -37,7 +37,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@data-automationid='shareCommand']")]
         private IWebElement fileShareFromTopMenu;
 
-        [FindsBy(How = How.XPath, Using = "//li[@title='Share the selected item with other people']//button[@data-automationid='shareCommand']")]
+        [FindsBy(How = How.XPath, Using = "//li[@role='presentation']//button[@data-automationid='shareCommand']")]
         private IWebElement fileShareFromContextMenu;
 
         [FindsBy(How = How.XPath, Using = "//button[@data-automationid='FieldRender-ShareHero']")]
@@ -207,7 +207,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
                 }
             }
             Thread.Sleep(500);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@title='Share the selected item with other people']//button[@data-automationid='shareCommand']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@role='presentation']//button[@data-automationid='shareCommand']")));
             Thread.Sleep(300);
             fileShareFromContextMenu.Click();
             wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));
@@ -283,7 +283,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
                 }
             }
             Thread.Sleep(500);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@title='Share the selected item with other people']//button[@data-automationid='shareCommand']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@role='presentation']//button[@data-automationid='shareCommand']")));
             Thread.Sleep(300);
             fileShareFromContextMenu.Click();
             wait.Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt("shareFrame"));

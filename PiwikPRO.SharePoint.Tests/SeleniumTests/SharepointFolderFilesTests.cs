@@ -256,7 +256,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                     dictionary.TryGetValue("whoCreated", out whoCreated);
                     dictionary.TryGetValue("whoShared", out whoShared);
-                    dictionary.TryGetValue("filename", out filename);
+                    dictionary.TryGetValue("fileName", out filename);
                     dictionary.TryGetValue("fileExt", out fileExt);
                     dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
                     break;
@@ -298,7 +298,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                     dictionary.TryGetValue("whoCreated", out whoCreated);
                     dictionary.TryGetValue("whoShared", out whoShared);
-                    dictionary.TryGetValue("filename", out filename);
+                    dictionary.TryGetValue("fileName", out filename);
                     dictionary.TryGetValue("fileExt", out fileExt);
                     dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
                     break;
@@ -340,7 +340,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                     dictionary.TryGetValue("whoCreated", out whoCreated);
                     dictionary.TryGetValue("whoShared", out whoShared);
-                    dictionary.TryGetValue("filename", out filename);
+                    dictionary.TryGetValue("fileName", out filename);
                     dictionary.TryGetValue("fileExt", out fileExt);
                     dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
                     break;
