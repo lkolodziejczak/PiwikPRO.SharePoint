@@ -1196,6 +1196,121 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             }
         }
+        [Test]
+        public void PageView()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pageViewEnrichment = null;
+                string jobTitle = null;
+                string pageID = null;
+                string pageUrl = null;
+                string pageWebId = null;
+                string pageWebTitle = null;
+                string sitecolectionID = null;
+                string sitecolletionTitle = null;
+                string userDepartment = null;
+                string userID = null;
+                string userOffice = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    pageViewEnrichment = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageViewEnrichment')");
+                    if (pageViewEnrichment != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageViewEnrichment);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("jobTitle", out jobTitle);
+                        dictionary.TryGetValue("pageID", out pageID);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageWebId", out pageWebId);
+                        dictionary.TryGetValue("pageWebTitle", out pageWebTitle);
+                        dictionary.TryGetValue("sitecolectionID", out sitecolectionID);
+                        dictionary.TryGetValue("sitecolletionTitle", out sitecolletionTitle);
+                        dictionary.TryGetValue("userDepartment", out userDepartment);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("userOffice", out userOffice);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pageViewEnrichment);
+                //Assert.NotNull(jobTitle);
+                Assert.NotNull(pageID);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageWebId);
+                Assert.NotNull(pageWebTitle);
+                Assert.NotNull(sitecolectionID);
+                Assert.NotNull(sitecolletionTitle);
+                //Assert.NotNull(userDepartment);
+                Assert.NotNull(userID);
+                //Assert.NotNull(userOffice);
+
+            }
+        }
+        [Test]
+        public void ListView()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            sharePointSite.NewListFromHomePageCreation();
+            //Thread.Sleep(1000);
+            //sharePointSite.NewListItemCreation();
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object listViewEnrichment = null;
+                string jobTitle = null;
+                string listUrl = null;
+                string listWebId = null;
+                string listWebTitle = null;
+                string sitecolectionID = null;
+                string sitecolletionTitle = null;
+                string userDepartment = null;
+                string userID = null;
+                string userOffice = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    listViewEnrichment = jse.ExecuteScript("return dataLayer.find(x => x.event === 'listViewEnrichment')");
+                    if (listViewEnrichment != null)
+                    {
+                        var json = JsonConvert.SerializeObject(listViewEnrichment);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("jobTitle", out jobTitle);
+                        dictionary.TryGetValue("listUrl", out listUrl);
+                        dictionary.TryGetValue("listWebId", out listWebId);
+                        dictionary.TryGetValue("listWebTitle", out listWebTitle);
+                        dictionary.TryGetValue("sitecolectionID", out sitecolectionID);
+                        dictionary.TryGetValue("sitecolletionTitle", out sitecolletionTitle);
+                        dictionary.TryGetValue("userDepartment", out userDepartment);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("userOffice", out userOffice);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(listViewEnrichment);
+                //Assert.NotNull(jobTitle);
+                //Assert.NotNull(pageID);
+                Assert.NotNull(listUrl);
+                Assert.NotNull(listWebId);
+                Assert.NotNull(listWebTitle);
+                Assert.NotNull(sitecolectionID);
+                Assert.NotNull(sitecolletionTitle);
+                //Assert.NotNull(userDepartment);
+                Assert.NotNull(userID);
+                //Assert.NotNull(userOffice);
+
+            }
+        }
 
     }
 }
