@@ -25,6 +25,9 @@ namespace PiwikPRO.SharePoint.Tests.Lists
         [FindsBy(How = How.XPath, Using = "//button[@data-automationid='ReactClientFormSaveButton']")]
         private IWebElement saveButton;
 
+        [FindsBy(How = How.XPath, Using = "//button//span//i[@data-icon-name='Save']")]
+        private IWebElement saveTopButton;
+
         public SharepointList(IWebDriver driver)
         {
             this.driver = driver;
@@ -50,6 +53,18 @@ namespace PiwikPRO.SharePoint.Tests.Lists
             inputText.SendKeys("listitemToTest" + DateTime.Now.ToString("hhmmss"));
             Thread.Sleep(1000);
             saveButton.Click();
+        }
+
+        public void AddNewItemFromTopSave()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button//span//i[@data-icon-name='CalculatorAddition']")));
+            newButton.Click();
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@type='text'][@aria-required='true'][@aria-invalid='false']")));
+            inputText.SendKeys("listitemToTest" + DateTime.Now.ToString("hhmmss"));
+            Thread.Sleep(1000);
+            saveTopButton.Click();
         }
     }
 }
