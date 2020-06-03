@@ -15,6 +15,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 {
     class TestBase
     {
+        //Modern
         public string sharepointUserToTest = "mzywicki@phkogifi.onmicrosoft.com";
         public string sharepointUserPasswordToTest = "SAqa@2018b44c";
         public string testPageUrl = "https://phkogifi.sharepoint.com/sites/PH/SitePages/Test-Page.aspx";
@@ -24,6 +25,12 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         public string siteContents = "https://phkogifi.sharepoint.com/sites/PH/_layouts/15/viewlsts.aspx?view=14";
         public string homePage = "https://phkogifi.sharepoint.com/sites/PH/";
         public string listToTest = "https://phkogifi.sharepoint.com/sites/PH/Lists/testowa%20lista/AllItems.aspx";
+
+        //Classic
+        public string homePageClassic = "https://phkogifi.sharepoint.com/sites/PH/ClassicExp";
+        public string listToTestClassic = "https://phkogifi.sharepoint.com/sites/PH/ClassicExp/Lists/testList/AllItems.aspx";
+        public string documentListClassic = "https://phkogifi.sharepoint.com/sites/PH/ClassicExp/Shared%20Documents";
+
 
         public IWebDriver _webDriver;
 
