@@ -63,6 +63,7 @@
     <Compile Include="Pages\SharepointClassicLists.cs" />
     <Compile Include="Pages\SharepointFolderFile.cs" />
     <Compile Include="Pages\SharepointList.cs" />
+    <Compile Include="Pages\SharepointClassic.cs" />
     <Compile Include="Pages\SharepointPage.cs" />
     <Compile Include="Pages\SharepointSitePage.cs" />
     <Compile Include="PiwikPROConfigServerTests.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="SeleniumTests\SharepointClassicListsTests.cs" />
     <Compile Include="SeleniumTests\SharepointFolderFilesTests.cs" />
     <Compile Include="SeleniumTests\SharepointListTests.cs" />
+    <Compile Include="SeleniumTests\SharepointClassicTests.cs" />
     <Compile Include="SeleniumTests\SharepointPageTests.cs" />
     <Compile Include="SeleniumTests\SharepointSitePageActionTests.cs" />
     <Compile Include="SeleniumTests\TestBase.cs" />
