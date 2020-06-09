@@ -45,7 +45,10 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         public void SetUp()
         {
             new DriverManager().SetUpDriver(new ChromeConfig());
-            _webDriver = new ChromeDriver();
+            var driverService = ChromeDriverService.CreateDefaultService();
+            driverService.HideCommandPromptWindow = true;
+
+            _webDriver = new ChromeDriver(driverService, new ChromeOptions(), TimeSpan.FromSeconds(120));
            
             _webDriver.Manage().Window.Maximize();
 

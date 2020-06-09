@@ -60,6 +60,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("#i0116"))); //waiting for "next" button
             TypeEmail(login);
             ClickNextButton();
+            Thread.Sleep(1000);
             TypePassword(password);
             Thread.Sleep(1000);
             ClickNextButton();

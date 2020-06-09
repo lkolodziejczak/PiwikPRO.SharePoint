@@ -192,16 +192,26 @@ namespace PiwikPRO.SharePoint.Tests.Pages
 
         [FindsBy(How = How.XPath, Using = "//button[@data-automationid='switchViewCommand_cf47a07c-e5d4-4f3d-9cb9-a57ba4002b42']")]
         private IWebElement showAllPagesButton;
+
+        [FindsBy(How = How.XPath, Using = "//li[contains(@id,'WikiPageTab-title')]")]
+        private IWebElement startRibbonPageLi;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@aria-describedby,'Edit_ToolTip')]")]
+        private IWebElement editRibbonPage;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@aria-describedby,'SaveAndStop_ToolTip')]")]
+        private IWebElement saveFirstRibbonPage;
+
         public SharepointPage(IWebDriver driver)
         {
             this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
-        public void WikiPageCreation()
+        public string WikiPageCreation()
         {
             Random rnd = new Random();
             int random = rnd.Next(999999);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='newCommand']")));
             newMenuItem.Click();
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-ContextualMenu-Callout")));
@@ -211,6 +221,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             newWikiPageNameInput.SendKeys($"WikiPageTest{random}");
             Thread.Sleep(500);
             submitNewWikiPageButton.Click();
+            return $"WikiPageTest{random}";
         }
         public void WebPartPageCreation()
         {
@@ -274,6 +285,19 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             publishButton.Click();
             Thread.Sleep(1000);
             return $"SitePageTest{random}";
+        }
+
+        public void PageEditedFirstSaveFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+           // wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@aria-describedby,'Edit_ToolTip')]")));
+            //editRibbonPage.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@aria-describedby,'SaveAndStop_ToolTip')]")));
+            saveFirstRibbonPage.Click();
         }
         public void ReloadPageClickPromoteButton()
         {
