@@ -202,6 +202,12 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//a[contains(@aria-describedby,'SaveAndStop_ToolTip')]")]
         private IWebElement saveFirstRibbonPage;
 
+        [FindsBy(How = How.XPath, Using = "//span[contains(@id,'SaveEdit-Large')]/a")]
+        private IWebElement saveDropDown;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@id,'SaveAndStop-Menu')]")]
+        private IWebElement saveAndStopMenu;
+
         public SharepointPage(IWebDriver driver)
         {
             this.driver = driver;
@@ -294,10 +300,22 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             WikiPageCreation();
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
             startRibbonPageLi.Click();
-           // wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@aria-describedby,'Edit_ToolTip')]")));
-            //editRibbonPage.Click();
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@aria-describedby,'SaveAndStop_ToolTip')]")));
             saveFirstRibbonPage.Click();
+        }
+
+        public void PageEditedSecondSaveFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//span[contains(@id,'SaveEdit-Large')]/a")));
+            saveDropDown.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@id,'SaveAndStop-Menu')]")));
+            saveAndStopMenu.Click();
         }
         public void ReloadPageClickPromoteButton()
         {
