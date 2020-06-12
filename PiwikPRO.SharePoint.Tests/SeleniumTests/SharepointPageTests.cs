@@ -617,6 +617,80 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         }
 
         [Test]
+        public void PageEditedSaveAndPublishFromTopBar()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PageEditedSaveAndPublishFromTopBar(sitePagesLibrary);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pageEdited = null;
+                string whoEdited = null;
+                string pageTitle = null;
+                string typeOfContent = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pageEdited = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageEdited')");
+                    if (pageEdited != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageEdited);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("whoEdited", out whoEdited);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("typeOfContent", out typeOfContent);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pageEdited);
+                Assert.NotNull(whoEdited);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(typeOfContent);
+            }
+        }
+
+        [Test]
+        public void PageEditedThirdSaveFromTopBar()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.PageEditedThirdSaveFromTopBar(sitePagesLibrary);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pageEdited = null;
+                string whoEdited = null;
+                string pageTitle = null;
+                string typeOfContent = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pageEdited = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageEdited')");
+                    if (pageEdited != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageEdited);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("whoEdited", out whoEdited);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("typeOfContent", out typeOfContent);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pageEdited);
+                Assert.NotNull(whoEdited);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(typeOfContent);
+            }
+        }
+
+        [Test]
         public void PromoteAddPageToNavigation()
         {
             _webDriver.Navigate().GoToUrl(homePage);

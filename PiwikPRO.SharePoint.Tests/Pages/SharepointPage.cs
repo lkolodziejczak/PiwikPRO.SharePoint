@@ -208,6 +208,12 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//a[contains(@id,'SaveAndStop-Menu')]")]
         private IWebElement saveAndStopMenu;
 
+        [FindsBy(How = How.XPath, Using = "//a[contains(@aria-describedby,'SaveAndPublish_ToolTip')]")]
+        private IWebElement saveAndPublishButtonFromMenu;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@id,'EditAndCheckout.SaveEdit.Menu.SaveEdit.Save-Menu')]")]
+        private IWebElement saveAndKeepEditingMenu;
+
         public SharepointPage(IWebDriver driver)
         {
             this.driver = driver;
@@ -317,6 +323,35 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@id,'SaveAndStop-Menu')]")));
             saveAndStopMenu.Click();
         }
+
+        public void PageEditedSaveAndPublishFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@aria-describedby,'SaveAndPublish_ToolTip')]")));
+            saveAndPublishButtonFromMenu.Click();
+        }
+
+        public void PageEditedThirdSaveFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//span[contains(@id,'SaveEdit-Large')]/a")));
+            saveDropDown.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@id,'EditAndCheckout.SaveEdit.Menu.SaveEdit.Save-Menu')]")));
+            saveAndKeepEditingMenu.Click();
+            Thread.Sleep(5000);
+            driver.Navigate().Refresh();
+        }
+
         public void ReloadPageClickPromoteButton()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
