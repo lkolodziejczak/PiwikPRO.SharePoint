@@ -214,6 +214,15 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//a[contains(@id,'EditAndCheckout.SaveEdit.Menu.SaveEdit.Save-Menu')]")]
         private IWebElement saveAndKeepEditingMenu;
 
+        [FindsBy(How = How.ClassName, Using = "ms-rte-layoutszone-inner-editable")]
+        private IWebElement textBoxToEditOnWikiPage;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@id,'EditAndCheckout.SaveEdit.Menu.SaveEdit.StopEditing')]")]
+        private IWebElement saveAndStopEditing;
+
+        [FindsBy(How = How.XPath, Using = "//input[contains(@id,'SaveDlgYes')]")]
+        private IWebElement saveDialogEditing;
+
         public SharepointPage(IWebDriver driver)
         {
             this.driver = driver;
@@ -350,6 +359,27 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             saveAndKeepEditingMenu.Click();
             Thread.Sleep(5000);
             driver.Navigate().Refresh();
+        }
+
+        public void PageEditedFourthStopEditingSaveFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-rte-layoutszone-inner-editable")));
+            textBoxToEditOnWikiPage.SendKeys("a");
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//span[contains(@id,'SaveEdit-Large')]/a")));
+            saveDropDown.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@id,'EditAndCheckout.SaveEdit.Menu.SaveEdit.StopEditing')]")));
+            saveAndStopEditing.Click();
+            driver.SwitchTo().ParentFrame();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[contains(@id,'SaveDlgYes')]")));
+            saveDialogEditing.Click();
         }
 
         public void ReloadPageClickPromoteButton()
