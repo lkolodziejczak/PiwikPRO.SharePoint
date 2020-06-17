@@ -76,6 +76,9 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='3']")]
         private IWebElement sitePageFromHomePageButton;
 
+        [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='4']")]
+        private IWebElement newsPostFromHomePageButton;
+
         [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='5']")]
         private IWebElement newsLinkFromHomePageButton;
 
@@ -192,16 +195,47 @@ namespace PiwikPRO.SharePoint.Tests.Pages
 
         [FindsBy(How = How.XPath, Using = "//button[@data-automationid='switchViewCommand_cf47a07c-e5d4-4f3d-9cb9-a57ba4002b42']")]
         private IWebElement showAllPagesButton;
+
+        [FindsBy(How = How.XPath, Using = "//li[contains(@id,'WikiPageTab-title')]")]
+        private IWebElement startRibbonPageLi;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@aria-describedby,'Edit_ToolTip')]")]
+        private IWebElement editRibbonPage;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@aria-describedby,'SaveAndStop_ToolTip')]")]
+        private IWebElement saveFirstRibbonPage;
+
+        [FindsBy(How = How.XPath, Using = "//span[contains(@id,'SaveEdit-Large')]/a")]
+        private IWebElement saveDropDown;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@id,'SaveAndStop-Menu')]")]
+        private IWebElement saveAndStopMenu;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@aria-describedby,'SaveAndPublish_ToolTip')]")]
+        private IWebElement saveAndPublishButtonFromMenu;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@id,'EditAndCheckout.SaveEdit.Menu.SaveEdit.Save-Menu')]")]
+        private IWebElement saveAndKeepEditingMenu;
+
+        [FindsBy(How = How.ClassName, Using = "ms-rte-layoutszone-inner-editable")]
+        private IWebElement textBoxToEditOnWikiPage;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@id,'EditAndCheckout.SaveEdit.Menu.SaveEdit.StopEditing')]")]
+        private IWebElement saveAndStopEditing;
+
+        [FindsBy(How = How.XPath, Using = "//input[contains(@id,'SaveDlgYes')]")]
+        private IWebElement saveDialogEditing;
+
         public SharepointPage(IWebDriver driver)
         {
             this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
-        public void WikiPageCreation()
+        public string WikiPageCreation()
         {
             Random rnd = new Random();
             int random = rnd.Next(999999);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='newCommand']")));
             newMenuItem.Click();
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-ContextualMenu-Callout")));
@@ -211,6 +245,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             newWikiPageNameInput.SendKeys($"WikiPageTest{random}");
             Thread.Sleep(500);
             submitNewWikiPageButton.Click();
+            return $"WikiPageTest{random}";
         }
         public void WebPartPageCreation()
         {
@@ -275,6 +310,102 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             Thread.Sleep(1000);
             return $"SitePageTest{random}";
         }
+
+        public string NewsPostFromHomePageCreation()
+        {
+            Random rnd = new Random();
+            int random = rnd.Next(999999);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='pageCommandBarNewButton']")));
+            newMenuItemFromHomePage.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-ContextualMenu-Callout")));
+            newsPostFromHomePageButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='template-panel-create-button']")));
+            createPageButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@data-automation-id='pageTitleInput']")));
+            newSitePageNameInput.SendKeys(Keys.Tab);
+            newSitePageNameInput.Clear();
+            newSitePageNameInput.SendKeys($"NewsPostTest{random}");
+            Thread.Sleep(1000);
+            publishButton.Click();
+            Thread.Sleep(1000);
+            return $"NewsPostTest{random}";
+        }
+
+        public void PageEditedFirstSaveFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@aria-describedby,'SaveAndStop_ToolTip')]")));
+            saveFirstRibbonPage.Click();
+        }
+
+        public void PageEditedSecondSaveFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//span[contains(@id,'SaveEdit-Large')]/a")));
+            saveDropDown.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@id,'SaveAndStop-Menu')]")));
+            saveAndStopMenu.Click();
+        }
+
+        public void PageEditedSaveAndPublishFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@aria-describedby,'SaveAndPublish_ToolTip')]")));
+            saveAndPublishButtonFromMenu.Click();
+        }
+
+        public void PageEditedThirdSaveFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//span[contains(@id,'SaveEdit-Large')]/a")));
+            saveDropDown.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@id,'EditAndCheckout.SaveEdit.Menu.SaveEdit.Save-Menu')]")));
+            saveAndKeepEditingMenu.Click();
+            Thread.Sleep(5000);
+            driver.Navigate().Refresh();
+        }
+
+        public void PageEditedFourthStopEditingSaveFromTopBar(string sitePagesLibrary)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(sitePagesLibrary);
+            WikiPageCreation();
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-rte-layoutszone-inner-editable")));
+            textBoxToEditOnWikiPage.SendKeys("a");
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@id,'WikiPageTab-title')]")));
+            startRibbonPageLi.Click();
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//span[contains(@id,'SaveEdit-Large')]/a")));
+            saveDropDown.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@id,'EditAndCheckout.SaveEdit.Menu.SaveEdit.StopEditing')]")));
+            saveAndStopEditing.Click();
+            driver.SwitchTo().ParentFrame();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[contains(@id,'SaveDlgYes')]")));
+            saveDialogEditing.Click();
+        }
+
         public void ReloadPageClickPromoteButton()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
