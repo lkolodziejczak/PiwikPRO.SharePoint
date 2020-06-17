@@ -37,6 +37,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         public string homePageClassic = "https://phkogifi.sharepoint.com/sites/PH/ClassicExp";
         public string listToTestClassic = "https://phkogifi.sharepoint.com/sites/PH/ClassicExp/Lists/testList/AllItems.aspx";
         public string documentListClassic = "https://phkogifi.sharepoint.com/sites/PH/ClassicExp/Shared%20Documents";
+        public string sitePagesLibraryClassic = "https://phkogifi.sharepoint.com/sites/PH/ClassicExp/SitePages";
 
 
         public IWebDriver _webDriver;
