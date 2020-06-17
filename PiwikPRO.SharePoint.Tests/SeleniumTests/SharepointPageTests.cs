@@ -250,6 +250,56 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(contentType);
             }
         }
+
+        [Test]
+        public void NewsPostFromHomePageCreation()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            sharePointSite.NewsPostFromHomePageCreation();
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pageCreated = null;
+                string fileId = null;
+                string fileUrl = null;
+                string contentTypeId = null;
+                string listId = null;
+                string pageTitle = null;
+                string createdBy = null;
+                string contentType = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    pageCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'newsPost')");
+                    if (pageCreated != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageCreated);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("fileId", out fileId);
+                        dictionary.TryGetValue("fileUrl", out fileUrl);
+                        dictionary.TryGetValue("contentTypeId", out contentTypeId);
+                        dictionary.TryGetValue("listId", out listId);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("createdBy", out createdBy);
+                        dictionary.TryGetValue("contentType", out contentType);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pageCreated);
+                Assert.NotNull(fileId);
+                Assert.NotNull(fileUrl);
+                Assert.NotNull(contentTypeId);
+                Assert.NotNull(listId);
+                Assert.NotNull(pageTitle);
+                Assert.NotNull(createdBy);
+                Assert.NotNull(contentType);
+            }
+        }
+
         [Test]
         public void NewsLinkFromHomePageCreation()
         {

@@ -76,6 +76,9 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='3']")]
         private IWebElement sitePageFromHomePageButton;
 
+        [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='4']")]
+        private IWebElement newsPostFromHomePageButton;
+
         [FindsBy(How = How.XPath, Using = "//button[@aria-posinset='5']")]
         private IWebElement newsLinkFromHomePageButton;
 
@@ -306,6 +309,27 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             publishButton.Click();
             Thread.Sleep(1000);
             return $"SitePageTest{random}";
+        }
+
+        public string NewsPostFromHomePageCreation()
+        {
+            Random rnd = new Random();
+            int random = rnd.Next(999999);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='pageCommandBarNewButton']")));
+            newMenuItemFromHomePage.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-ContextualMenu-Callout")));
+            newsPostFromHomePageButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='template-panel-create-button']")));
+            createPageButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@data-automation-id='pageTitleInput']")));
+            newSitePageNameInput.SendKeys(Keys.Tab);
+            newSitePageNameInput.Clear();
+            newSitePageNameInput.SendKeys($"NewsPostTest{random}");
+            Thread.Sleep(1000);
+            publishButton.Click();
+            Thread.Sleep(1000);
+            return $"NewsPostTest{random}";
         }
 
         public void PageEditedFirstSaveFromTopBar(string sitePagesLibrary)
