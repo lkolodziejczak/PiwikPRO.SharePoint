@@ -33,6 +33,15 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//input[@value='Cancel']")]
         private IWebElement inputCancelButton;
 
+        [FindsBy(How = How.XPath, Using = "//button[@id='O365_MainLink_Settings']")]
+        private IWebElement settingsButton;
+
+        [FindsBy(How = How.XPath, Using = "//a[@id='SuiteMenu_LibrarySettings']")]
+        private IWebElement listSettingsButton;
+
+        [FindsBy(How = How.XPath, Using = "//a[@id='ctl00_PlaceHolderMain_ctl10_RptControls_onetidListEdit2']")]
+        private IWebElement listDeleteButton;
+
         public SharepointClassicLists(IWebDriver driver)
         {
             this.driver = driver;
@@ -81,6 +90,22 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             inputTextCreateList.SendKeys(DateTime.Now.ToString("hhmm") + "ClassicTestLibAdv");
             Thread.Sleep(500);
             inputTextCreateList.SendKeys(Keys.Enter);
+        }
+        public void DeleteClassicList()
+        {
+            CreateClassicListFromSiteContentsAdvancedMode();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@id='O365_MainLink_Settings']")));
+            settingsButton.Click();
+            Thread.Sleep(1500);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[@id='SuiteMenu_LibrarySettings']")));
+            listSettingsButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[@id='ctl00_PlaceHolderMain_ctl10_RptControls_onetidListEdit2']")));
+            listDeleteButton.Click();
+            Thread.Sleep(1000);
+            driver.SwitchTo().Alert().SendKeys(Keys.Enter);
+
         }
 
         public void CreateClassicLibraryFromSiteContents()
