@@ -104,7 +104,8 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[@id='ctl00_PlaceHolderMain_ctl10_RptControls_onetidListEdit2']")));
             listDeleteButton.Click();
             Thread.Sleep(1000);
-            driver.SwitchTo().Alert().SendKeys(Keys.Enter);
+            var securityWindow = driver.SwitchTo().Alert();
+            securityWindow.Accept();
 
         }
 
