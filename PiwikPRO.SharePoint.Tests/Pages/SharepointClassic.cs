@@ -198,8 +198,6 @@ namespace PiwikPRO.SharePoint.Tests.Classic
             newPageNameInput.SendKeys($"testPage{random}");
             Thread.Sleep(500);
             newPageButton.Click();
-            //wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Ribbon.EditingTools.CPEditTab.EditAndCheckout.SaveEdit-SelectedItem")));
-            //saveOnRibbonPageButton.Click();
             Thread.Sleep(3000);
             return $"testPage{random}";
         }
@@ -347,6 +345,54 @@ namespace PiwikPRO.SharePoint.Tests.Classic
             IWebElement threeDotsFromPopUp = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".js-callout-ecbActionDownArrow")));
             threeDotsFromPopUp.Click();
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-contextmenu-list")));
+            IWebElement menu = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@aria-label='Share']")));
+            action.MoveToElement(menu);
+            menu.Click();
+            IWebElement peoplePickerDiv = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan")));
+            action.MoveToElement(peoplePickerDiv);
+            peoplePickerDiv.Click();
+            IWebElement peoplePickerInput = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan_EditorInput")));
+            action.MoveToElement(peoplePickerInput);
+            Thread.Sleep(500);
+            peoplePickerInput.SendKeys("mzywicki");
+            IWebElement peoplePickerResultContainer = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan_AutoFillDiv")));
+            peoplePickerResultContainer.Click();
+            shareButton.Click();
+            Thread.Sleep(3000);
+        }
+        public void ListItemSharedContextMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            var item = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("tbody > tr > td > div > a")));
+            IWebElement row = item.FindElement(By.XPath(".."));
+            Thread.Sleep(1000);
+            Actions action = new Actions(driver);
+            action.ContextClick(row).Perform();
+            IWebElement menu = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@aria-label='Share']")));
+            action.MoveToElement(menu);
+            menu.Click();
+            IWebElement peoplePickerDiv = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan")));
+            action.MoveToElement(peoplePickerDiv);
+            peoplePickerDiv.Click();
+            IWebElement peoplePickerInput = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan_EditorInput")));
+            action.MoveToElement(peoplePickerInput);
+            Thread.Sleep(500);
+            peoplePickerInput.SendKeys("mzywicki");
+            IWebElement peoplePickerResultContainer = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan_AutoFillDiv")));
+            peoplePickerResultContainer.Click();
+            shareButton.Click();
+            Thread.Sleep(3000);
+        }
+        public void ListItemSharedThreeDotsMenu()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement item = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("tbody > tr > td > div > a")));
+            IWebElement parent = item.FindElement(By.XPath("../../.."));
+            IWebElement threeDotsButton = parent.FindElement(By.XPath(".//div[starts-with(@class,'ms-list-itemLink')]"));
+            threeDotsButton.Click();
+            Thread.Sleep(1000);
+            Actions action = new Actions(driver);
+            //action.ContextClick(parent).Perform();
             IWebElement menu = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@aria-label='Share']")));
             action.MoveToElement(menu);
             menu.Click();
