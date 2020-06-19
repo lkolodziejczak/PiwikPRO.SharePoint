@@ -183,5 +183,43 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             }
         }
 
+        [Test]
+        public void DeleteClassicListFromListSettings()
+        {
+            spList.DeleteClassicList();
+            {
+                var search2 = new Search(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object listDeletedEvent = null;
+                string listId = null;
+                string listTitle = null;
+                string listUrl = null;
+                string deletedBy = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    listDeletedEvent = jse.ExecuteScript("return dataLayer.find(x => x.event === 'listDeleted')");
+                    if (listDeletedEvent != null)
+                    {
+                        var json = JsonConvert.SerializeObject(listDeletedEvent);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("listId", out listId);
+                        dictionary.TryGetValue("listTitle", out listTitle);
+                        dictionary.TryGetValue("listUrl", out listUrl);
+                        dictionary.TryGetValue("deletedBy", out deletedBy);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(listDeletedEvent);
+                Assert.NotNull(listId);
+                Assert.NotNull(listTitle);
+                Assert.NotNull(listUrl);
+                Assert.NotNull(deletedBy);
+            }
+        }
+
     }
 }
