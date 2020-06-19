@@ -226,6 +226,59 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(userID);
             }
         }
+
+        [Test]
+        public void FolderCreatedFromRibbon()
+        {
+            _webDriver.Navigate().GoToUrl(documentListClassic);
+            sharePointSite.FolderCreatedFromRibbon();
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object folderCreated = null;
+                string contentType = null;
+                string createdBy = null;
+                string folderId = null;
+                string folderName = null;
+                string folderTitle = null;
+                string folderUniqueId = null;
+                string folderUrl = null;
+                string userID = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    folderCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderCreated')");
+                    if (folderCreated != null)
+                    {
+                        var json = JsonConvert.SerializeObject(folderCreated);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("contentType", out contentType);
+                        dictionary.TryGetValue("createdBy", out createdBy);
+                        dictionary.TryGetValue("folderId", out folderId);
+                        dictionary.TryGetValue("folderName", out folderName);
+                        dictionary.TryGetValue("folderTitle", out folderTitle);
+                        dictionary.TryGetValue("folderUniqueId", out folderUniqueId);
+                        dictionary.TryGetValue("folderUrl", out folderUrl);
+                        dictionary.TryGetValue("userID", out userID);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(folderCreated);
+                Assert.NotNull(contentType);
+                Assert.NotNull(createdBy);
+                Assert.NotNull(folderId);
+                Assert.NotNull(folderName);
+                //Assert.NotNull(folderTitle);
+                Assert.NotNull(folderUniqueId);
+                Assert.NotNull(folderUrl);
+                Assert.NotNull(userID);
+            }
+        }
+
         [Test]
         public void FileOpened()
         {

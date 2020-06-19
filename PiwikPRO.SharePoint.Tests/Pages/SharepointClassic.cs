@@ -80,6 +80,12 @@ namespace PiwikPRO.SharePoint.Tests.Classic
         [FindsBy(How = How.Id, Using = "btnShare")]
         private IWebElement shareButton;
 
+        [FindsBy(How = How.XPath, Using = "//a[@title='Files']")]
+        private IWebElement ribbonFiles;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@id, 'NewFolder-Large')]")]
+        private IWebElement newFolderButtonFromRibbon;
+
         public SharepointClassic(IWebDriver driver)
         {
             this.driver = driver;
@@ -158,6 +164,25 @@ namespace PiwikPRO.SharePoint.Tests.Classic
             Thread.Sleep(500);
             return $"testfolder{random}";
         }
+
+        public string FolderCreatedFromRibbon()
+        {
+            Random rnd = new Random();
+            int random = rnd.Next(999999);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//a[@title='Files']")));
+            ribbonFiles.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@id, 'NewFolder-Large')]")));
+            newFolderButtonFromRibbon.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.Id("ccfc_folderNameInput_0_onetidIOFile")));
+            newFolderNameInput.Click();
+            newFolderNameInput.SendKeys($"testfolder{random}");
+            Thread.Sleep(1500);
+            newFolderCreateButton.Click();
+            Thread.Sleep(500);
+            return $"testfolder{random}";
+        }
+
         public void FileCreated()
         {
             Random rnd = new Random();
