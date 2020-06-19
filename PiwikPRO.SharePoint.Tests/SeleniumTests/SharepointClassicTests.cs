@@ -786,5 +786,88 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(whoCreated);
             }
         }
+
+        [Test]
+        public void ListItemSharedContextMenu()
+        {
+            _webDriver.Navigate().GoToUrl(listToTestClassic);
+            sharePointSite.ListItemSharedContextMenu();
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object itemShared = null;
+                string docLocalizaton = null;
+                string fileName = null;
+                string filesize = null;
+                string userID = null;
+                string whoCreated = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    itemShared = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemShared')");
+                    if (itemShared != null)
+                    {
+                        var json = JsonConvert.SerializeObject(itemShared);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
+                        dictionary.TryGetValue("fileName", out fileName);
+                        dictionary.TryGetValue("filesize", out filesize);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("whoCreated", out whoCreated);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(itemShared);
+                Assert.NotNull(docLocalizaton);
+                Assert.NotNull(fileName);
+                Assert.NotNull(filesize);
+                Assert.NotNull(userID);
+                Assert.NotNull(whoCreated);
+            }
+        }
+        [Test]
+        public void ListItemSharedThreeDotsMenu()
+        {
+            _webDriver.Navigate().GoToUrl(listToTestClassic);
+            sharePointSite.ListItemSharedThreeDotsMenu();
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object itemShared = null;
+                string docLocalizaton = null;
+                string fileName = null;
+                string filesize = null;
+                string userID = null;
+                string whoCreated = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    itemShared = jse.ExecuteScript("return dataLayer.find(x => x.event === 'itemShared')");
+                    if (itemShared != null)
+                    {
+                        var json = JsonConvert.SerializeObject(itemShared);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
+                        dictionary.TryGetValue("fileName", out fileName);
+                        dictionary.TryGetValue("filesize", out filesize);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("whoCreated", out whoCreated);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(itemShared);
+                Assert.NotNull(docLocalizaton);
+                Assert.NotNull(fileName);
+                Assert.NotNull(filesize);
+                Assert.NotNull(userID);
+                Assert.NotNull(whoCreated);
+            }
+        }
     }
 }
