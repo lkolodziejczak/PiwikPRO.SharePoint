@@ -160,8 +160,6 @@ namespace PiwikPRO.SharePoint.Tests.Classic
         }
         public void FileCreated()
         {
-            Random rnd = new Random();
-            int random = rnd.Next(999999);
             string folderName = this.FolderCreated();
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             var folder = wait.Until(x => x.FindElement(By.XPath($"//a[starts-with(@aria-label,'{folderName}')]")));
@@ -176,8 +174,6 @@ namespace PiwikPRO.SharePoint.Tests.Classic
         }
         public void FileOpened()
         {
-            Random rnd = new Random();
-            int random = rnd.Next(999999);
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("QCB1_Button1")));
             driver.Navigate().Refresh();
@@ -392,7 +388,6 @@ namespace PiwikPRO.SharePoint.Tests.Classic
             threeDotsButton.Click();
             Thread.Sleep(1000);
             Actions action = new Actions(driver);
-            //action.ContextClick(parent).Perform();
             IWebElement menu = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@aria-label='Share']")));
             action.MoveToElement(menu);
             menu.Click();
@@ -407,6 +402,73 @@ namespace PiwikPRO.SharePoint.Tests.Classic
             peoplePickerResultContainer.Click();
             shareButton.Click();
             Thread.Sleep(3000);
+        }
+        public void FileDownloaded()
+        {
+            this.FileCreated();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("QCB1_Button1")));
+            driver.Navigate().Refresh();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("QCB1_Button1")));
+            Actions action = new Actions(driver);
+            action.ContextClick(fileItem).Perform();
+            IWebElement downloadContextMenuButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//li[@aria-label='Download']")));
+            downloadContextMenuButton.Click();
+
+            Thread.Sleep(1000);
+        }
+        public void FileSharedContextMenu()
+        {
+            this.FileCreated();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("QCB1_Button1")));
+            driver.Navigate().Refresh();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("QCB1_Button1")));
+            Actions action = new Actions(driver);
+            action.ContextClick(fileItem).Perform();
+            IWebElement shareContextMenuButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//li[@aria-label='Share']")));
+            shareContextMenuButton.Click();
+            IWebElement peoplePickerDiv = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan")));
+            action.MoveToElement(peoplePickerDiv);
+            peoplePickerDiv.Click();
+            IWebElement peoplePickerInput = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan_EditorInput")));
+            action.MoveToElement(peoplePickerInput);
+            Thread.Sleep(500);
+            peoplePickerInput.SendKeys("mzywicki");
+            IWebElement peoplePickerResultContainer = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan_AutoFillDiv")));
+            peoplePickerResultContainer.Click();
+            shareButton.Click();
+            Thread.Sleep(1000);
+        }
+        public void FileSharedThreeDotsMenu()
+        {
+            this.FileCreated();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("QCB1_Button1")));
+            driver.Navigate().Refresh();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("QCB1_Button1")));
+            Actions action = new Actions(driver);
+            IWebElement threeDotsButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//a[contains(@id,'calloutLaunchPoint')]")));
+            threeDotsButton.Click();
+            IWebElement popUp = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[contains(@id,'callout-content')]")));
+            IWebElement threeDotsFromPopUp = popUp.FindElement(By.ClassName("js-callout-ecbActionDownArrow"));
+            threeDotsFromPopUp.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-contextmenu-list")));
+            IWebElement menu = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//li[@aria-label='Share']")));
+            action.MoveToElement(menu);
+            menu.Click();
+            IWebElement peoplePickerDiv = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan")));
+            action.MoveToElement(peoplePickerDiv);
+            peoplePickerDiv.Click();
+            IWebElement peoplePickerInput = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan_EditorInput")));
+            action.MoveToElement(peoplePickerInput);
+            Thread.Sleep(500);
+            peoplePickerInput.SendKeys("mzywicki");
+            IWebElement peoplePickerResultContainer = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("peoplePicker_TopSpan_AutoFillDiv")));
+            peoplePickerResultContainer.Click();
+            shareButton.Click();
+
+            Thread.Sleep(1000);
         }
     }
 }

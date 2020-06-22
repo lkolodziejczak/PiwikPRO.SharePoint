@@ -816,5 +816,191 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(whoCreated);
             }
         }
+        [Test]
+        public void FileDownloaded()
+        {
+            _webDriver.Navigate().GoToUrl(documentListClassic);
+            //sharePointSite.FileCreated();
+            sharePointSite.FileDownloaded();
+
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object fileDownloaded = null;
+                string fileTitle = null;
+                string fileUniqueId = null;
+                string fileName = null;
+                string fileExt = null;
+                string fileUrl = null;
+                string folderName = null;
+                string folderUrl = null;
+                string documentlibraryName = null;
+                string documentlibraryUrl = null;
+                string objectType = null;
+                string userID = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    fileDownloaded = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileDownloaded')");
+                    if (fileDownloaded != null)
+                    {
+                        var json = JsonConvert.SerializeObject(fileDownloaded);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("fileTitle", out fileTitle);
+                        dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                        dictionary.TryGetValue("fileName", out fileName);
+                        dictionary.TryGetValue("fileExt", out fileExt);
+                        dictionary.TryGetValue("fileUrl", out fileUrl);
+                        dictionary.TryGetValue("folderName", out folderName);
+                        dictionary.TryGetValue("folderUrl", out folderUrl);
+                        dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                        dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                        dictionary.TryGetValue("objectType", out objectType);
+                        dictionary.TryGetValue("userID", out userID);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(fileDownloaded);
+                //Assert.NotNull(fileTitle);
+                Assert.NotNull(fileUniqueId);
+                Assert.NotNull(fileName);
+                Assert.NotNull(fileExt);
+                Assert.NotNull(fileUrl);
+                Assert.NotNull(folderName);
+                Assert.NotNull(folderUrl);
+                Assert.NotNull(documentlibraryName);
+                Assert.NotNull(documentlibraryUrl);
+                Assert.NotNull(objectType);
+                Assert.NotNull(userID);
+            }
+        }
+        [Test]
+        public void FileSharedContextMenu()
+        {
+            _webDriver.Navigate().GoToUrl(documentListClassic);
+            sharePointSite.FileSharedContextMenu();
+            {
+                var sharePointSite = new SharepointClassic(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object fileShared = null;
+
+                string docLocalizaton = null;
+                string documentlibraryName = null;
+                string documentlibraryUrl = null;
+                string fileExt = null;
+                string fileName = null;
+                string filesize = null;
+                string folderName = null;
+                string folderUrl = null;
+                string objectType = null;
+                string userID = null;
+                string fileUrl = null;
+                string whoShared = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    fileShared = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileShared')");
+                    if (fileShared != null)
+                    {
+                        var json = JsonConvert.SerializeObject(fileShared);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
+                        dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                        dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                        dictionary.TryGetValue("fileExt", out fileExt);
+                        dictionary.TryGetValue("fileName", out fileName);
+                        dictionary.TryGetValue("filesize", out filesize);
+                        dictionary.TryGetValue("folderName", out folderName);
+                        dictionary.TryGetValue("folderUrl", out folderUrl);
+                        dictionary.TryGetValue("objectType", out objectType);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("fileUrl", out fileUrl);
+                        dictionary.TryGetValue("whoShared", out whoShared);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(fileShared);
+                Assert.NotNull(docLocalizaton);
+                Assert.NotNull(documentlibraryName);
+                Assert.NotNull(documentlibraryUrl);
+                Assert.NotNull(fileExt);
+                Assert.NotNull(fileName);
+                Assert.NotNull(filesize);
+                Assert.NotNull(folderName);
+                Assert.NotNull(folderUrl);
+                Assert.NotNull(objectType);
+                Assert.NotNull(userID);
+                Assert.NotNull(fileUrl);
+                Assert.NotNull(whoShared);
+            }
+        }
+        [Test]
+        public void FileSharedThreeDotsMenu()
+        {
+            _webDriver.Navigate().GoToUrl(documentListClassic);
+            sharePointSite.FileSharedContextMenu();
+            {
+                var sharePointSite = new SharepointClassic(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object fileShared = null;
+
+                string docLocalizaton = null;
+                string documentlibraryName = null;
+                string documentlibraryUrl = null;
+                string fileExt = null;
+                string fileName = null;
+                string filesize = null;
+                string folderName = null;
+                string folderUrl = null;
+                string objectType = null;
+                string userID = null;
+                string fileUrl = null;
+                string whoShared = null;
+                for (int i = 0; i < 30; i++)
+                {
+                    fileShared = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileShared')");
+                    if (fileShared != null)
+                    {
+                        var json = JsonConvert.SerializeObject(fileShared);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
+                        dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                        dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                        dictionary.TryGetValue("fileExt", out fileExt);
+                        dictionary.TryGetValue("fileName", out fileName);
+                        dictionary.TryGetValue("filesize", out filesize);
+                        dictionary.TryGetValue("folderName", out folderName);
+                        dictionary.TryGetValue("folderUrl", out folderUrl);
+                        dictionary.TryGetValue("objectType", out objectType);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("fileUrl", out fileUrl);
+                        dictionary.TryGetValue("whoShared", out whoShared);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(fileShared);
+                Assert.NotNull(docLocalizaton);
+                Assert.NotNull(documentlibraryName);
+                Assert.NotNull(documentlibraryUrl);
+                Assert.NotNull(fileExt);
+                Assert.NotNull(fileName);
+                Assert.NotNull(filesize);
+                Assert.NotNull(folderName);
+                Assert.NotNull(folderUrl);
+                Assert.NotNull(objectType);
+                Assert.NotNull(userID);
+                Assert.NotNull(fileUrl);
+                Assert.NotNull(whoShared);
+            }
+        }
     }
 }
