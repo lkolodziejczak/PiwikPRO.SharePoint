@@ -658,7 +658,6 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             Thread.Sleep(1500);
             driver.SwitchTo().Frame("shareFrame");
             Thread.Sleep(500);
-            //wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("//input[@role='textbox']")));
             peoplePickerForItemShareInput.Click();
             peoplePickerForItemShareInput.SendKeys("mzywicki@phkogifi.onmicrosoft.com");
             wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-PeoplePicker-pickerPersona")));
@@ -774,6 +773,53 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             deleteFromContextMenu.Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automationid='confirmbutton']")));
             confirmDeletionButton.Click();
+            Thread.Sleep(1500);
+        }
+        public void PageShared(string pageName)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='newCommand']")));
+            switchViewOnSitePagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='switchViewCommand_cf47a07c-e5d4-4f3d-9cb9-a57ba4002b42']")));
+            showAllPagesButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var row = wait.Until(x => x.FindElement(By.XPath($"//div[starts-with(@aria-label,'{pageName}')]")));
+            var element = row.FindElement(By.XPath(".//button[@data-automationid='FieldRender-DotDotDot']"));
+            Actions action = new Actions(driver);
+            action.MoveToElement(element).Perform();
+            Thread.Sleep(200);
+            element.Click();
+            IWebElement shareButton =  wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='shareCommand']")));
+            shareButton.Click();
+            Thread.Sleep(1500);
+            driver.SwitchTo().Frame("shareFrame");
+            Thread.Sleep(500);
+            //wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("//input[@role='textbox']")));
+            peoplePickerForItemShareInput.Click();
+            peoplePickerForItemShareInput.SendKeys("mzywicki@phkogifi.onmicrosoft.com");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-PeoplePicker-pickerPersona")));
+            resultForPeoplePicker.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("ms-Button--primary")));
+            sendButton.Click();
+            driver.SwitchTo().DefaultContent();
+            Thread.Sleep(1500);
+        }
+        public void ListItemAttachmentView()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automationid='FieldRenderer-name']")));
+            //var row = wait.Until(x => x.FindElement(By.XPath($"//div[starts-with(@aria-label,'{listItemName}')]")));
+            var element = wait.Until(x => x.FindElement(By.XPath($".//button[@Title='test']")));
+            //Actions action = new Actions(driver);
+            //action.MoveToElement(element).Perform();
+            //Thread.Sleep(1500);
+            element.Click();
+            IWebElement attachments =  wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("ReactFieldEditor-rendererContainer-withInvisibleRegion")));
+            IWebElement attachmentItem = attachments.FindElement(By.XPath($".//a[starts-with(@title,'test')]"));
+            Actions action = new Actions(driver);
+            action.MoveToElement(attachmentItem).Perform();
+            Thread.Sleep(1500);
+            attachmentItem.Click();
             Thread.Sleep(1500);
         }
     }

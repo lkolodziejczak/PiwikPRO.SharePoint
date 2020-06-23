@@ -1,5 +1,6 @@
 ﻿using AutoItX3Lib;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -454,7 +455,7 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             }
             return elemToReturn;
         }
-        public void FileUpload()
+        public string FileUpload()
         {
             Random rnd = new Random();
             int random = rnd.Next(999999);
@@ -477,6 +478,24 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             autoIt.Send("{ENTER}");
             Thread.Sleep(2000);
             File.Delete(tempfile);
+            return $"TempFile{random}.txt";
+        }
+        public void FileDeleted()
+        {
+            string fileName = this.FileUpload();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath($"//div[starts-with(@aria-label,'{fileName}')]")));
+            var row = wait.Until(x => x.FindElement(By.XPath($"//div[starts-with(@aria-label,'{fileName}')]")));
+            var element = row.FindElement(By.XPath(".//button[@data-automationid='FieldRender-DotDotDot']"));
+            Actions action = new Actions(driver);
+            action.MoveToElement(element).Perform();
+            Thread.Sleep(200);
+            element.Click();
+            IWebElement deleteButton = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='deleteCommand']")));
+            deleteButton.Click();
+            IWebElement confirmationDeleteButton = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath($"//button[@data-automationid='confirmbutton']")));
+            confirmationDeleteButton.Click();
+            Thread.Sleep(1500);
         }
     }
 }

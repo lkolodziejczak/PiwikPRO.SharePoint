@@ -709,7 +709,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         [Test]
         public void FileUpload()
         {
-            _webDriver.Navigate().GoToUrl(documentListWithFileUrl);
+            _webDriver.Navigate().GoToUrl(documentList);
             Thread.Sleep(1000);
             sharePointSite.FileUpload();
             Thread.Sleep(1500);
@@ -747,6 +747,77 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(filesize);
                 Assert.NotNull(folderName);
                 Assert.NotNull(fileUniqueId);
+            }
+        }
+        [Test]
+        public void FileDeleted()
+        {
+            _webDriver.Navigate().GoToUrl(documentList);
+            Thread.Sleep(1000);
+            sharePointSite.FileDeleted();
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object fileDeleted = null;
+                string deletionDate = null;
+                string documentlibraryName = null;
+                string documentlibraryUrl = null;
+                string fileExt = null;
+                string fileName = null;
+                string fileUniqueId = null;
+                string fileUrl = null;
+                string filesize = null;
+                string folderName = null;
+                string folderUrl = null;
+                string objectType = null;
+                string title = null;
+                string userID = null;
+                string whoCreated = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    fileDeleted = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileDeleted')");
+                    if (fileDeleted != null)
+                    {
+                        var json = JsonConvert.SerializeObject(fileDeleted);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("deletionDate", out deletionDate);
+                        dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                        dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                        dictionary.TryGetValue("fileExt", out fileExt);
+                        dictionary.TryGetValue("fileName", out fileName);
+                        dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                        dictionary.TryGetValue("fileUrl", out fileUrl);
+                        dictionary.TryGetValue("filesize", out filesize);
+                        dictionary.TryGetValue("folderName", out folderName);
+                        dictionary.TryGetValue("folderUrl", out folderUrl);
+                        dictionary.TryGetValue("objectType", out objectType);
+                        dictionary.TryGetValue("title", out title);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("whoCreated", out whoCreated);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(fileDeleted);
+                Assert.NotNull(deletionDate);
+                Assert.NotNull(documentlibraryName);
+                Assert.NotNull(documentlibraryUrl);
+                Assert.NotNull(fileExt);
+                Assert.NotNull(folderName);
+                Assert.NotNull(fileName);
+                Assert.NotNull(fileUniqueId);
+                Assert.NotNull(fileUrl);
+                Assert.NotNull(filesize);
+                Assert.NotNull(folderName);
+                Assert.NotNull(folderUrl);
+                Assert.NotNull(objectType);
+                //Assert.NotNull(title);
+                Assert.NotNull(userID);
+                Assert.NotNull(whoCreated);
 
 
             }

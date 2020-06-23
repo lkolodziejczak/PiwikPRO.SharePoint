@@ -1546,6 +1546,108 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             }
         }
+        [Test]
+        public void PageShared()
+        {
+            _webDriver.Navigate().GoToUrl(homePage);
+            Thread.Sleep(1500);
+
+            string pagename = sharePointSite.SitePageFromHomePageCreation();
+            _webDriver.Navigate().GoToUrl(sitePagesLibrary);
+            sharePointSite.PageShared(pagename);
+
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object pageShared = null;
+                string userID = null;
+                string sharedWith = null;
+                string contentType = null;
+                string pageUrl = null;
+                string pageName = null;
+                string pageTitle = null;
+                string pageId = null;
+                string typeOfShare = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    pageShared = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageShared')");
+                    if (pageShared != null)
+                    {
+                        var json = JsonConvert.SerializeObject(pageShared);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("sharedWith", out sharedWith);
+                        dictionary.TryGetValue("contentType", out contentType);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("pageName", out pageName);
+                        dictionary.TryGetValue("pageTitle", out pageTitle);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("typeOfShare", out typeOfShare);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(pageShared);
+                Assert.NotNull(userID);
+                //Assert.NotNull(sharedWith);
+                Assert.NotNull(contentType);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(pageName);
+                //Assert.NotNull(pageTitle);
+                Assert.NotNull(pageId);
+                Assert.NotNull(typeOfShare);
+                Assert.NotNull(userID);
+            }
+        }
+        [Test]
+        public void ListItemAttachmentView()
+        {
+            _webDriver.Navigate().GoToUrl(listToTest);
+            sharePointSite.ListItemAttachmentView();
+
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object listItemAttachmentView = null;
+                string itemTitle = null;
+                string itemUrl = null;
+                string listId = null;
+                string listUrl = null;
+                string userID = null;
+                string whoViewed = null;
+
+
+                for (int i = 0; i < 30; i++)
+                {
+                    listItemAttachmentView = jse.ExecuteScript("return dataLayer.find(x => x.event === 'listItemAttachmentView')");
+                    if (listItemAttachmentView != null)
+                    {
+                        var json = JsonConvert.SerializeObject(listItemAttachmentView);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("itemTitle", out itemTitle);
+                        dictionary.TryGetValue("itemUrl", out itemUrl);
+                        dictionary.TryGetValue("listId", out listId);
+                        dictionary.TryGetValue("listUrl", out listUrl);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("whoViewed", out whoViewed);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(listItemAttachmentView);
+                Assert.NotNull(itemTitle);
+                Assert.NotNull(itemUrl);
+                Assert.NotNull(listId);
+                Assert.NotNull(listUrl);
+                Assert.NotNull(userID);
+                Assert.NotNull(whoViewed);
+            }
+        }
 
     }
 }
