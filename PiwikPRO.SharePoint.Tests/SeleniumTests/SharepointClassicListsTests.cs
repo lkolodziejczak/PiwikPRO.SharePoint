@@ -32,19 +32,19 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
         }
 
         [Test]
-        public void CreateClassicListFromSiteContents()
+        public string CreateClassicListFromSiteContents()
         {
+            object listCreatedEvent = null;
+            string listId = null;
+            string listTitle = null;
+            string listUrl = null;
+            string createdBy = null;
+
             spList.CreateClassicListFromSiteContents();
             {
                 var search2 = new Search(_webDriver);
                 IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
                 Thread.Sleep(2000);
-
-                object listCreatedEvent = null;
-                string listId = null;
-                string listTitle = null;
-                string listUrl = null;
-                string createdBy = null;
 
                 for (int i = 0; i < 30; i++)
                 {
@@ -66,6 +66,91 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(listTitle);
                 Assert.NotNull(listUrl);
                 Assert.NotNull(createdBy);
+            }
+            return listUrl;
+        }
+
+        [Test]
+        public void AddItemToListClassic()
+        {
+            string listUrl2 = CreateClassicListFromSiteContents();
+            spList.AddItemToListClassic(listUrl2);
+            {
+                var search2 = new Search(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object listUpdatedEvent = null;
+                string listId = null;
+                string listTitle = null;
+                string listUrl = null;
+                string createdBy = null;
+                string userID = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    listUpdatedEvent = jse.ExecuteScript("return dataLayer.find(x => x.event === 'listUpdated')");
+                    if (listUpdatedEvent != null)
+                    {
+                        var json = JsonConvert.SerializeObject(listUpdatedEvent);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("listId", out listId);
+                        dictionary.TryGetValue("listTitle", out listTitle);
+                        dictionary.TryGetValue("listUrl", out listUrl);
+                        dictionary.TryGetValue("createdBy", out createdBy);
+                        dictionary.TryGetValue("userID", out userID);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(listUpdatedEvent);
+                Assert.NotNull(listId);
+                Assert.NotNull(listTitle);
+                Assert.NotNull(listUrl);
+                Assert.NotNull(createdBy);
+                Assert.NotNull(userID);
+            }
+        }
+
+        [Test]
+        public void ListUpdatedDatasheetView()
+        {
+            string listUrl2 = CreateClassicListFromSiteContents();
+            spList.ListUpdatedDatasheetView(listUrl2);
+            {
+                var search2 = new Search(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object listUpdatedEvent = null;
+                string listId = null;
+                string listTitle = null;
+                string listUrl = null;
+                string createdBy = null;
+                string userID = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    listUpdatedEvent = jse.ExecuteScript("return dataLayer.find(x => x.event === 'listUpdated')");
+                    if (listUpdatedEvent != null)
+                    {
+                        var json = JsonConvert.SerializeObject(listUpdatedEvent);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("listId", out listId);
+                        dictionary.TryGetValue("listTitle", out listTitle);
+                        dictionary.TryGetValue("listUrl", out listUrl);
+                        dictionary.TryGetValue("createdBy", out createdBy);
+                        dictionary.TryGetValue("userID", out userID);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(listUpdatedEvent);
+                Assert.NotNull(listId);
+                Assert.NotNull(listTitle);
+                Assert.NotNull(listUrl);
+                Assert.NotNull(createdBy);
+                Assert.NotNull(userID);
             }
         }
 
