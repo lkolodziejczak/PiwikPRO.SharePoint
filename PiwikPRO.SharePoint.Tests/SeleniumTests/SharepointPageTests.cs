@@ -694,9 +694,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(documentTemplateUrl);
             }
         }
-
-        [Test]
-        public void PageEditedFirstSaveFromTopBar()
+        public void Not_Used_PageEditedFirstSaveFromTopBar()
         {
             _webDriver.Navigate().GoToUrl(homePage);
             Thread.Sleep(1500);
@@ -732,8 +730,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             }
         }
 
-        [Test]
-        public void PageEditedSecondSaveFromTopBar()
+        public void Not_Used_PageEditedSecondSaveFromTopBar()
         {
             _webDriver.Navigate().GoToUrl(homePage);
             Thread.Sleep(1500);
@@ -806,8 +803,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             }
         }
 
-        [Test]
-        public void PageEditedThirdSaveFromTopBar()
+        public void Not_Used_PageEditedThirdSaveFromTopBar()
         {
             _webDriver.Navigate().GoToUrl(homePage);
             Thread.Sleep(1500);
@@ -843,8 +839,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             }
         }
 
-        [Test]
-        public void PageEditedFourthStopEditingSaveFromTopBar()
+        public void Not_Used_PageEditedFourthStopEditingSaveFromTopBar()
         {
             _webDriver.Navigate().GoToUrl(homePage);
             Thread.Sleep(1500);
