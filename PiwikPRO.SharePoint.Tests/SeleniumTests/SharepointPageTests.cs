@@ -119,13 +119,13 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Thread.Sleep(2000);
 
                 object pageCreated = null;
-                string fileId = null;
-                string fileUrl = null;
-                string contentTypeId = null;
+                string pageId = null;
+                string pageUrl = null;
+                string typeOfContent = null;
                 string listId = null;
-                string pageTitle = null;
-                string createdBy = null;
-                string contentType = null;
+                string pageName = null;
+                string userDisplayName = null;
+                string userID = null;
                 for (int i = 0; i < 30; i++)
                 {
                     pageCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageCreated')");
@@ -133,25 +133,25 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     {
                         var json = JsonConvert.SerializeObject(pageCreated);
                         Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                        dictionary.TryGetValue("fileId", out fileId);
-                        dictionary.TryGetValue("fileUrl", out fileUrl);
-                        dictionary.TryGetValue("contentTypeId", out contentTypeId);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("typeOfContent", out typeOfContent);
                         dictionary.TryGetValue("listId", out listId);
-                        dictionary.TryGetValue("pageTitle", out pageTitle);
-                        dictionary.TryGetValue("createdBy", out createdBy);
-                        dictionary.TryGetValue("contentType", out contentType);
+                        dictionary.TryGetValue("pageName", out pageName);
+                        dictionary.TryGetValue("userDisplayName", out userDisplayName);
+                        dictionary.TryGetValue("userID", out userID);
                         break;
                     }
                     Thread.Sleep(100);
                 }
                 Assert.NotNull(pageCreated);
-                Assert.NotNull(fileId);
-                Assert.NotNull(fileUrl);
-                Assert.NotNull(contentTypeId);
+                Assert.NotNull(pageId);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(typeOfContent);
                 Assert.NotNull(listId);
-                Assert.NotNull(pageTitle);
-                Assert.NotNull(createdBy);
-                Assert.NotNull(contentType);
+                Assert.NotNull(pageName);
+                Assert.NotNull(userDisplayName);
+                Assert.NotNull(userID);
             }
         }
         [Test]
@@ -167,13 +167,13 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Thread.Sleep(2000);
 
                 object pageCreated = null;
-                string fileId = null;
-                string fileUrl = null;
-                string contentTypeId = null;
+                string pageId = null;
+                string pageUrl = null;
+                string typeOfContent = null;
                 string listId = null;
-                string pageTitle = null;
-                string createdBy = null;
-                string contentType = null;
+                string pageName = null;
+                string userDisplayName = null;
+                string userID = null;
                 for (int i = 0; i < 30; i++)
                 {
                     pageCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageCreated')");
@@ -181,25 +181,25 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     {
                         var json = JsonConvert.SerializeObject(pageCreated);
                         Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                        dictionary.TryGetValue("fileId", out fileId);
-                        dictionary.TryGetValue("fileUrl", out fileUrl);
-                        dictionary.TryGetValue("contentTypeId", out contentTypeId);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("typeOfContent", out typeOfContent);
                         dictionary.TryGetValue("listId", out listId);
-                        dictionary.TryGetValue("pageTitle", out pageTitle);
-                        dictionary.TryGetValue("createdBy", out createdBy);
-                        dictionary.TryGetValue("contentType", out contentType);
+                        dictionary.TryGetValue("pageName", out pageName);
+                        dictionary.TryGetValue("userDisplayName", out userDisplayName);
+                        dictionary.TryGetValue("userID", out userID);
                         break;
                     }
                     Thread.Sleep(100);
                 }
                 Assert.NotNull(pageCreated);
-                Assert.NotNull(fileId);
-                Assert.NotNull(fileUrl);
-                Assert.NotNull(contentTypeId);
+                Assert.NotNull(pageId);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(typeOfContent);
                 Assert.NotNull(listId);
-                Assert.NotNull(pageTitle);
-                Assert.NotNull(createdBy);
-                Assert.NotNull(contentType);
+                Assert.NotNull(pageName);
+                Assert.NotNull(userDisplayName);
+                Assert.NotNull(userID);
             }
         }
         [Test]
@@ -215,13 +215,13 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Thread.Sleep(2000);
 
                 object pageCreated = null;
-                string fileId = null;
-                string fileUrl = null;
-                string contentTypeId = null;
+                string pageId = null;
+                string pageUrl = null;
+                string typeOfContent = null;
                 string listId = null;
-                string pageTitle = null;
-                string createdBy = null;
-                string contentType = null;
+                string pageName = null;
+                string userDisplayName = null;
+                string userID = null;
                 for (int i = 0; i < 30; i++)
                 {
                     pageCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'pageCreated')");
@@ -229,25 +229,25 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     {
                         var json = JsonConvert.SerializeObject(pageCreated);
                         Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                        dictionary.TryGetValue("fileId", out fileId);
-                        dictionary.TryGetValue("fileUrl", out fileUrl);
-                        dictionary.TryGetValue("contentTypeId", out contentTypeId);
+                        dictionary.TryGetValue("pageId", out pageId);
+                        dictionary.TryGetValue("pageUrl", out pageUrl);
+                        dictionary.TryGetValue("typeOfContent", out typeOfContent);
                         dictionary.TryGetValue("listId", out listId);
-                        dictionary.TryGetValue("pageTitle", out pageTitle);
-                        dictionary.TryGetValue("createdBy", out createdBy);
-                        dictionary.TryGetValue("contentType", out contentType);
+                        dictionary.TryGetValue("pageName", out pageName);
+                        dictionary.TryGetValue("userDisplayName", out userDisplayName);
+                        dictionary.TryGetValue("userID", out userID);
                         break;
                     }
                     Thread.Sleep(100);
                 }
                 Assert.NotNull(pageCreated);
-                Assert.NotNull(fileId);
-                Assert.NotNull(fileUrl);
-                Assert.NotNull(contentTypeId);
+                Assert.NotNull(pageId);
+                Assert.NotNull(pageUrl);
+                Assert.NotNull(typeOfContent);
                 Assert.NotNull(listId);
-                Assert.NotNull(pageTitle);
-                Assert.NotNull(createdBy);
-                Assert.NotNull(contentType);
+                Assert.NotNull(pageName);
+                Assert.NotNull(userDisplayName);
+                Assert.NotNull(userID);
             }
         }
 
