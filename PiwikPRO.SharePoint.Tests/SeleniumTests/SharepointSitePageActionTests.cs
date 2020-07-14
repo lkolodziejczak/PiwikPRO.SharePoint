@@ -40,9 +40,12 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
            
             object commentItem = null;
             string itemUrl = null;
-            string userLogin = null;
+            string itemContentTypeName = null;
             string commentUrl = null;
             string itemAuthorUserName = null;
+            string itemUniqueId = null;
+            string itemContentTypeId = null;
+
             for (int i = 0; i < 30; i++)
             {
                 commentItem = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentItem')");
@@ -50,19 +53,23 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(commentItem);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("userLogin", out userLogin);
+                    dictionary.TryGetValue("itemContentTypeName", out itemContentTypeName);
                     dictionary.TryGetValue("commentUrl", out commentUrl);
                     dictionary.TryGetValue("itemAuthorUserName", out itemAuthorUserName);
                     dictionary.TryGetValue("itemUrl", out itemUrl);
+                    dictionary.TryGetValue("itemUniqueId", out itemUniqueId);
+                    dictionary.TryGetValue("itemContentTypeId", out itemContentTypeId);
                     break;
                 }
                 Thread.Sleep(100);
             }
             Assert.NotNull(commentItem);
-            Assert.NotNull(userLogin);
+            Assert.NotNull(itemContentTypeName);
             Assert.NotNull(commentUrl);
             Assert.NotNull(itemAuthorUserName);
             Assert.NotNull(itemUrl);
+            Assert.NotNull(itemUniqueId);
+            Assert.NotNull(itemContentTypeId);
         }
 
         [Test]
@@ -78,15 +85,18 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             object likeItem = null;
             string likeItemContentTypeName = null;
-            string likeUserLogin = null;
             string likeItemAuthorUserName = null;
             string likeItemUrl = null;
-            
+            string itemUniqueId = null;
+            string itemContentTypeId = null;
+
             object unlikeItem = null;
             string unlikeItemContentTypeName = null;
-            string unlikeUserLogin = null;
+            string unlikeItemContentTypeId = null;
+            string unlikeItemUniqueId = null;
             string unlikeItemAuthorUserName = null;
             string unlikeItemUrl = null;
+            
             for (int i = 0; i < 30; i++)
             {
                 likeItem = jse.ExecuteScript("return dataLayer.find(x => x.event === 'likeItem')");
@@ -95,9 +105,10 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     var jsonLike = JsonConvert.SerializeObject(likeItem);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonLike);
                     dictionary.TryGetValue("itemContentTypeName", out likeItemContentTypeName);
-                    dictionary.TryGetValue("userLogin", out likeUserLogin);
+                    dictionary.TryGetValue("itemContentTypeId", out itemContentTypeId);
                     dictionary.TryGetValue("itemAuthorUserName", out likeItemAuthorUserName);
                     dictionary.TryGetValue("itemUrl", out likeItemUrl);
+                    dictionary.TryGetValue("itemUniqueId", out itemUniqueId);
                     break;
                 }
                 Thread.Sleep(300);
@@ -111,23 +122,27 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     var jsonUnlike = JsonConvert.SerializeObject(unlikeItem);
                     Dictionary<string, string> dictionary2 = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonUnlike);
                     dictionary2.TryGetValue("itemContentTypeName", out unlikeItemContentTypeName);
-                    dictionary2.TryGetValue("userLogin", out unlikeUserLogin);
+                    dictionary2.TryGetValue("itemContentTypeId", out unlikeItemContentTypeId);
+                    dictionary2.TryGetValue("itemUniqueId", out unlikeItemUniqueId);
                     dictionary2.TryGetValue("itemAuthorUserName", out unlikeItemAuthorUserName);
                     dictionary2.TryGetValue("itemUrl", out unlikeItemUrl);
+
                     break;
                 }
                 Thread.Sleep(300);
             }
             Assert.NotNull(likeItem);
             Assert.NotNull(likeItemContentTypeName);
-            Assert.NotNull(likeUserLogin);
+            Assert.NotNull(itemContentTypeId);
             Assert.NotNull(likeItemAuthorUserName);
             Assert.NotNull(likeItemUrl);
+            Assert.NotNull(itemUniqueId);
 
             Assert.NotNull(unlikeItem);
             Assert.NotNull(unlikeItemContentTypeName);
-            Assert.NotNull(unlikeUserLogin);
+            Assert.NotNull(unlikeItemContentTypeId);
             Assert.NotNull(unlikeItemAuthorUserName);
+            Assert.NotNull(unlikeItemUniqueId);
             Assert.NotNull(unlikeItemUrl);
         }
 
@@ -143,10 +158,12 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             object likeComment = null;
             string commentAuthor = null;
-            string userLogin = null;
             string commentUrl = null;
             string itemUrl = null;
             string itemAuthorUserName = null;
+            string itemUniqueId = null;
+            string itemContentTypeName = null;
+            string itemContentTypeId = null;
             for (int i = 0; i < 30; i++)
             {
                 likeComment = jse.ExecuteScript("return dataLayer.find(x => x.event === 'likeComment')");
@@ -154,21 +171,25 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(likeComment);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    dictionary.TryGetValue("itemUniqueId", out itemUniqueId);
                     dictionary.TryGetValue("commentAuthor", out commentAuthor);
-                    dictionary.TryGetValue("userLogin", out userLogin);
                     dictionary.TryGetValue("commentUrl", out commentUrl);
                     dictionary.TryGetValue("itemUrl", out itemUrl);
                     dictionary.TryGetValue("itemAuthorUserName", out itemAuthorUserName);
+                    dictionary.TryGetValue("itemContentTypeName", out itemContentTypeName);
+                    dictionary.TryGetValue("itemContentTypeId", out itemContentTypeId);
                     break;
                 }
                 Thread.Sleep(500);
             }
+            Assert.NotNull(itemUniqueId);
             Assert.NotNull(likeComment);
             Assert.NotNull(commentAuthor);
-            Assert.NotNull(userLogin);
             Assert.NotNull(commentUrl);
             Assert.NotNull(itemUrl);
             Assert.NotNull(itemAuthorUserName);
+            Assert.NotNull(itemContentTypeName);
+            Assert.NotNull(itemContentTypeId);
         }
 
         [Test]
@@ -184,6 +205,11 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             string commentAuthor = null;
             string commentReplyUrl = null;
             string commentUrl = null;
+            string itemUniqueId = null;
+            string itemAuthorUserName = null;
+            string itemUrl = null;
+            string itemContentTypeName = null;
+            string itemContentTypeId = null;
             for (int i = 0; i < 30; i++)
             {
                 commentReply = jse.ExecuteScript("return dataLayer.find(x => x.event === 'commentReply')");
@@ -194,6 +220,11 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     dictionary.TryGetValue("commentAuthor", out commentAuthor);
                     dictionary.TryGetValue("commentReplyUrl", out commentReplyUrl);
                     dictionary.TryGetValue("commentUrl", out commentUrl);
+                    dictionary.TryGetValue("itemUniqueId", out itemUniqueId);
+                    dictionary.TryGetValue("itemAuthorUserName", out itemAuthorUserName);
+                    dictionary.TryGetValue("itemUrl", out itemUrl);
+                    dictionary.TryGetValue("itemContentTypeName", out itemContentTypeName);
+                    dictionary.TryGetValue("itemContentTypeId", out itemContentTypeId);
                     break;
                 }
                 Thread.Sleep(100);
@@ -202,6 +233,11 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(commentAuthor);
             Assert.NotNull(commentReplyUrl);
             Assert.NotNull(commentUrl);
+            Assert.NotNull(itemUniqueId);
+            Assert.NotNull(itemAuthorUserName);
+            Assert.NotNull(itemUrl);
+            Assert.NotNull(itemContentTypeName);
+            Assert.NotNull(itemContentTypeId);
         }
     }
 }
