@@ -42,6 +42,20 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//a[@id='ctl00_PlaceHolderMain_ctl10_RptControls_onetidListEdit2']")]
         private IWebElement listDeleteButton;
 
+        [FindsBy(How = How.XPath, Using = "//a[@id='idHomePageNewItem']")]
+        private IWebElement newListItem;
+
+        [FindsBy(How = How.XPath, Using = "//input[contains(@id,'Title_')]")]
+        private IWebElement newListItemTitle;
+
+        [FindsBy(How = How.XPath, Using = "//input[contains(@id, 'RightRptControls_ctl00_ctl00_diidIOSaveItem')]")]
+        private IWebElement newListItemSave;
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(@title, 'Edit ')]")]
+        private IWebElement editListItems;
+
+
+
         public SharepointClassicLists(IWebDriver driver)
         {
             this.driver = driver;
@@ -64,8 +78,35 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             driver.SwitchTo().Frame(f);
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[@id='onetidListTitle']")));
             inputTextCreateList.SendKeys(DateTime.Now.ToString("hhmm") + "ClassicTestList");
-            Thread.Sleep(500);
+            Thread.Sleep(1500);
             inputTextCreateList.SendKeys(Keys.Enter);
+        }
+
+        public void AddItemToListClassic(string listUrl)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(listUrl);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[@aria-label='" + resourceBackToClassicSharepoint + "']")));
+            returnToClassicButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[@id='idHomePageNewItem']")));
+            newListItem.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[contains(@id,'Title_')]")));
+            newListItemTitle.SendKeys(DateTime.Now.ToString("hhmm") + "ClassicTestItem");
+            Thread.Sleep(500);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//input[contains(@id, 'RightRptControls_ctl00_ctl00_diidIOSaveItem')]")));
+            newListItemSave.Click();
+        }
+
+        public void ListUpdatedDatasheetView(string listUrl)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(listUrl);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[@aria-label='" + resourceBackToClassicSharepoint + "']")));
+            returnToClassicButton.Click();
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(@title, 'Edit ')]")));
+            editListItems.Click();
+            Thread.Sleep(1500);
+            driver.Navigate().Refresh();
         }
 
         public void CreateClassicListFromSiteContentsAdvancedMode()

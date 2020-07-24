@@ -35,12 +35,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object filePinnedToTop = null;
-            string fileFilename = null;
-            string userLogin = null;
-            string fileId = null;
-            string fileUrl = null;
-            string fileTitle = null;
             string whoPinned = null;
+            string fileTitle = null;
+            string fileId = null;
+            string fileUniqueId = null;
+            string fileName = null;
+            string fileExt = null;
+            string fileUrl = null;
+            string documentlibraryUrl = null;
+            string documentlibraryName = null;
+            string objectType = null;
 
             for (int i = 0; i < 20; i++)
             {
@@ -49,24 +53,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(filePinnedToTop);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("userLogin", out userLogin);
-                    dictionary.TryGetValue("fileFilename", out fileFilename);
+                    dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                    dictionary.TryGetValue("fileName", out fileName);
                     dictionary.TryGetValue("fileId", out fileId);
                     dictionary.TryGetValue("fileUrl", out fileUrl);
                     dictionary.TryGetValue("fileTitle", out fileTitle);
                     dictionary.TryGetValue("whoPinned", out whoPinned);
+                    dictionary.TryGetValue("fileExt", out fileExt);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
             Assert.NotNull(filePinnedToTop);
-            Assert.NotNull(fileFilename);
-            Assert.NotNull(userLogin);
+            Assert.NotNull(fileUniqueId);
+            Assert.NotNull(fileName);
             Assert.NotNull(fileId);
             Assert.NotNull(fileUrl);
             Assert.NotNull(fileTitle);
             Assert.NotNull(whoPinned);
+            Assert.NotNull(fileExt);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -78,12 +90,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object filePinnedToTop = null;
-            string fileFilename = null;
-            string userLogin = null;
-            string fileId = null;
-            string fileUrl = null;
-            string fileTitle = null;
             string whoPinned = null;
+            string fileTitle = null;
+            string fileId = null;
+            string fileUniqueId = null;
+            string fileName = null;
+            string fileExt = null;
+            string fileUrl = null;
+            string documentlibraryUrl = null;
+            string documentlibraryName = null;
+            string objectType = null;
 
             for (int i = 0; i < 20; i++)
             {
@@ -92,23 +108,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(filePinnedToTop);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("userLogin", out userLogin);
-                    dictionary.TryGetValue("fileFilename", out fileFilename);
+                    dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                    dictionary.TryGetValue("fileName", out fileName);
                     dictionary.TryGetValue("fileId", out fileId);
                     dictionary.TryGetValue("fileUrl", out fileUrl);
                     dictionary.TryGetValue("fileTitle", out fileTitle);
                     dictionary.TryGetValue("whoPinned", out whoPinned);
+                    dictionary.TryGetValue("fileExt", out fileExt);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
             }
+
             Assert.NotNull(filePinnedToTop);
-            Assert.NotNull(fileFilename);
-            Assert.NotNull(userLogin);
+            Assert.NotNull(fileUniqueId);
+            Assert.NotNull(fileName);
             Assert.NotNull(fileId);
             Assert.NotNull(fileUrl);
             Assert.NotNull(fileTitle);
             Assert.NotNull(whoPinned);
+            Assert.NotNull(fileExt);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -120,12 +145,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object fileUnpinned = null;
-            string fileFilename = null;
-            string userLogin = null;
-            string fileId = null;
-            string fileUrl = null;
-            string fileTitle = null;
             string whoUnpinned = null;
+            string fileTitle = null;
+            string fileId = null;
+            string fileUniqueId = null;
+            string fileName = null;
+            string fileExt = null;
+            string fileUrl = null;
+            string documentlibraryUrl = null;
+            string documentlibraryName = null;
+            string objectType = null;
 
             for (int i = 0; i < 20; i++)
             {
@@ -134,24 +163,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(fileUnpinned);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("userLogin", out userLogin);
-                    dictionary.TryGetValue("fileFilename", out fileFilename);
+                    dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                    dictionary.TryGetValue("fileName", out fileName);
                     dictionary.TryGetValue("fileId", out fileId);
                     dictionary.TryGetValue("fileUrl", out fileUrl);
                     dictionary.TryGetValue("fileTitle", out fileTitle);
                     dictionary.TryGetValue("whoUnpinned", out whoUnpinned);
+                    dictionary.TryGetValue("fileExt", out fileExt);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
             Assert.NotNull(fileUnpinned);
-            Assert.NotNull(fileFilename);
-            Assert.NotNull(userLogin);
+            Assert.NotNull(fileUniqueId);
+            Assert.NotNull(fileName);
             Assert.NotNull(fileId);
             Assert.NotNull(fileUrl);
             Assert.NotNull(fileTitle);
             Assert.NotNull(whoUnpinned);
+            Assert.NotNull(fileExt);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -163,12 +200,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object fileUnpinned = null;
-            string fileFilename = null;
-            string userLogin = null;
-            string fileId = null;
-            string fileUrl = null;
-            string fileTitle = null;
             string whoUnpinned = null;
+            string fileTitle = null;
+            string fileId = null;
+            string fileUniqueId = null;
+            string fileName = null;
+            string fileExt = null;
+            string fileUrl = null;
+            string documentlibraryUrl = null;
+            string documentlibraryName = null;
+            string objectType = null;
 
             for (int i = 0; i < 20; i++)
             {
@@ -177,24 +218,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(fileUnpinned);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("userLogin", out userLogin);
-                    dictionary.TryGetValue("fileFilename", out fileFilename);
+                    dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                    dictionary.TryGetValue("fileName", out fileName);
                     dictionary.TryGetValue("fileId", out fileId);
                     dictionary.TryGetValue("fileUrl", out fileUrl);
                     dictionary.TryGetValue("fileTitle", out fileTitle);
                     dictionary.TryGetValue("whoUnpinned", out whoUnpinned);
+                    dictionary.TryGetValue("fileExt", out fileExt);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
             Assert.NotNull(fileUnpinned);
-            Assert.NotNull(fileFilename);
-            Assert.NotNull(userLogin);
+            Assert.NotNull(fileUniqueId);
+            Assert.NotNull(fileName);
             Assert.NotNull(fileId);
             Assert.NotNull(fileUrl);
             Assert.NotNull(fileTitle);
             Assert.NotNull(whoUnpinned);
+            Assert.NotNull(fileExt);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -209,10 +258,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             string createdBy = null;
             string folderName = null;
             string folderUrl = null;
+            string contentType = null;
+            string folderUniqueId = null;
+            string folderId = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
 
             for (int i = 0; i < 20; i++)
             {
-                folderCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderCreated')");
+                folderCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderCreatedOrUploaded')");
                 if (folderCreated != null)
                 {
                     var json = JsonConvert.SerializeObject(folderCreated);
@@ -220,6 +275,12 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     dictionary.TryGetValue("createdBy", out createdBy);
                     dictionary.TryGetValue("folderName", out folderName);
                     dictionary.TryGetValue("folderUrl", out folderUrl);
+                    dictionary.TryGetValue("contentType", out contentType);
+                    dictionary.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dictionary.TryGetValue("folderId", out folderId);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
@@ -229,6 +290,12 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(createdBy);
             Assert.NotNull(folderName);
             Assert.NotNull(folderUrl);
+            Assert.NotNull(contentType);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(folderId);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -240,11 +307,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object fileShared = null;
-            string whoCreated = null;
-            string whoShared = null;
-            string filename = null;
+            string filesize = null;
+            string fileUniqueId = null;
+            string fileName = null;
             string fileExt = null;
-            string docLocalizaton = null;
+            string fileUrl = null;
+            string folderName = null;
+            string folderUrl = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
 
 
             for (int i = 0; i < 20; i++)
@@ -254,23 +326,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(fileShared);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("whoCreated", out whoCreated);
-                    dictionary.TryGetValue("whoShared", out whoShared);
-                    dictionary.TryGetValue("fileName", out filename);
+                    dictionary.TryGetValue("filesize", out filesize);
+                    dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                    dictionary.TryGetValue("fileName", out fileName);
                     dictionary.TryGetValue("fileExt", out fileExt);
-                    dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
+                    dictionary.TryGetValue("fileUrl", out fileUrl);
+                    dictionary.TryGetValue("folderName", out folderName);
+                    dictionary.TryGetValue("folderUrl", out folderUrl);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-
             Assert.NotNull(fileShared);
-            Assert.NotNull(whoCreated);
-            Assert.NotNull(whoShared);
-            Assert.NotNull(filename);
+            Assert.NotNull(filesize);
+            Assert.NotNull(fileUniqueId);
+            Assert.NotNull(fileName);
             Assert.NotNull(fileExt);
-            Assert.NotNull(docLocalizaton);
+            Assert.NotNull(fileUrl);
+            Assert.NotNull(folderName);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -282,11 +363,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object fileShared = null;
-            string whoCreated = null;
-            string whoShared = null;
-            string filename = null;
+            string filesize = null;
+            string fileUniqueId = null;
+            string fileName = null;
             string fileExt = null;
-            string docLocalizaton = null;
+            string fileUrl = null;
+            string folderName = null;
+            string folderUrl = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
 
 
             for (int i = 0; i < 20; i++)
@@ -296,23 +382,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(fileShared);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("whoCreated", out whoCreated);
-                    dictionary.TryGetValue("whoShared", out whoShared);
-                    dictionary.TryGetValue("fileName", out filename);
+                    dictionary.TryGetValue("filesize", out filesize);
+                    dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                    dictionary.TryGetValue("fileName", out fileName);
                     dictionary.TryGetValue("fileExt", out fileExt);
-                    dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
+                    dictionary.TryGetValue("fileUrl", out fileUrl);
+                    dictionary.TryGetValue("folderName", out folderName);
+                    dictionary.TryGetValue("folderUrl", out folderUrl);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-
             Assert.NotNull(fileShared);
-            Assert.NotNull(whoCreated);
-            Assert.NotNull(whoShared);
-            Assert.NotNull(filename);
+            Assert.NotNull(filesize);
+            Assert.NotNull(fileUniqueId);
+            Assert.NotNull(fileName);
             Assert.NotNull(fileExt);
-            Assert.NotNull(docLocalizaton);
+            Assert.NotNull(fileUrl);
+            Assert.NotNull(folderName);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -324,11 +419,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object fileShared = null;
-            string whoCreated = null;
-            string whoShared = null;
-            string filename = null;
+            string filesize = null;
+            string fileUniqueId = null;
+            string fileName = null;
             string fileExt = null;
-            string docLocalizaton = null;
+            string fileUrl = null;
+            string folderName = null;
+            string folderUrl = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
 
 
             for (int i = 0; i < 20; i++)
@@ -338,23 +438,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(fileShared);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("whoCreated", out whoCreated);
-                    dictionary.TryGetValue("whoShared", out whoShared);
-                    dictionary.TryGetValue("fileName", out filename);
+                    dictionary.TryGetValue("filesize", out filesize);
+                    dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                    dictionary.TryGetValue("fileName", out fileName);
                     dictionary.TryGetValue("fileExt", out fileExt);
-                    dictionary.TryGetValue("docLocalizaton", out docLocalizaton);
+                    dictionary.TryGetValue("fileUrl", out fileUrl);
+                    dictionary.TryGetValue("folderName", out folderName);
+                    dictionary.TryGetValue("folderUrl", out folderUrl);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-
             Assert.NotNull(fileShared);
-            Assert.NotNull(whoCreated);
-            Assert.NotNull(whoShared);
-            Assert.NotNull(filename);
+            Assert.NotNull(filesize);
+            Assert.NotNull(fileUniqueId);
+            Assert.NotNull(fileName);
             Assert.NotNull(fileExt);
-            Assert.NotNull(docLocalizaton);
+            Assert.NotNull(fileUrl);
+            Assert.NotNull(folderName);
+            Assert.NotNull(folderUrl);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -366,13 +475,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object folderShared = null;
-            string sharedWith = null;
-            string whoShared = null;
             string contentType = null;
             string folderUrl = null;
             string folderTitle = null;
             string folderId = null;
-            string typeOfShare = null;
+            string folderUniqueId = null;
+            string folderName = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
+            string authorId = null;
 
 
             for (int i = 0; i < 20; i++)
@@ -383,27 +495,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     var json = JsonConvert.SerializeObject(folderShared);
                     Dictionary<string, object> dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                     Dictionary<string, string> dString = dictionary.ToDictionary(k => k.Key, k => Convert.ToString(k.Value));
-                    dString.TryGetValue("sharedWith", out sharedWith);
-                    dString.TryGetValue("whoShared", out whoShared);
                     dString.TryGetValue("contentType", out contentType);
                     dString.TryGetValue("folderUrl", out folderUrl);
                     dString.TryGetValue("folderTitle", out folderTitle);
                     dString.TryGetValue("folderId", out folderId);
-                    dString.TryGetValue("typeOfShare", out typeOfShare);
+                    dString.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dString.TryGetValue("folderName", out folderName);
+                    dString.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dString.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dString.TryGetValue("objectType", out objectType);
+                    dString.TryGetValue("authorId", out authorId);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-
             Assert.NotNull(folderShared);
-            Assert.NotNull(sharedWith);
-            Assert.NotNull(whoShared);
             Assert.NotNull(contentType);
             Assert.NotNull(folderUrl);
             Assert.NotNull(folderTitle);
             Assert.NotNull(folderId);
-            Assert.NotNull(typeOfShare);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(folderName);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
+            Assert.NotNull(authorId);
         }
 
         [Test]
@@ -415,13 +532,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object folderShared = null;
-            string sharedWith = null;
-            string whoShared = null;
             string contentType = null;
             string folderUrl = null;
             string folderTitle = null;
             string folderId = null;
-            string typeOfShare = null;
+            string folderUniqueId = null;
+            string folderName = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
+            string authorId = null;
 
 
             for (int i = 0; i < 20; i++)
@@ -432,27 +552,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     var json = JsonConvert.SerializeObject(folderShared);
                     Dictionary<string, object> dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                     Dictionary<string, string> dString = dictionary.ToDictionary(k => k.Key, k => Convert.ToString(k.Value));
-                    dString.TryGetValue("sharedWith", out sharedWith);
-                    dString.TryGetValue("whoShared", out whoShared);
                     dString.TryGetValue("contentType", out contentType);
                     dString.TryGetValue("folderUrl", out folderUrl);
                     dString.TryGetValue("folderTitle", out folderTitle);
                     dString.TryGetValue("folderId", out folderId);
-                    dString.TryGetValue("typeOfShare", out typeOfShare);
+                    dString.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dString.TryGetValue("folderName", out folderName);
+                    dString.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dString.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dString.TryGetValue("objectType", out objectType);
+                    dString.TryGetValue("authorId", out authorId);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-
             Assert.NotNull(folderShared);
-            Assert.NotNull(sharedWith);
-            Assert.NotNull(whoShared);
             Assert.NotNull(contentType);
             Assert.NotNull(folderUrl);
             Assert.NotNull(folderTitle);
             Assert.NotNull(folderId);
-            Assert.NotNull(typeOfShare);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(folderName);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
+            Assert.NotNull(authorId);
         }
 
         [Test]
@@ -464,13 +589,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object folderShared = null;
-            string sharedWith = null;
-            string whoShared = null;
             string contentType = null;
             string folderUrl = null;
             string folderTitle = null;
             string folderId = null;
-            string typeOfShare = null;
+            string folderUniqueId = null;
+            string folderName = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
+            string authorId = null;
 
 
             for (int i = 0; i < 20; i++)
@@ -481,27 +609,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     var json = JsonConvert.SerializeObject(folderShared);
                     Dictionary<string, object> dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                     Dictionary<string, string> dString = dictionary.ToDictionary(k => k.Key, k => Convert.ToString(k.Value));
-                    dString.TryGetValue("sharedWith", out sharedWith);
-                    dString.TryGetValue("whoShared", out whoShared);
                     dString.TryGetValue("contentType", out contentType);
                     dString.TryGetValue("folderUrl", out folderUrl);
                     dString.TryGetValue("folderTitle", out folderTitle);
                     dString.TryGetValue("folderId", out folderId);
-                    dString.TryGetValue("typeOfShare", out typeOfShare);
+                    dString.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dString.TryGetValue("folderName", out folderName);
+                    dString.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dString.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dString.TryGetValue("objectType", out objectType);
+                    dString.TryGetValue("authorId", out authorId);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-
             Assert.NotNull(folderShared);
-            Assert.NotNull(sharedWith);
-            Assert.NotNull(whoShared);
             Assert.NotNull(contentType);
             Assert.NotNull(folderUrl);
             Assert.NotNull(folderTitle);
             Assert.NotNull(folderId);
-            Assert.NotNull(typeOfShare);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(folderName);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
+            Assert.NotNull(authorId);
         }
 
         [Test]
@@ -514,11 +647,13 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             object folderPinnedToTop = null;
             string foldername = null;
-            string userLogin = null;
             string folderId = null;
             string folderUrl = null;
-            string folderTitle = null;
             string whoPinned = null;
+            string folderUniqueId = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
 
             for (int i = 0; i < 20; i++)
             {
@@ -527,12 +662,14 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(folderPinnedToTop);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("userLogin", out userLogin);
-                    dictionary.TryGetValue("foldername", out foldername);
+                    dictionary.TryGetValue("folderName", out foldername);
                     dictionary.TryGetValue("folderId", out folderId);
                     dictionary.TryGetValue("folderUrl", out folderUrl);
-                    dictionary.TryGetValue("folderTitle", out folderTitle);
                     dictionary.TryGetValue("whoPinned", out whoPinned);
+                    dictionary.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
@@ -540,11 +677,13 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             Assert.NotNull(folderPinnedToTop);
             Assert.NotNull(foldername);
-            Assert.NotNull(userLogin);
             Assert.NotNull(folderId);
             Assert.NotNull(folderUrl);
-            Assert.NotNull(folderTitle);
             Assert.NotNull(whoPinned);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -557,11 +696,13 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             object folderPinnedToTop = null;
             string foldername = null;
-            string userLogin = null;
             string folderId = null;
             string folderUrl = null;
-            string folderTitle = null;
             string whoPinned = null;
+            string folderUniqueId = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
 
             for (int i = 0; i < 20; i++)
             {
@@ -570,12 +711,14 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 {
                     var json = JsonConvert.SerializeObject(folderPinnedToTop);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("userLogin", out userLogin);
-                    dictionary.TryGetValue("foldername", out foldername);
+                    dictionary.TryGetValue("folderName", out foldername);
                     dictionary.TryGetValue("folderId", out folderId);
                     dictionary.TryGetValue("folderUrl", out folderUrl);
-                    dictionary.TryGetValue("folderTitle", out folderTitle);
                     dictionary.TryGetValue("whoPinned", out whoPinned);
+                    dictionary.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
@@ -583,54 +726,65 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
 
             Assert.NotNull(folderPinnedToTop);
             Assert.NotNull(foldername);
-            Assert.NotNull(userLogin);
             Assert.NotNull(folderId);
             Assert.NotNull(folderUrl);
-            Assert.NotNull(folderTitle);
             Assert.NotNull(whoPinned);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
         }
 
         [Test]
-        public void FolderUnPinToTopFromTopMenu()
+        public void FolderUnPinFromTopMenu()
         {
             Thread.Sleep(2500);
             sharePointSite.FolderUnPinToTopFromTopMenu();
 
             Thread.Sleep(2500);
 
-            object folderUnpinned = null;
+            object folderPinnedToTop = null;
             string foldername = null;
-            string userLogin = null;
             string folderId = null;
             string folderUrl = null;
             string folderTitle = null;
             string whoUnpinned = null;
+            string folderUniqueId = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
 
             for (int i = 0; i < 20; i++)
             {
-                folderUnpinned = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderUnpinned')");
-                if (folderUnpinned != null)
+                folderPinnedToTop = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderUnpinned')");
+                if (folderPinnedToTop != null)
                 {
-                    var json = JsonConvert.SerializeObject(folderUnpinned);
+                    var json = JsonConvert.SerializeObject(folderPinnedToTop);
                     Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    dictionary.TryGetValue("userLogin", out userLogin);
-                    dictionary.TryGetValue("foldername", out foldername);
+                    dictionary.TryGetValue("folderName", out foldername);
                     dictionary.TryGetValue("folderId", out folderId);
                     dictionary.TryGetValue("folderUrl", out folderUrl);
                     dictionary.TryGetValue("folderTitle", out folderTitle);
                     dictionary.TryGetValue("whoUnpinned", out whoUnpinned);
+                    dictionary.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-            Assert.NotNull(folderUnpinned);
+            Assert.NotNull(folderPinnedToTop);
             Assert.NotNull(foldername);
-            Assert.NotNull(userLogin);
             Assert.NotNull(folderId);
             Assert.NotNull(folderUrl);
             Assert.NotNull(folderTitle);
             Assert.NotNull(whoUnpinned);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -712,6 +866,49 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             _webDriver.Navigate().GoToUrl(documentList);
             Thread.Sleep(1000);
             sharePointSite.FileUpload();
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object fileUploaded = null;
+                string userID = null;
+                string libraryName = null;
+                string filesize = null;
+                string folderName = null;
+                string fileUniqueId = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    fileUploaded = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileUploaded')");
+                    if (fileUploaded != null)
+                    {
+                        var json = JsonConvert.SerializeObject(fileUploaded);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("libraryName", out libraryName);
+                        dictionary.TryGetValue("filesize", out filesize);
+                        dictionary.TryGetValue("folderName", out folderName);
+                        dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(fileUploaded);
+                Assert.NotNull(userID);
+                Assert.NotNull(libraryName);
+                Assert.NotNull(filesize);
+                Assert.NotNull(folderName);
+                Assert.NotNull(fileUniqueId);
+            }
+        }
+        [Test]
+        public void FileUploadDragAndDrop()
+        {
+            _webDriver.Navigate().GoToUrl(documentList);
+            Thread.Sleep(1000);
+            sharePointSite.FileUploadDragAndDrop();
             Thread.Sleep(1500);
             {
                 var sharePointSite = new SharepointSitePage(_webDriver);

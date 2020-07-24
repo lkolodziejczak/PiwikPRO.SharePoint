@@ -61,6 +61,12 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='pageCommandBarPublishButton']")]
         private IWebElement publishButton;
 
+        [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='pageCommandBarEditButton']")]
+        private IWebElement pageEditButton;
+
+        [FindsBy(How = How.ClassName, Using = "ms-Panel-closeButton")]
+        private IWebElement pageClosePromotePopup;
+
         [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='pageCommandBarSaveTemplateButton']")]
         private IWebElement saveAsTemplateButton;
 
@@ -309,6 +315,32 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             publishButton.Click();
             Thread.Sleep(1000);
             return $"SitePageTest{random}";
+        }
+
+        public void SitePageEdited()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("ms-Panel-closeButton")));
+            pageClosePromotePopup.Click();
+            Thread.Sleep(6000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='pageCommandBarEditButton']")));
+            pageEditButton.Click();
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='pageCommandBarPublishButton']")));
+            publishButton.Click();
+            Thread.Sleep(1000);
+        }
+
+        public void NewsPageEdited(string newsUrl)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl(newsUrl);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='pageCommandBarEditButton']")));
+            pageEditButton.Click();
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='pageCommandBarPublishButton']")));
+            publishButton.Click();
+            Thread.Sleep(1000);
         }
 
         public string NewsPostFromHomePageCreation()
