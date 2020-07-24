@@ -258,10 +258,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             string createdBy = null;
             string folderName = null;
             string folderUrl = null;
+            string contentType = null;
+            string folderUniqueId = null;
+            string folderId = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
 
             for (int i = 0; i < 20; i++)
             {
-                folderCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderCreated')");
+                folderCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'folderCreatedOrUploaded')");
                 if (folderCreated != null)
                 {
                     var json = JsonConvert.SerializeObject(folderCreated);
@@ -269,6 +275,12 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     dictionary.TryGetValue("createdBy", out createdBy);
                     dictionary.TryGetValue("folderName", out folderName);
                     dictionary.TryGetValue("folderUrl", out folderUrl);
+                    dictionary.TryGetValue("contentType", out contentType);
+                    dictionary.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dictionary.TryGetValue("folderId", out folderId);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
                     break;
                 }
                 Thread.Sleep(500);
@@ -278,6 +290,12 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(createdBy);
             Assert.NotNull(folderName);
             Assert.NotNull(folderUrl);
+            Assert.NotNull(contentType);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(folderId);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
         }
 
         [Test]
@@ -457,13 +475,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object folderShared = null;
-            string sharedWith = null;
-            string whoShared = null;
             string contentType = null;
             string folderUrl = null;
             string folderTitle = null;
             string folderId = null;
-            string typeOfShare = null;
+            string folderUniqueId = null;
+            string folderName = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
+            string authorId = null;
 
 
             for (int i = 0; i < 20; i++)
@@ -474,27 +495,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     var json = JsonConvert.SerializeObject(folderShared);
                     Dictionary<string, object> dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                     Dictionary<string, string> dString = dictionary.ToDictionary(k => k.Key, k => Convert.ToString(k.Value));
-                    dString.TryGetValue("sharedWith", out sharedWith);
-                    dString.TryGetValue("whoShared", out whoShared);
                     dString.TryGetValue("contentType", out contentType);
                     dString.TryGetValue("folderUrl", out folderUrl);
                     dString.TryGetValue("folderTitle", out folderTitle);
                     dString.TryGetValue("folderId", out folderId);
-                    dString.TryGetValue("typeOfShare", out typeOfShare);
+                    dString.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dString.TryGetValue("folderName", out folderName);
+                    dString.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dString.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dString.TryGetValue("objectType", out objectType);
+                    dString.TryGetValue("authorId", out authorId);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-
             Assert.NotNull(folderShared);
-            Assert.NotNull(sharedWith);
-            Assert.NotNull(whoShared);
             Assert.NotNull(contentType);
             Assert.NotNull(folderUrl);
             Assert.NotNull(folderTitle);
             Assert.NotNull(folderId);
-            Assert.NotNull(typeOfShare);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(folderName);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
+            Assert.NotNull(authorId);
         }
 
         [Test]
@@ -506,13 +532,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object folderShared = null;
-            string sharedWith = null;
-            string whoShared = null;
             string contentType = null;
             string folderUrl = null;
             string folderTitle = null;
             string folderId = null;
-            string typeOfShare = null;
+            string folderUniqueId = null;
+            string folderName = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
+            string authorId = null;
 
 
             for (int i = 0; i < 20; i++)
@@ -523,27 +552,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     var json = JsonConvert.SerializeObject(folderShared);
                     Dictionary<string, object> dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                     Dictionary<string, string> dString = dictionary.ToDictionary(k => k.Key, k => Convert.ToString(k.Value));
-                    dString.TryGetValue("sharedWith", out sharedWith);
-                    dString.TryGetValue("whoShared", out whoShared);
                     dString.TryGetValue("contentType", out contentType);
                     dString.TryGetValue("folderUrl", out folderUrl);
                     dString.TryGetValue("folderTitle", out folderTitle);
                     dString.TryGetValue("folderId", out folderId);
-                    dString.TryGetValue("typeOfShare", out typeOfShare);
+                    dString.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dString.TryGetValue("folderName", out folderName);
+                    dString.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dString.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dString.TryGetValue("objectType", out objectType);
+                    dString.TryGetValue("authorId", out authorId);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-
             Assert.NotNull(folderShared);
-            Assert.NotNull(sharedWith);
-            Assert.NotNull(whoShared);
             Assert.NotNull(contentType);
             Assert.NotNull(folderUrl);
             Assert.NotNull(folderTitle);
             Assert.NotNull(folderId);
-            Assert.NotNull(typeOfShare);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(folderName);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
+            Assert.NotNull(authorId);
         }
 
         [Test]
@@ -555,13 +589,16 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Thread.Sleep(2500);
 
             object folderShared = null;
-            string sharedWith = null;
-            string whoShared = null;
             string contentType = null;
             string folderUrl = null;
             string folderTitle = null;
             string folderId = null;
-            string typeOfShare = null;
+            string folderUniqueId = null;
+            string folderName = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
+            string authorId = null;
 
 
             for (int i = 0; i < 20; i++)
@@ -572,27 +609,32 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     var json = JsonConvert.SerializeObject(folderShared);
                     Dictionary<string, object> dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                     Dictionary<string, string> dString = dictionary.ToDictionary(k => k.Key, k => Convert.ToString(k.Value));
-                    dString.TryGetValue("sharedWith", out sharedWith);
-                    dString.TryGetValue("whoShared", out whoShared);
                     dString.TryGetValue("contentType", out contentType);
                     dString.TryGetValue("folderUrl", out folderUrl);
                     dString.TryGetValue("folderTitle", out folderTitle);
                     dString.TryGetValue("folderId", out folderId);
-                    dString.TryGetValue("typeOfShare", out typeOfShare);
+                    dString.TryGetValue("folderUniqueId", out folderUniqueId);
+                    dString.TryGetValue("folderName", out folderName);
+                    dString.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dString.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dString.TryGetValue("objectType", out objectType);
+                    dString.TryGetValue("authorId", out authorId);
                     break;
                 }
                 Thread.Sleep(500);
             }
 
-
             Assert.NotNull(folderShared);
-            Assert.NotNull(sharedWith);
-            Assert.NotNull(whoShared);
             Assert.NotNull(contentType);
             Assert.NotNull(folderUrl);
             Assert.NotNull(folderTitle);
             Assert.NotNull(folderId);
-            Assert.NotNull(typeOfShare);
+            Assert.NotNull(folderUniqueId);
+            Assert.NotNull(folderName);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(objectType);
+            Assert.NotNull(authorId);
         }
 
         [Test]
