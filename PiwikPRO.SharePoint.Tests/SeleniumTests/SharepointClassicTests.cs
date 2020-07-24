@@ -278,7 +278,64 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(userID);
             }
         }
+        [Test]
+        public void FileCreated()
+        {
+            _webDriver.Navigate().GoToUrl(documentListClassic);
+            sharePointSite.FileCreated();
 
+            Thread.Sleep(1500);
+            {
+                var sharePointSite = new SharepointSitePage(_webDriver);
+                IJavaScriptExecutor jse = (IJavaScriptExecutor)_webDriver;
+                Thread.Sleep(2000);
+
+                object fileCreated = null;
+                string fileTitle = null;
+                string fileUniqueId = null;
+                string fileName = null;
+                string fileExt = null;
+                string fileUrl = null;
+                string folderName = null;
+                string folderUrl = null;
+                string documentlibraryName = null;
+                string documentlibraryUrl = null;
+                string objectType = null;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    fileCreated = jse.ExecuteScript("return dataLayer.find(x => x.event === 'fileCreated')");
+                    if (fileCreated != null)
+                    {
+                        var json = JsonConvert.SerializeObject(fileCreated);
+                        Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        dictionary.TryGetValue("fileTitle", out fileTitle);
+                        dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                        dictionary.TryGetValue("fileExt", out fileExt);
+                        dictionary.TryGetValue("fileName", out fileName);
+                        dictionary.TryGetValue("fileUrl", out fileUrl);
+                        dictionary.TryGetValue("folderName", out folderName);
+                        dictionary.TryGetValue("folderUrl", out folderUrl);
+                        dictionary.TryGetValue("objectType", out objectType);
+                        dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                        dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                Assert.NotNull(fileCreated);
+                //Assert.NotNull(fileTitle);
+                Assert.NotNull(fileUniqueId);
+                Assert.NotNull(fileExt);
+                Assert.NotNull(fileName);
+                Assert.NotNull(fileUrl);
+                Assert.NotNull(folderName);
+                Assert.NotNull(folderUrl);
+                Assert.NotNull(objectType);
+                Assert.NotNull(documentlibraryName);
+                Assert.NotNull(documentlibraryUrl);
+            }
+        }
         [Test]
         public void FileOpened()
         {

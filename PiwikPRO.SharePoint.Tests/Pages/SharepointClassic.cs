@@ -161,7 +161,7 @@ namespace PiwikPRO.SharePoint.Tests.Classic
             newFolderNameInput.SendKeys($"testfolder{random}");
             Thread.Sleep(1500);
             newFolderCreateButton.Click();
-            Thread.Sleep(500);
+            Thread.Sleep(1500);
             return $"testfolder{random}";
         }
 
@@ -187,6 +187,7 @@ namespace PiwikPRO.SharePoint.Tests.Classic
         {
             string folderName = this.FolderCreated();
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("QCB1_Button1")));
             var folder = wait.Until(x => x.FindElement(By.XPath($"//a[starts-with(@aria-label,'{folderName}')]")));
             folder.Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("QCB1_Button1")));
