@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Support.PageObjects;
+using System.Threading;
 
 namespace PiwikPRO.SharePoint.Tests.Pages
 {
@@ -19,10 +20,10 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             PageFactory.InitElements(driver, this);
         }
 
-        [FindsBy(How = How.XPath, Using = "//button[@title='Like this page']")]
+        [FindsBy(How = How.XPath, Using = "//i[@data-icon-name='Like']")]
         private IWebElement likePageButton;
 
-        [FindsBy(How = How.XPath, Using = "//button[@title='Unlike this page']")]
+        [FindsBy(How = How.XPath, Using = "//i[@data-icon-name='LikeSolid']")]
         private IWebElement unlikePageButton;
 
         [FindsBy(How = How.XPath, Using = "//div[@id='sp-comment-input']")]
@@ -31,16 +32,16 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "//button[@data-automation-id='sp-comment-post']")]
         private IWebElement addCommentButton;
 
-        [FindsBy(How = How.XPath, Using = "//button[@aria-label='Like the comment.']")]
+        [FindsBy(How = How.XPath, Using = "(//i[@data-icon-name='Like'])[2]")]
         private IWebElement likeCommentButton;
 
-        [FindsBy(How = How.XPath, Using = "//button[@aria-label='Unlike the comment.']")]
+        [FindsBy(How = How.XPath, Using = "//i[@data-icon-name='LikeSolid']")]
         private IWebElement unlikeCommentButton;
 
         [FindsBy(How = How.XPath, Using = "(//button[@data-automation-id='comment-reply-button'])[1]")]
         private IWebElement commentReplyButton;
 
-        [FindsBy(How = How.XPath, Using = "(//div[@aria-label='Add a comment.'])[2]")]
+        [FindsBy(How = How.XPath, Using = "(//div[starts-with(@id,'sp-comment-input-reply')])[1]")]
         private IWebElement commentReplyInput;
 
         [FindsBy(How = How.XPath, Using = "(//button[@aria-label='Like the comment.'])[2]")]
@@ -49,20 +50,26 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         [FindsBy(How = How.XPath, Using = "(//button)[35]")]
         private IWebElement commentReplyUnlikeButton;
 
-        [FindsBy(How = How.XPath, Using = "(//button)[35]")]
+        [FindsBy(How = How.XPath, Using = "(//button[starts-with(@data-automation-id,'sp-comment-reply-post-')])[1]")]
         private IWebElement commentReplySubmitButton;
 
         public void ClickLikePage()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@title='Like this page']")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='sp-comment-input']")));
+            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//aside[@data-automation-id='sp-socialbar']")));
+            Thread.Sleep(500);
             likePageButton.Click();
+            Thread.Sleep(1500);
+
         }
 
         public void ClickUnlikePage()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@title='Unlike this page']")));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//i[@data-icon-name='LikeSolid']")));
+            Thread.Sleep(500);
             unlikePageButton.Click();
         }
 
@@ -70,20 +77,30 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='sp-comment-input']")));
+            Thread.Sleep(1000);
             commentInput.Click();
             commentInput.SendKeys(comment);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automation-id='sp-comment-post']")));
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[@data-automation-id='sp-comment-post']")));
 
             addCommentButton.Click();
+            Thread.Sleep(1500);
         }
 
         public void ClickLikeComment()
         {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='sp-comment-input']")));
+            Thread.Sleep(1000);
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("(//i[@data-icon-name='Like'])[2]")));
             likeCommentButton.Click();
         }
 
         public void ClickUnlikeComment()
         {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//i[@data-icon-name='LikeSolid']")));
+
             unlikeCommentButton.Click();
         }
 
@@ -91,9 +108,9 @@ namespace PiwikPRO.SharePoint.Tests.Pages
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             commentReplyButton.Click();
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//div[@aria-label='Add a comment.'])[2]")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//div[starts-with(@id,'sp-comment-input-reply')])[1]")));
             commentReplyInput.SendKeys(replyComment);
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//button[@aria-label='Post'])[2]")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//button[starts-with(@data-automation-id,'sp-comment-reply-post-')])[1]")));
             commentReplySubmitButton.Click();
         }
 
@@ -110,6 +127,5 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("(//button)[35]")));
             commentReplyUnlikeButton.Click();
         }
-
     }
 }
