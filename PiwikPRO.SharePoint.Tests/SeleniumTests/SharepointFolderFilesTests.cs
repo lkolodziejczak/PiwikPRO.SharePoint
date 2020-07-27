@@ -799,7 +799,15 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             string folderSize = null;
             string folderUrl = null;
             string folderTitle = null;
-            string whoDeleted = null;
+            string whoCreated = null;
+            string folderName = null;
+            string folderUrl2 = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
+            string folderModified = null;
+            string parentFolderName = null;
+            string parentFolderUrl = null;
 
             for (int i = 0; i < 20; i++)
             {
@@ -811,7 +819,15 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     dictionary.TryGetValue("folderSize", out folderSize);
                     dictionary.TryGetValue("FolderUrl", out folderUrl);
                     dictionary.TryGetValue("folderTitle", out folderTitle);
-                    dictionary.TryGetValue("whoDeleted", out whoDeleted);
+                    dictionary.TryGetValue("whoCreated", out whoCreated);
+                    dictionary.TryGetValue("folderName", out folderName);
+                    dictionary.TryGetValue("folderUrl", out folderUrl2);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
+                    dictionary.TryGetValue("folderModified", out folderModified);
+                    dictionary.TryGetValue("parentFolderName", out parentFolderName);
+                    dictionary.TryGetValue("parentFolderUrl", out parentFolderUrl);
                     break;
                 }
                 Thread.Sleep(500);
@@ -821,7 +837,15 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(folderSize);
             Assert.NotNull(folderUrl);
             Assert.NotNull(folderTitle);
-            Assert.NotNull(whoDeleted);
+            Assert.NotNull(whoCreated);
+            Assert.NotNull(folderName);
+            Assert.NotNull(folderUrl2);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(folderModified);
+            Assert.NotNull(objectType);
+            //Assert.NotNull(parentFolderName);
+            //Assert.NotNull(parentFolderUrl);
         }
 
         [Test]
@@ -836,7 +860,15 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             string folderSize = null;
             string folderUrl = null;
             string folderTitle = null;
-            string whoDeleted = null;
+            string whoCreated = null;
+            string folderName = null;
+            string folderUrl2 = null;
+            string documentlibraryName = null;
+            string documentlibraryUrl = null;
+            string objectType = null;
+            string folderModified = null;
+            string parentFolderName = null;
+            string parentFolderUrl = null;
 
             for (int i = 0; i < 20; i++)
             {
@@ -848,7 +880,15 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     dictionary.TryGetValue("folderSize", out folderSize);
                     dictionary.TryGetValue("FolderUrl", out folderUrl);
                     dictionary.TryGetValue("folderTitle", out folderTitle);
-                    dictionary.TryGetValue("whoDeleted", out whoDeleted);
+                    dictionary.TryGetValue("whoCreated", out whoCreated);
+                    dictionary.TryGetValue("folderName", out folderName);
+                    dictionary.TryGetValue("folderUrl", out folderUrl2);
+                    dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                    dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                    dictionary.TryGetValue("objectType", out objectType);
+                    dictionary.TryGetValue("folderModified", out folderModified);
+                    dictionary.TryGetValue("parentFolderName", out parentFolderName);
+                    dictionary.TryGetValue("parentFolderUrl", out parentFolderUrl);
                     break;
                 }
                 Thread.Sleep(500);
@@ -858,7 +898,15 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
             Assert.NotNull(folderSize);
             Assert.NotNull(folderUrl);
             Assert.NotNull(folderTitle);
-            Assert.NotNull(whoDeleted);
+            Assert.NotNull(whoCreated);
+            Assert.NotNull(folderName);
+            Assert.NotNull(folderUrl2);
+            Assert.NotNull(documentlibraryName);
+            Assert.NotNull(documentlibraryUrl);
+            Assert.NotNull(folderModified);
+            Assert.NotNull(objectType);
+            //Assert.NotNull(parentFolderName);
+            //Assert.NotNull(parentFolderUrl);
         }
         [Test]
         public void FileUpload()
