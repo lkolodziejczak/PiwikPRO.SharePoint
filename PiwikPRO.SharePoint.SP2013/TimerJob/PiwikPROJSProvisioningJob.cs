@@ -14,24 +14,29 @@ namespace PiwikPRO.SharePoint.SP2013
 {
     class PiwikPROJSProvisioningJob : SPJobDefinition
     {
-        public PiwikPROJSProvisioningJob(): base() { }
-        public PiwikPROJSProvisioningJob(string jobName, SPService service, SPServer server, SPJobLockType targetType): base(jobName, service, server, targetType) { }
-        public PiwikPROJSProvisioningJob(string jobName, SPWebApplication webApplication): base(jobName, webApplication, null, SPJobLockType.ContentDatabase) {
+        public PiwikPROJSProvisioningJob() : base() { }
+        public PiwikPROJSProvisioningJob(string jobName, SPService service, SPServer server, SPJobLockType targetType) : base(jobName, service, server, targetType) { }
+        public PiwikPROJSProvisioningJob(string jobName, SPWebApplication webApplication) : base(jobName, webApplication, null, SPJobLockType.ContentDatabase)
+        {
             this.Title = jobName;
         }
         public override void Execute(Guid contentDbId)
         {
-            try {
+            try
+            {
                 Configuration cfg = new Configuration();
                 SPLogger splogger = new SPLogger();
-                PiwikPROJobOperations pbjo = new PiwikPROJobOperations(cfg, splogger);
+                using (var ctx = new ClientContext(cfg.PiwikAdminSiteUrl))
+                {
+                    PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, splogger);
 
-                pbjo.GetAllNewSitesAndOperate(new ClientContext(cfg.PiwikAdminSiteUrl),"","", "");
-                pbjo.GetAllDeactivatingSitesAndOperate(new ClientContext(cfg.PiwikAdminSiteUrl), "", "", "");
-                //pbjo.GetAllSettingsUpdatedPagesAndOperate(new ClientContext(cfg.PiwikAdminSiteUrl),"","", "");
+                    pbjo.GetAllNewSitesAndOperate();
+                    pbjo.GetAllDeactivatingSitesAndOperate();
+                }
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Logger.WriteLog(Logger.Category.Unexpected, "Piwik Execute TimerJob", ex.Message);
             }
         }

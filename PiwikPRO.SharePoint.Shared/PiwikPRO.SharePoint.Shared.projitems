@@ -9,6 +9,7 @@
     <Import_RootNamespace>PiwikPRO.SharePoint.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ProcessPiwikSitesCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigValues.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\PiwikPROJobOperations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IConfiguration.cs" />

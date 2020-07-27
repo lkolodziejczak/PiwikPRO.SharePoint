@@ -1,32 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
-using System.Security;
-using Microsoft.SharePoint.Client;
-using PiwikPRO.SharePoint.Shared;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PiwikPRO.SharePoint.WebJob
 {
-    public class Configuration : Shared.IConfiguration
+    internal class Configuration
     {
-        private PropertyBagOperations pbo;
-
-        public Configuration(ISPLogger _logger, ClientContext _ctx)
-        {
-            this.pbo = new PropertyBagOperations(_logger, _ctx);
-        }
-
-        public string ListName => ConfigurationManager.AppSettings["PiwikListName"];
+        public string ClientId => ConfigurationManager.AppSettings["ClientId"];
 
         public string PiwikAdminSiteUrl => ConfigurationManager.AppSettings["PiwikAdminSiteUrl"];
 
-        public string PiwikClientID => ConfigurationManager.AppSettings["PiwikClientID"];
+        public StoreLocation StoreLocation => Enum.TryParse(ConfigurationManager.AppSettings["StoreLocation"], out StoreLocation value)
+            ? value
+            : StoreLocation.CurrentUser;
 
-        public string PiwikClientSecret => ConfigurationManager.AppSettings["PiwikClientSecret"];
+        public StoreName StoreName => Enum.TryParse(ConfigurationManager.AppSettings["StoreName"], out StoreName value)
+            ? value
+            : StoreName.My;
 
-        public string PiwikOldApiToken => ConfigurationManager.AppSettings["PiwikOldApiToken"];
+        public string Tenant => ConfigurationManager.AppSettings["Tenant"];
 
-        public string PiwikServiceUrl => ConfigurationManager.AppSettings["PiwikServiceUrl"];
-
-        public List<PropertyBagEntity> PropertyBagList => new List<PropertyBagEntity>(pbo.PropertyBagList);
+        public string ThumbPrint => ConfigurationManager.AppSettings["ThumbPrint"];
     }
 }

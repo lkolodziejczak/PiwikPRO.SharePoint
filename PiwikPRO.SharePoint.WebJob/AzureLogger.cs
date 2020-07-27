@@ -2,10 +2,6 @@
 using Microsoft.ApplicationInsights.Extensibility;
 using PiwikPRO.SharePoint.Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PiwikPRO.SharePoint.WebJob
 {

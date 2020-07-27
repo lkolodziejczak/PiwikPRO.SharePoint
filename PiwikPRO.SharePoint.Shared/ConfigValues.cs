@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PiwikPRO.SharePoint.Shared
+﻿namespace PiwikPRO.SharePoint.Shared
 {
     public class ConfigValues
     {
@@ -10,12 +6,6 @@ namespace PiwikPRO.SharePoint.Shared
 
         //property bag keys
         public const string PiwikPro_PropertyBag_SiteId = "piwik_metasitenamestored";
-        public const string PiwikPro_PropertyBag_DocumentAddedGoalId = "piwik_goaldocumentaddedid";
-        public const string PiwikPro_PropertyBag_PageAddedGoalId = "piwik_goalpageaddedid";
-        public const string PiwikPro_PropertyBag_PageEditedGoalId = "piwik_goalpageeditedid";
-        public const string PiwikPro_PropertyBag_ShouldTrackDocumentAddedGoal = "piwik_usegoaldocumentadded";
-        public const string PiwikPro_PropertyBag_ShouldTrackPageAddedGoal = "piwik_usegoalpageadded";
-        public const string PiwikPro_PropertyBag_ShouldTrackPageEditedGoal = "piwik_usegoalpageedited";
         public const string PiwikPro_PropertyBag_Department = "piwik_senddepartment";
         public const string PiwikPro_PropertyBag_EnforceSslComunication = "piwik_enforcessl";
         public const string PiwikPro_PropertyBag_JobTitle = "piwik_sendjobtitle";
@@ -29,16 +19,10 @@ namespace PiwikPRO.SharePoint.Shared
         public const string PiwikPro_PropertyBag_ClientID = "piwik_clientid";
         public const string PiwikPro_PropertyBag_ClientSecret = "piwik_clientsecret";
         public const string PiwikPro_PropertyBag_OldApiToken = "piwik_oldapitoken";
-        public const string PiwikPro_PropertyBag_AdminSiteUrl = "piwik_adminsiteurl";
-        public const string PiwikPro_PropertyBag_PiwikListName = "piwik_listname";
         public const string PiwikPro_PropertyBag_PiwikContainersUrl = "piwik_containersurl";
-        public const string PiwikPro_PropertyBag_TrackerJSScriptUrl = "piwik_trackerjsscripturl";
         public const string PiwikPro_PropertyBag_Sha3 = "piwik_sha3";
 
         //property bag template keys
-        public const string PiwikPro_PropertyBag_TemplateShouldTrackDocumentAddedGoal = "piwik_templateusegoaldocumentadded";
-        public const string PiwikPro_PropertyBag_TemplateShouldTrackPageAddedGoal = "piwik_templateusegoalpageadded";
-        public const string PiwikPro_PropertyBag_TemplateShouldTrackPageEditedGoal = "piwik_templateusegoalpageedited";
         public const string PiwikPro_PropertyBag_TemplateDepartment = "piwik_templatesenddepartment";
         public const string PiwikPro_PropertyBag_TemplateJobTitle = "piwik_templatesendjobtitle";
         public const string PiwikPro_PropertyBag_TemplateUsername = "piwik_templatesendusername";
