@@ -463,8 +463,6 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             string tempPath = Path.GetTempPath();
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='uploadCommand']")));
-            //var tempFile = File.CreateText($"{tempPath}TempFile{random}.txt");
-            //tempFile.WriteLine("testFile");
             string tempfile = $"{tempPath}TempFile{random}.txt";
             File.WriteAllText(tempfile, "testfile");
             uploadButton.Click();
@@ -473,7 +471,6 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             AutoItX3 autoIt = new AutoItX3();
             autoIt.WinActivate("Otwieranie");
             Thread.Sleep(2000);
-            //FileOpen(@ScriptDir & "\TempFile.txt", 1);
             autoIt.Send(tempfile);
             Thread.Sleep(2000);
             autoIt.Send("{ENTER}");

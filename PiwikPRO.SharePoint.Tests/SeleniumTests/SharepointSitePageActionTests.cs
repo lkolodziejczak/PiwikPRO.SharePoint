@@ -286,7 +286,6 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 }
                 Thread.Sleep(300);
             }
-            Assert.NotNull(unlikeitemUniqueId);
             Assert.NotNull(likeComment);
             Assert.NotNull(likeauthorDisplayName);
             Assert.NotNull(likeitemUniqueId);

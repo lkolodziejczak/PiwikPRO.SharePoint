@@ -921,11 +921,27 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Thread.Sleep(2000);
 
                 object fileUploaded = null;
-                string userID = null;
-                string libraryName = null;
-                string filesize = null;
-                string folderName = null;
+                string authorDisplayName = null;
+                string authorID = null;
+                string documentlibraryName = null;
+                string documentlibraryUrl = null;
+                string fileExt = null;
+                string fileName = null;
                 string fileUniqueId = null;
+                string fileUrl = null;
+                string filesize = null;
+                string libraryName = null;
+                string itemAuthorDepartment = null;
+                string itemAuthorJobTitle = null;
+                string itemAuthorOffice = null;
+                string parentFolderName = null;
+                string parentFolderUrl = null;
+                string userDepartment = null;
+                string userDisplayName = null;
+                string userID = null;
+                string userJobTitle = null;
+                string userOffice = null;
+
 
                 for (int i = 0; i < 30; i++)
                 {
@@ -934,21 +950,53 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                     {
                         var json = JsonConvert.SerializeObject(fileUploaded);
                         Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                        dictionary.TryGetValue("userID", out userID);
-                        dictionary.TryGetValue("libraryName", out libraryName);
-                        dictionary.TryGetValue("filesize", out filesize);
-                        dictionary.TryGetValue("folderName", out folderName);
+                        dictionary.TryGetValue("authorDisplayName", out authorDisplayName);
+                        dictionary.TryGetValue("authorID", out authorID);
+                        dictionary.TryGetValue("documentlibraryName", out documentlibraryName);
+                        dictionary.TryGetValue("documentlibraryUrl", out documentlibraryUrl);
+                        dictionary.TryGetValue("fileExt", out fileExt);
+                        dictionary.TryGetValue("fileName", out fileName);
                         dictionary.TryGetValue("fileUniqueId", out fileUniqueId);
+                        dictionary.TryGetValue("fileUrl", out fileUrl);
+                        dictionary.TryGetValue("filesize", out filesize);
+                        dictionary.TryGetValue("libraryName", out libraryName);
+                        dictionary.TryGetValue("fileAuthorDepartment", out itemAuthorDepartment);
+                        dictionary.TryGetValue("fileAuthorJobTitle", out itemAuthorJobTitle);
+                        dictionary.TryGetValue("fileAuthorOffice", out itemAuthorOffice);
+                        dictionary.TryGetValue("parentFolderName", out parentFolderName);
+                        dictionary.TryGetValue("parentFolderUrl", out parentFolderUrl);
+                        dictionary.TryGetValue("userDepartment", out userDepartment);
+                        dictionary.TryGetValue("userDisplayName", out userDisplayName);
+                        dictionary.TryGetValue("userID", out userID);
+                        dictionary.TryGetValue("userJobTitle", out userJobTitle);
+                        dictionary.TryGetValue("userOffice", out userOffice);
+
                         break;
                     }
                     Thread.Sleep(100);
                 }
                 Assert.NotNull(fileUploaded);
-                Assert.NotNull(userID);
-                Assert.NotNull(libraryName);
-                Assert.NotNull(filesize);
-                Assert.NotNull(folderName);
+                Assert.NotNull(authorDisplayName);
+                Assert.NotNull(authorID);
+                Assert.NotNull(documentlibraryName);
+                Assert.NotNull(documentlibraryUrl);
+                Assert.NotNull(fileExt);
+                Assert.NotNull(fileName);
                 Assert.NotNull(fileUniqueId);
+                Assert.NotNull(fileUrl);
+                Assert.NotNull(filesize);
+                Assert.NotNull(libraryName);
+                // Assert.NotNull(itemAuthorDepartment);
+                // Assert.NotNull(itemAuthorJobTitle);
+                // Assert.NotNull(itemAuthorOffice);
+                Assert.NotNull(parentFolderName);
+                Assert.NotNull(parentFolderUrl);
+                //Assert.NotNull(userDepartment);
+                Assert.NotNull(userDisplayName);
+                Assert.NotNull(userID);
+                //Assert.NotNull(userJobTitle);
+                //Assert.NotNull(userOffice);
+
             }
         }
         [Test]
