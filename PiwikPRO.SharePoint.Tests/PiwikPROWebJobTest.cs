@@ -5,6 +5,7 @@ using PiwikPRO.SharePoint.Shared.Helpers;
 using PiwikPRO.SharePoint.WebJob;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Threading;
 
@@ -131,7 +132,7 @@ namespace PiwikPRO.SharePoint.Tests.WebJobTests
             {
                 AzureLogger splogger = new AzureLogger();
                 splogger.WriteLog(Category.Information, "Piwik PRO Job", "Started");
-                Configuration cfg = new Configuration(splogger, ctx);
+                Config cfg = ExecuteConfiguration();
 
                 PiwikPROServiceOperations pso = new PiwikPROServiceOperations(cfg.PiwikClientID, cfg.PiwikClientSecret, cfg.PiwikServiceUrl, cfg.PiwikOldApiToken, splogger);
                 pso.RemoveSiteFromPiwik(idSite);
@@ -143,8 +144,8 @@ namespace PiwikPRO.SharePoint.Tests.WebJobTests
         public bool CheckIfSiteIsAddedToPiwik()
         {
             AzureLogger splogger = new AzureLogger();
-            Configuration cfg = new Configuration(splogger, ctx);
-            PiwikPROJobOperations pbjo = new PiwikPROJobOperations(cfg, splogger);
+            Config cfg = ExecuteConfiguration();
+            PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
 
             string idSite = GetItemSiteIdAddedToList();
             if (!string.IsNullOrEmpty(idSite))
@@ -160,8 +161,8 @@ namespace PiwikPRO.SharePoint.Tests.WebJobTests
         public bool CheckIfSiteIsInactiveInPiwik()
         {
             AzureLogger splogger = new AzureLogger();
-            Configuration cfg = new Configuration(splogger, ctx);
-            PiwikPROJobOperations pbjo = new PiwikPROJobOperations(cfg, splogger);
+            Config cfg = ExecuteConfiguration();
+            PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
 
             return pbjo.CheckIfPageIsAlreadyOnPiwik("Inactive - " + testedSiteName);
         }
@@ -213,11 +214,11 @@ namespace PiwikPRO.SharePoint.Tests.WebJobTests
             {
                 AzureLogger splogger = new AzureLogger();
                 splogger.WriteLog(Category.Information, "Piwik PRO Job", "Started");
-                Configuration cfg = new Configuration(splogger, ctx);
-                PiwikPROJobOperations pbjo = new PiwikPROJobOperations(cfg, splogger);
+                Config cfg = ExecuteConfiguration();
+                PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
 
-                pbjo.GetAllNewSitesAndOperate(ctx, PiwikAzureAppKey, PiwikAzureAppSecret, PiwikAdminTenantSiteUrl);
-                pbjo.GetAllDeactivatingSitesAndOperate(ctx, PiwikAzureAppKey, PiwikAzureAppSecret, PiwikAdminSiteUrl);
+                pbjo.GetAllNewSitesAndOperate();
+                pbjo.GetAllDeactivatingSitesAndOperate();
                 returner = true;
                 splogger.WriteLog(Category.Information, "Piwik PRO Job", "Finished");
             }
@@ -249,10 +250,27 @@ namespace PiwikPRO.SharePoint.Tests.WebJobTests
             using (ctx = authMan.GetAppOnlyAuthenticatedContext(PiwikAdminSiteUrl, PiwikAzureAppKey, PiwikAzureAppSecret))
             {
                 AzureLogger splogger = new AzureLogger();
-                Configuration cfg = new Configuration(splogger, ctx);
-                sdlo = new ListProcessor(ctx, cfg, splogger);
+                sdlo = new ListProcessor(ctx, splogger);
             }
             return sdlo;
+        }
+
+        private Config ExecuteConfiguration()
+        {
+            AzureLogger splogger = new AzureLogger();
+            var pbo = new PropertyBagOperations(splogger, ctx);
+            Config cfg = new Config();
+            cfg.PiwikServiceUrl = pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_ServiceUrl);
+
+            var items = ctx.Web.Lists.GetByTitle("PiwikConfig").GetItems(CamlQuery.CreateAllItemsQuery());
+            ctx.Load(items);
+            ctx.ExecuteQueryRetry();
+
+            cfg.PiwikClientID = items.FirstOrDefault(x => (string)x["Title"] == ConfigValues.PiwikPro_PropertyBag_ClientID)?["Value"]?.ToString();
+            cfg.PiwikClientSecret = items.FirstOrDefault(x => (string)x["Title"] == ConfigValues.PiwikPro_PropertyBag_ClientSecret)?["Value"]?.ToString();
+            cfg.PiwikOldApiToken = items.FirstOrDefault(x => (string)x["Title"] == ConfigValues.PiwikPro_PropertyBag_OldApiToken)?["Value"]?.ToString();
+
+            return cfg;
         }
     }
 }
