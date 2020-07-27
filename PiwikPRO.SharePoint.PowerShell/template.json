@@ -11,11 +11,11 @@
             "type": "String"
         },
         "serverfarms_piwikproPlan_name": {
-            "defaultValue": "piwikproPlan",
+            "defaultValue": "piwikpro",
             "type": "String"
         },
         "storageAccounts_piwikprostorage_name": {
-            "defaultValue": "piwikprostorage",
+            "defaultValue": "piwikpro",
             "type": "String"
         }
     },
@@ -26,9 +26,6 @@
             "apiVersion": "2015-05-01",
             "name": "[parameters('components_piwikpro_name')]",
             "location": "westeurope",
-            "tags": {
-                "hidden-link:/providers/Microsoft.Web/sites/piwikpro": "Resource"
-            },
             "kind": "web",
             "properties": {
                 "Application_Type": "web",
@@ -41,9 +38,6 @@
             "apiVersion": "2019-06-01",
             "name": "[parameters('storageAccounts_piwikprostorage_name')]",
             "location": "westeurope",
-            "tags": {
-                "hidden-related:/providers/Microsoft.Web/sites/piwikpro": "empty"
-            },
             "sku": {
                 "name": "Standard_LRS",
                 "tier": "Standard"
@@ -139,20 +133,17 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_piwikproPlan_name'))]"
             ],
-            "tags": {
-                "hidden-related:/subscriptions/b4bef1b7-f800-4095-a42c-ee93a7debd93/resourceGroups/piwikproResourceGroup/providers/Microsoft.Web/serverfarms/piwikproPlan": "empty"
-            },
             "kind": "app",
             "properties": {
                 "enabled": true,
                 "hostNameSslStates": [
                     {
-                        "name": "piwikpro.azurewebsites.net",
+                        "name": "[concat(parameters('sites_piwikpro_name'), '.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Standard"
                     },
                     {
-                        "name": "piwikpro.scm.azurewebsites.net",
+                        "name": "[concat(parameters('sites_piwikpro_name'), '.scm.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Repository"
                     }
@@ -179,9 +170,6 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_piwikpro_name'))]"
             ],
-            "tags": {
-                "hidden-related:/subscriptions/b4bef1b7-f800-4095-a42c-ee93a7debd93/resourceGroups/piwikproResourceGroup/providers/Microsoft.Web/serverfarms/piwikproPlan": "empty"
-            },
             "properties": {
                 "numberOfWorkers": 1,
                 "defaultDocuments": [
@@ -202,11 +190,11 @@
                 "httpLoggingEnabled": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$piwikpro",
+                "publishingUsername": "[concat('$', parameters('sites_piwikpro_name'))]",
                 "scmType": "None",
                 "use32BitWorkerProcess": true,
                 "webSocketsEnabled": false,
-                "alwaysOn": false,
+                "alwaysOn": true,
                 "managedPipelineMode": "Integrated",
                 "virtualApplications": [
                     {
@@ -255,7 +243,7 @@
                 "[resourceId('Microsoft.Web/sites', parameters('sites_piwikpro_name'))]"
             ],
             "properties": {
-                "siteName": "piwikpro",
+                "siteName": "[parameters('sites_piwikpro_name')]",
                 "hostNameType": "Verified"
             }
         }

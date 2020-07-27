@@ -31,6 +31,4 @@ $Header = @{
 'Authorization'=$accessToken
         }
 $apiUrl = "https://$webAppName.scm.azurewebsites.net/api/continuouswebjobs/webjob01"
-$result = Invoke-RestMethod -Uri $apiUrl -Headers $Header -Method put -InFile $zipfilePath -ContentType 'application/zip'
-$webApp = Get-AzResource -ResourceType 'microsoft.web/sites' -ResourceGroupName $resourceGroupName -ResourceName $webAppName
-$webApp | Set-AzResource -PropertyObject @{"siteConfig" = @{"AlwaysOn" = $true}} -Force
+Invoke-RestMethod -Uri $apiUrl -Headers $Header -Method put -InFile $zipfilePath -ContentType 'application/zip'
