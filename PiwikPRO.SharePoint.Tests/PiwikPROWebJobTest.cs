@@ -16,7 +16,7 @@ namespace PiwikPRO.SharePoint.Tests.WebJobTests
     {
         ClientContext ctx;
         public const string PiwikListName = "Piwik Pro Site Directory";
-        string PiwikAdminSiteUrl = "https://kogifidev3.sharepoint.com/";
+        string PiwikAdminSiteUrl = "https://kogifidev3.sharepoint.com/sites/piwikadmin";
         string PiwikAdminTenantSiteUrl = "https://kogifidev3-admin.sharepoint.com/";
         string PiwikAzureAppKey = "5000d8d3-f22c-46ac-a7ba-98938c7a0fb4";
         string PiwikAzureAppSecret = "2C/4jwkseGIpqzr3ZzddUXq2PBHp7Jd6SC4gQLYU0fo=";
@@ -144,27 +144,35 @@ namespace PiwikPRO.SharePoint.Tests.WebJobTests
         public bool CheckIfSiteIsAddedToPiwik()
         {
             AzureLogger splogger = new AzureLogger();
-            Config cfg = ExecuteConfiguration();
-            PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
+            OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
+            using (ctx = authMan.GetAppOnlyAuthenticatedContext(PiwikAdminSiteUrl, PiwikAzureAppKey, PiwikAzureAppSecret))
+            {
+                Config cfg = ExecuteConfiguration();
+                PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
 
-            string idSite = GetItemSiteIdAddedToList();
-            if (!string.IsNullOrEmpty(idSite))
-            {
-                return pbjo.CheckIfPageIsAlreadyOnPiwik(idSite);
-            }
-            else
-            {
-                return false;
+                string idSite = GetItemSiteIdAddedToList();
+                if (!string.IsNullOrEmpty(idSite))
+                {
+                    return pbjo.CheckIfPageIsAlreadyOnPiwik(idSite);
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
         public bool CheckIfSiteIsInactiveInPiwik()
         {
             AzureLogger splogger = new AzureLogger();
-            Config cfg = ExecuteConfiguration();
-            PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
+            OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
+            using (ctx = authMan.GetAppOnlyAuthenticatedContext(PiwikAdminSiteUrl, PiwikAzureAppKey, PiwikAzureAppSecret))
+            {
+                Config cfg = ExecuteConfiguration();
+                PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
 
-            return pbjo.CheckIfPageIsAlreadyOnPiwik("Inactive - " + testedSiteName);
+                return pbjo.CheckIfPageIsAlreadyOnPiwik("Inactive - " + testedSiteName);
+            }
         }
 
         public string GetItemSiteIdAddedToList()
@@ -210,7 +218,7 @@ namespace PiwikPRO.SharePoint.Tests.WebJobTests
         {
             bool returner = false;
             OfficeDevPnP.Core.AuthenticationManager authMan = new OfficeDevPnP.Core.AuthenticationManager();
-            using (ClientContext ctx = authMan.GetAppOnlyAuthenticatedContext(PiwikAdminSiteUrl, PiwikAzureAppKey, PiwikAzureAppSecret))
+            using (ctx = authMan.GetAppOnlyAuthenticatedContext(PiwikAdminSiteUrl, PiwikAzureAppKey, PiwikAzureAppSecret))
             {
                 AzureLogger splogger = new AzureLogger();
                 splogger.WriteLog(Category.Information, "Piwik PRO Job", "Started");
@@ -260,6 +268,7 @@ namespace PiwikPRO.SharePoint.Tests.WebJobTests
             AzureLogger splogger = new AzureLogger();
             var pbo = new PropertyBagOperations(splogger, ctx);
             Config cfg = new Config();
+
             cfg.PiwikServiceUrl = pbo.GetPropertyValueFromListByKey(ConfigValues.PiwikPro_PropertyBag_ServiceUrl);
 
             var items = ctx.Web.Lists.GetByTitle("PiwikConfig").GetItems(CamlQuery.CreateAllItemsQuery());
