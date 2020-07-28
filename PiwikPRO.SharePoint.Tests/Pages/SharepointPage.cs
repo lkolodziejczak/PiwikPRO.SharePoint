@@ -844,15 +844,16 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             var element = wait.Until(x => x.FindElement(By.XPath($".//button[@Title='test']")));
             //Actions action = new Actions(driver);
             //action.MoveToElement(element).Perform();
-            //Thread.Sleep(1500);
+            Thread.Sleep(5500);
             element.Click();
             IWebElement attachments =  wait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("ReactFieldEditor-rendererContainer-withInvisibleRegion")));
             IWebElement attachmentItem = attachments.FindElement(By.XPath($".//a[starts-with(@title,'test')]"));
+            Thread.Sleep(2500);
             Actions action = new Actions(driver);
             action.MoveToElement(attachmentItem).Perform();
-            Thread.Sleep(1500);
+            Thread.Sleep(2500);
             attachmentItem.Click();
-            Thread.Sleep(1500);
+            Thread.Sleep(2500);
         }
     }
 }
