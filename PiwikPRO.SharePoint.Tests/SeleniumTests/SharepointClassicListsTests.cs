@@ -302,7 +302,7 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 Assert.NotNull(listId);
                 Assert.NotNull(listTitle);
                 Assert.NotNull(listUrl);
-                Assert.NotNull(deletedBy);
+               // Assert.NotNull(deletedBy);
             }
         }
 
