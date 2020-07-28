@@ -7,18 +7,23 @@
       <pnp:Parameter Key="Owner">{currentuserloginname}</pnp:Parameter>
     </pnp:Parameters>
   </pnp:Preferences>
+  <pnp:Tenant>
+    <pnp:AppCatalog>
+      <pnp:Package Src="..\solutions\piwikpro-sharepoint.sppkg" Action="UploadAndPublish" SkipFeatureDeployment="true" Overwrite="true" />
+    </pnp:AppCatalog>
+  </pnp:Tenant>
   <pnp:Sequence ID="PiwikPRO">
     <pnp:SiteCollections>
       <pnp:SiteCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="pnp:TeamSiteNoGroup" ProvisioningId="PIWIK-ADMIN" Url="{parameter:SharePointUrl}{parameter:PiwikAdminServerRelativeUrl}" Owner="{parameter:Owner}" Language="1033" Title="Piwik PRO Admin" Description="" IsHubSite="false">
         <pnp:Templates>
-          <pnp:ProvisioningTemplateReference ID="PIWIK-ADMIN-TEMPLATE"/>
+          <pnp:ProvisioningTemplateReference ID="PIWIK-ADMIN-TEMPLATE" />
         </pnp:Templates>
       </pnp:SiteCollection>
     </pnp:SiteCollections>
   </pnp:Sequence>
   <pnp:Templates ID="TEMPLATES">
     <pnp:ProvisioningTemplate ID="PIWIK-ADMIN-TEMPLATE" Version="1" BaseSiteTemplate="STS#3" Scope="RootSite">
-      <pnp:WebSettings WelcomePage="SitePages/Home.aspx" SiteLogo="{hosturl}{site}/SiteAssets/__sitelogo__Piwik_PRO.png" CommentsOnSitePagesDisabled="true" QuickLaunchEnabled="true" MembersCanShare="true" />
+      <pnp:WebSettings WelcomePage="SitePages/Home.aspx" SiteLogo="{hosturl}{site}/Style Library/Piwik_PRO.png" CommentsOnSitePagesDisabled="true" QuickLaunchEnabled="true" MembersCanShare="true" />
       <pnp:Security AssociatedOwnerGroup="{sitetitle} Owners" AssociatedMemberGroup="{sitetitle} Members" AssociatedVisitorGroup="{sitetitle} Visitors">
         <pnp:AdditionalVisitors>
           <pnp:User Name="c:0(.s|true" />
@@ -132,7 +137,7 @@
         </pnp:ListInstance>
       </pnp:Lists>
       <pnp:Files>
-        <pnp:File Folder="SiteAssets" Overwrite="true" Src="Piwik_PRO.png" TargetFileName="__sitelogo__Piwik_PRO.png"></pnp:File>
+        <pnp:Directory Src="..\assets" Folder="Style Library" Overwrite="true" Level="Published" Recursive="true" />
       </pnp:Files>
       <pnp:ClientSidePages>
         <pnp:ClientSidePage PromoteAsNewsArticle="false" PromoteAsTemplate="false" Overwrite="true" EnableComments="false" Title="Piwik PRO Admin" ThumbnailUrl="" PageName="Home.aspx">
@@ -142,6 +147,50 @@
           </pnp:Sections>
         </pnp:ClientSidePage>
       </pnp:ClientSidePages>
+    </pnp:ProvisioningTemplate>
+    <pnp:ProvisioningTemplate ID="PIWIK-TENANT-WIDE" Version="1" Scope="RootSite">
+      <pnp:Lists>
+        <pnp:ListInstance Title="Tenant Wide Extensions" Description="List of extensions that are turned on across the tenant" DocumentTemplate="" TemplateType="337" Url="Lists/TenantWideExtensions" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="0ac11793-9c2f-4cac-8f22-33f93fac18f2" EnableAttachments="false" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/TenantWideExtensions/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/TenantWideExtensions/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/TenantWideExtensions/NewForm.aspx" ImageUrl="/_layouts/15/images/itdl.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:DataRows KeyColumn="Title" UpdateBehavior="Overwrite">
+            <pnp:DataRow>
+              <pnp:DataValue FieldName="Title">piwikpro-sharepoint-Tracking</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentId">2ff5e374-69cb-4645-9083-b6317019705b</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentProperties">{}</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionLocation">ClientSideExtension.ApplicationCustomizer</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionSequence">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionListTemplate">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionDisabled">false</pnp:DataValue>
+            </pnp:DataRow>
+            <pnp:DataRow>
+              <pnp:DataValue FieldName="Title">piwikpro-sharepoint-ListTracking-100</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentId">a0a0acea-cd3c-454b-9376-9cd0e98f5847</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentProperties">{}</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionLocation">ClientSideExtension.ListViewCommandSet</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionSequence">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionListTemplate">100</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionDisabled">false</pnp:DataValue>
+            </pnp:DataRow>
+            <pnp:DataRow>
+              <pnp:DataValue FieldName="Title">piwikpro-sharepoint-ListTracking-101</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentId">a0a0acea-cd3c-454b-9376-9cd0e98f5847</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentProperties">{}</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionLocation">ClientSideExtension.ListViewCommandSet</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionSequence">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionListTemplate">101</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionDisabled">false</pnp:DataValue>
+            </pnp:DataRow>
+            <pnp:DataRow>
+              <pnp:DataValue FieldName="Title">piwikpro-sharepoint-ListTracking-119</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentId">a0a0acea-cd3c-454b-9376-9cd0e98f5847</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentProperties">{}</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionLocation">ClientSideExtension.ListViewCommandSet</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionSequence">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionListTemplate">119</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionDisabled">false</pnp:DataValue>
+            </pnp:DataRow>
+          </pnp:DataRows>
+        </pnp:ListInstance>
+      </pnp:Lists>
     </pnp:ProvisioningTemplate>
   </pnp:Templates>
 </pnp:Provisioning>
