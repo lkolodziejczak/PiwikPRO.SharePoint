@@ -9,52 +9,49 @@
     [ValidateLength(1, 16)]
     [string]$webAppSuffix,
     [Parameter(Position = 4, mandatory = $true)]
-    [string]$sharePointUrl
+    [string]$sharePointUrl,
+    [Parameter(Position = 5, mandatory = $true)]
+    [string]$certificatePassword,
+    [Parameter(Position = 6)]
+    [string]$location = "westeurope"
 )
 
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition;
-$templateFilePath = $($scriptPath + "\template.json");
-$webAppName = 'piwikpro' + $webAppSuffix;
+$templateFilePath = "$scriptPath\template.json";
+$webAppName = "piwikpro" + $webAppSuffix;
+$piwikAdminSiteUrl = "$sharePointUrl/sites/PiwikAdmin";
 
-Connect-AzAccount -Subscription $subscription -Tenant $tenant;
-
-$cert = New-SelfSignedCertificate -CertStoreLocation "cert:\CurrentUser\My" -Subject "CN=PiwikPROCertificate";
-$keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData());
-$password = [System.Web.Security.Membership]::GeneratePassword(15, 0);
-$secPassword = ConvertTo-SecureString -String $password -AsPlainText -Force;
-$cert | Export-PfxCertificate -FilePath "$($scriptPath)/PiwikPROCertificate.pfx" -Password $secPassword;
-  
-$principal = New-AzADServicePrincipal -DisplayName $webAppName -CertValue $keyValue -EndDate $cert.NotAfter -StartDate $cert.NotBefore;
-
-if (-not (Get-AzResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue)) {
-    New-AzResourceGroup -Name $resourceGroupName -Location westeurope -Force;
+if (-not (Get-Command az -ErrorAction SilentlyContinue) -or [System.Version](az version --query '\"azure-cli\"' -o tsv) -lt [System.Version]"2.9.1") {
+    Write-Host "Installing Azure CLI...";
+    Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi;
+    Write-Host "Azure CLI installed.";
+    $Env:Path = "${Env:ProgramFiles(x86)}\Microsoft SDKs\Azure\CLI2\wbin;${Env:Path}";
 }
-New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterObject @{
-    "sites_piwikpro_name"                  = $webAppName;
-    "components_piwikpro_name"             = $webAppName;
-    "serverfarms_piwikproPlan_name"        = $webAppName;
-    "storageAccounts_piwikprostorage_name" = $webAppName;
-};
 
-$certificate = New-AzApplicationGatewaySslCertificate -Name "PiwikPROCertificate" -CertificateFile "$($scriptPath)/PiwikPROCertificate.pfx" -Password $secPassword;
-New-AzResource -ResourceName "PiwikPROCertificate.pfx" -Location "westeurope" -PropertyObject @{
-    pfxBlob      = $certificate.Data;  
-    password     = $password;       
-    ResourceType = "Microsoft.Web/Certificates"
-} -ResourceGroupName $resourceGroupName -ResourceType Microsoft.Web/certificates -ApiVersion '2018-02-01' -Force;
+az login --tenant "$tenant" -o none;
+az account set -s "$subscription" -o none;
 
-$instrumentationKey = (Get-AzApplicationInsights -ResourceGroupName $resourceGroupName -Name $webAppName).InstrumentationKey;
-$saKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $webAppName)[0].Value;
-$appSettingsHash = @{};
-$appSettingsHash['APPINSIGHTS_INSTRUMENTATIONKEY'] = $instrumentationKey;
-$appSettingsHash['APPINSIGHTS_PROFILERFEATURE_VERSION'] = '1.0.0';
-$appSettingsHash['ApplicationInsightsAgent_EXTENSION_VERSION'] = '~2';
-$appSettingsHash['DiagnosticServices_EXTENSION_VERSION'] = '~3';
-$appSettingsHash['ClientId'] = $principal.Id;
-$appSettingsHash['PiwikAdminSiteUrl'] = $sharePointUrl + "/sites/PiwikAdmin";
-$appSettingsHash['Tenant'] = $tenant;
-$appSettingsHash['Thumbprint'] = $cert.Thumbprint;
-$appSettingsHash['WEBSITE_LOAD_CERTIFICATES '] = $cert.Thumbprint;
-$connectionString = "DefaultEndpointsProtocol=https;AccountName=$($webAppName);AccountKey=$($saKey);EndpointSuffix=core.windows.net";
-$connectionStringsHash = @{ AzureWebJobsDashboard = @{ Type = "Custom"; Value = $connectionString }; AzureWebJobsStorage = @{ Type = "Custom"; Value = $connectionString } };
-Set-AzWebApp -ResourceGroupName $resourceGroupName -Name $webAppName -AppSettings $appSettingsHash -ConnectionStrings $connectionStringsHash;
+$cert = New-SelfSignedCertificate -CertStoreLocation "cert:\CurrentUser\My" -Subject "CN=PiwikPROCertificate" -NotAfter (Get-Date).AddYears(6);
+$keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData());
+$secPassword = ConvertTo-SecureString -String "$certificatePassword" -AsPlainText -Force;
+$cert | Export-PfxCertificate -FilePath "$($scriptPath)\PiwikPROCertificate.pfx" -Password $secPassword;
+
+$clientId = az ad app list --display-name "$webAppName" --query '[].appId' -o tsv;
+if ($clientId) {
+    az ad app update --display-name "$webAppName" --key-value "$keyValue" --start-date "$($cert.NotBefore.ToString('o'))" --end-date "$($cert.NotAfter.ToString('o'))" --required-resource-accesses "@appPermissions.json" -o none;
+} else {
+    $clientId = az ad app create --display-name "$webAppName" --key-value "$keyValue" --start-date "$($cert.NotBefore.ToString('o'))" --end-date "$($cert.NotAfter.ToString('o'))" --required-resource-accesses "@appPermissions.json" --query 'appId' -o tsv;
+}
+
+if (-not (az ad sp list --filter "appId eq '$clientId'" --query '[].appId' -o tsv)) {
+    az ad sp create --id "$clientId" -o none;
+}
+
+az ad app permission admin-consent --id "$clientId" -o none;
+
+if (-not [System.Convert]::ToBoolean((az group exists -n "$resourceGroupName"))) {
+    az group create -l "$location" -n "$resourceGroupName" -o none;
+}
+
+az deployment group create -g "$resourceGroupName" --template-file "$templateFilePath" --parameters sites_piwikpro_name="$webAppName" components_piwikpro_name="$webAppName" serverfarms_piwikproPlan_name="$webAppName" storageAccounts_piwikprostorage_name="$webAppName" piwikAdminSiteUrl="$piwikAdminSiteUrl" certificateThumbprint="$($cert.Thumbprint)" tenant="$tenant" clientId="$clientId" -o none;
+az webapp config ssl upload --certificate-file "$scriptPath\PiwikPROCertificate.pfx" --certificate-password "$certificatePassword" --name "$webAppName" --resource-group "$resourceGroupName" -o none;

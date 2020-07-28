@@ -17,6 +17,22 @@
         "storageAccounts_piwikprostorage_name": {
             "defaultValue": "piwikpro",
             "type": "String"
+        },
+        "piwikAdminSiteUrl": {
+            "defaultValue": "piwikpro",
+            "type": "String"
+        },
+        "certificateThumbprint": {
+            "defaultValue": "piwikpro",
+            "type": "String"
+        },
+        "tenant": {
+            "defaultValue": "piwikpro",
+            "type": "String"
+        },
+        "clientId": {
+            "defaultValue": "piwikpro",
+            "type": "String"
         }
     },
     "variables": {},
@@ -25,7 +41,7 @@
             "type": "microsoft.insights/components",
             "apiVersion": "2015-05-01",
             "name": "[parameters('components_piwikpro_name')]",
-            "location": "westeurope",
+            "location": "[resourceGroup().location]",
             "kind": "web",
             "properties": {
                 "Application_Type": "web",
@@ -37,7 +53,7 @@
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
             "name": "[parameters('storageAccounts_piwikprostorage_name')]",
-            "location": "westeurope",
+            "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard_LRS",
                 "tier": "Standard"
@@ -70,7 +86,7 @@
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2018-02-01",
             "name": "[parameters('serverfarms_piwikproPlan_name')]",
-            "location": "West Europe",
+            "location": "[resourceGroup().location]",
             "sku": {
                 "name": "B1",
                 "tier": "Basic",
@@ -129,9 +145,11 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
             "name": "[parameters('sites_piwikpro_name')]",
-            "location": "West Europe",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_piwikproPlan_name'))]"
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_piwikproPlan_name'))]",
+                "[resourceId('microsoft.insights/components', parameters('components_piwikpro_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_piwikprostorage_name'))]"
             ],
             "kind": "app",
             "properties": {
@@ -159,14 +177,66 @@
                 "containerSize": 0,
                 "dailyMemoryTimeQuota": 0,
                 "httpsOnly": true,
-                "redundancyMode": "None"
+                "redundancyMode": "None",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components', parameters('components_piwikpro_name'))).InstrumentationKey]"
+                        },
+                        {
+                            "name": "APPINSIGHTS_PROFILERFEATURE_VERSION",
+                            "value": "1.0.0"
+                        },
+                        {
+                            "name": "ApplicationInsightsAgent_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "DiagnosticServices_EXTENSION_VERSION",
+                            "value": "~3"
+                        },
+                        {
+                            "name": "ClientId",
+                            "value": "[parameters('clientId')]"
+                        },
+                        {
+                            "name": "PiwikAdminSiteUrl",
+                            "value": "[parameters('piwikAdminSiteUrl')]"
+                        },
+                        {
+                            "name": "Tenant",
+                            "value": "[parameters('tenant')]"
+                        },
+                        {
+                            "name": "Thumbprint",
+                            "value": "[parameters('certificateThumbprint')]"
+                        },
+                        {
+                            "name": "WEBSITE_LOAD_CERTIFICATES",
+                            "value": "[parameters('certificateThumbprint')]"
+                        }
+                    ],
+                    "connectionStrings": [
+                        {
+                            "name": "AzureWebJobsDashboard",
+                            "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccounts_piwikprostorage_name'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_piwikprostorage_name')), '2019-06-01').keys[0].value)]",
+                            "type": "Custom"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccounts_piwikprostorage_name'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_piwikprostorage_name')), '2019-06-01').keys[0].value)]",
+                            "type": "Custom"
+                        }
+                    ]
+                }
             }
         },
         {
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('sites_piwikpro_name'), '/web')]",
-            "location": "West Europe",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_piwikpro_name'))]"
             ],
@@ -228,7 +298,7 @@
                     }
                 ],
                 "scmIpSecurityRestrictionsUseMain": false,
-                "http20Enabled": false,
+                "http20Enabled": true,
                 "minTlsVersion": "1.2",
                 "ftpsState": "AllAllowed",
                 "reservedInstanceCount": 0
@@ -238,7 +308,7 @@
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('sites_piwikpro_name'), '/', parameters('sites_piwikpro_name'), '.azurewebsites.net')]",
-            "location": "West Europe",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_piwikpro_name'))]"
             ],
