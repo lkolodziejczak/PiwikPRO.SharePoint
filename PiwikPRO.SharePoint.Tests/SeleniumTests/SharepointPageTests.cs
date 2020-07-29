@@ -683,6 +683,8 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                 object listDeleted = null;
                 string deletedBy = null;
                 string listId = null;
+                string listUrl = null;
+                string listTitle = null;
 
                 for (int i = 0; i < 30; i++)
                 {
@@ -693,13 +695,17 @@ namespace PiwikPRO.SharePoint.Tests.SeleniumTests
                         Dictionary<string, string> dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                         dictionary.TryGetValue("deletedBy", out deletedBy);
                         dictionary.TryGetValue("listId", out listId);
+                        dictionary.TryGetValue("listTitle", out listTitle);
+                        dictionary.TryGetValue("listUrl", out listUrl);
                         break;
                     }
                     Thread.Sleep(100);
                 }
                 Assert.NotNull(listDeleted);
-                Assert.NotNull(deletedBy);
+                //Assert.NotNull(deletedBy);
                 Assert.NotNull(listId);
+                Assert.NotNull(listTitle);
+                Assert.NotNull(listUrl);
 
             }
         }
