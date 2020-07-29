@@ -686,6 +686,8 @@ namespace PiwikPRO.SharePoint.Tests.Pages
             action.MoveToElement(element).Perform();
             Thread.Sleep(1500);
             element.Click();
+            Thread.Sleep(1500);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[@data-automationid='shareCommand']")));
             shareFromContextMenu.Click();
             Thread.Sleep(1500);
             driver.SwitchTo().Frame("shareFrame");
