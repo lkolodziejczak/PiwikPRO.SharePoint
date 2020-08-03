@@ -149,7 +149,7 @@
         <pnp:Directory Src="..\assets" Folder="Style Library" Overwrite="true" Level="Published" Recursive="true" />
       </pnp:Files>
       <pnp:ClientSidePages>
-        <pnp:ClientSidePage PromoteAsNewsArticle="false" PromoteAsTemplate="false" Overwrite="true" EnableComments="false" Title="Piwik PRO Admin" ThumbnailUrl="" PageName="Home.aspx">
+        <pnp:ClientSidePage PromoteAsNewsArticle="false" PromoteAsTemplate="false" Overwrite="true" EnableComments="false" Title="Piwik PRO Administration" ThumbnailUrl="" PageName="Home.aspx">
           <pnp:Header Type="Default" LayoutType="NoImage" TextAlignment="Center" ShowTopicHeader="false" ShowPublishDate="false" TopicHeader="" AlternativeText="" Authors="[]" AuthorByLine="[]" AuthorByLineId="-1" />
           <pnp:Sections>
             <pnp:Section Order="1" Type="OneColumn" />
