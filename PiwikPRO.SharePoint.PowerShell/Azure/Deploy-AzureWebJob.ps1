@@ -1,11 +1,11 @@
 ﻿Param (
     [Parameter(Position = 0, Mandatory = $true)]
-    [string]$resourceGroupName,
+    [string]$ResourceGroupName,
     [Parameter(Position = 1, Mandatory = $true)]
-    [string]$webAppName,
+    [string]$WebAppName,
     [Parameter(Position = 2)]
-    [string]$zipFilePath = "./packages/deploy.zip",
-    [Switch]$skipLogin
+    [string]$ZipFilePath = "./packages/deploy.zip",
+    [Switch]$SkipLogin
 )
 
 if (-not (Get-Command az -ErrorAction SilentlyContinue) -or [System.Version](az version --query '\"azure-cli\"' -o tsv) -lt [System.Version]"2.9.1") {
@@ -15,12 +15,12 @@ if (-not (Get-Command az -ErrorAction SilentlyContinue) -or [System.Version](az 
     $Env:Path = "${Env:ProgramFiles(x86)}\Microsoft SDKs\Azure\CLI2\wbin;${Env:Path}";
 }
 
-if (-not $skipLogin) {
+if (-not $SkipLogin) {
     az login -o none;
 }
 
-az webapp deployment source config-zip -g "$resourceGroupName" -n "$webAppName" --src "$zipFilePath";
+az webapp deployment source config-zip -g "$ResourceGroupName" -n "$WebAppName" --src "$ZipFilePath";
 
-if (-not $skipLogin) {
+if (-not $SkipLogin) {
     az logout;
 }

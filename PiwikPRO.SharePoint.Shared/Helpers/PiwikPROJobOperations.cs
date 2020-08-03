@@ -32,7 +32,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                 foreach (ListItem item in sdlo.GetAllNewSites())
                 {
                     //connect to service and create new site
-                    PiwikPROServiceOperations pso = new PiwikPROServiceOperations(cfg.PiwikClientID, cfg.PiwikClientSecret, cfg.PiwikServiceUrl, cfg.PiwikOldApiToken, logger);
+                    PiwikPROServiceOperations pso = new PiwikPROServiceOperations(cfg.PiwikClientID, cfg.PiwikClientSecret, cfg.PiwikServiceUrl, logger);
 
                     FieldUrlValue valueUrl = (FieldUrlValue)(item[ConfigValues.PiwikPro_SiteDirectory_Column_Url]);
 
@@ -107,7 +107,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                 foreach (ListItem item in sdlo.GetAllDeactivatingSites())
                 {
                     //connect to service and deactivate
-                    PiwikPROServiceOperations pso = new PiwikPROServiceOperations(cfg.PiwikClientID, cfg.PiwikClientSecret, cfg.PiwikServiceUrl, cfg.PiwikOldApiToken, logger);
+                    PiwikPROServiceOperations pso = new PiwikPROServiceOperations(cfg.PiwikClientID, cfg.PiwikClientSecret, cfg.PiwikServiceUrl, logger);
                     string idSite = Convert.ToString(item[ConfigValues.PiwikPro_SiteDirectory_Column_SiteID]);
                     FieldUrlValue valueUrl = (FieldUrlValue)(item[ConfigValues.PiwikPro_SiteDirectory_Column_Url]);
                     //idSite = pso.RemoveSiteFromPiwik(Convert.ToString(item[ConfigValues.PiwikPro_SiteDirectory_Column_SiteID]));
@@ -213,7 +213,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
 
         public bool CheckIfPageIsAlreadyOnPiwik(string idSite)
         {
-            PiwikPROServiceOperations pso = new PiwikPROServiceOperations(cfg.PiwikClientID, cfg.PiwikClientSecret, cfg.PiwikServiceUrl, cfg.PiwikOldApiToken, logger);
+            PiwikPROServiceOperations pso = new PiwikPROServiceOperations(cfg.PiwikClientID, cfg.PiwikClientSecret, cfg.PiwikServiceUrl, logger);
             return pso.CheckIfPageIsAlreadyOnPiwik(idSite);
         }
     }

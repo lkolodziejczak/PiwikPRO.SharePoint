@@ -177,7 +177,7 @@ namespace PiwikPRO.SharePoint.Shared
                 @"<View><Query><Where>" +
       "<Eq>" +
          "<FieldRef Name='" + ConfigValues.PiwikPro_SiteDirectory_Column_Url + "' />" +
-         "<Value Type='Text'>" + url + "</Value>" +
+         "<Value Type='URL'>" + new Uri(url).AbsolutePath + "</Value>" +
       "</Eq>" +
    "</Where></View></Query>";
 

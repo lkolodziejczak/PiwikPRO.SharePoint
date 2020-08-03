@@ -1,20 +1,20 @@
 ﻿Param (
     [Parameter(Position = 0, Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [string]$sharePointUrl,
+    [string]$SharePointUrl,
 
     [Parameter(Position = 1, Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [string]$owner,
+    [string]$Owner,
 
     [Parameter(Position = 2)]
-    [string]$sharePointTenantAdminUrl,
+    [string]$SharePointTenantAdminUrl,
 
     [Parameter(Position = 3)]
     [ValidateSet('2013', '2016', '2019', 'Online')]
-    [string]$sharePointVersion = 'Online',
+    [string]$SharePointVersion = 'Online',
 
-    [Switch]$useWebLogin
+    [Switch]$UseWebLogin
 )
 
 function Connect-ToSharePoint {
@@ -43,58 +43,58 @@ function Connect-ToSharePoint {
 $templatePath = ".\templates\PiwikPROTemplate.xml";
 $spfxPackagePath = ".\solutions\piwikpro-sharepoint.sppkg";
 $piwikAdminServerRelativeUrl = "/sites/PiwikAdmin";
-$piwikAdminUrl = $sharePointUrl + $piwikAdminServerRelativeUrl;
+$piwikAdminUrl = $SharePointUrl + $piwikAdminServerRelativeUrl;
 
-if ((-not $sharePointTenantAdminUrl) -and $sharePointVersion -eq 'Online') {
-    $sharePointTenantAdminUrl = $sharePointUrl.Replace(".sharepoint.com", "-admin.sharepoint.com");
+if ((-not $SharePointTenantAdminUrl) -and $SharePointVersion -eq 'Online') {
+    $SharePointTenantAdminUrl = $SharePointUrl.Replace(".sharepoint.com", "-admin.sharepoint.com");
 }
 
-if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($sharePointVersion)")) {
-    Write-Host "You need to install PnP PowerShell $($sharePointVersion) to run this script." -ForegroundColor Yellow;
-    Install-Module "SharePointPnPPowerShell$($sharePointVersion)";
+if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($SharePointVersion)")) {
+    Write-Host "You need to install PnP PowerShell $($SharePointVersion) to run this script." -ForegroundColor Yellow;
+    Install-Module "SharePointPnPPowerShell$($SharePointVersion)";
 }
 
 $credentials;
-if (-not $useWebLogin) {
+if (-not $UseWebLogin) {
     $credentials = Get-Credential -Message "Please provide credentials to SharePoint";
 }
 
 Write-Host "Connecting to SharePoint...";
-Connect-ToSharePoint -Url $sharePointUrl -TenantAdminUrl $sharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$useWebLogin;
+Connect-ToSharePoint -Url $SharePointUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 
-if ($sharePointVersion -eq 'Online') {
+if ($SharePointVersion -eq 'Online') {
     Write-Host "Ensuring that Tenant App Catalog exists...";
-    Register-PnPAppCatalogSite -Url "$sharePointUrl/sites/AppCatalog" -Owner $owner -TimeZoneId 4 -ErrorAction SilentlyContinue | Out-Null;
+    Register-PnPAppCatalogSite -Url "$SharePointUrl/sites/AppCatalog" -Owner $Owner -TimeZoneId 4 -ErrorAction SilentlyContinue | Out-Null;
 }
 
-if (-not ($sharePointVersion -in "2013", "2016")) {
+if (-not ($SharePointVersion -in "2013", "2016")) {
     Write-Host "Publishing SPFx package to Tenant App Catalog...";
     Add-PnPApp -Path $spfxPackagePath -Scope Tenant -Overwrite -Publish -SkipFeatureDeployment | Out-Null;
 }
 
-if ($sharePointVersion -eq 'Online') {
+if ($SharePointVersion -eq 'Online') {
     $appCatalogUrl = Get-PnPTenantAppCatalogUrl;
 
     Write-Host "Connecting to Tenant App Catalog...";
     Disconnect-PnPOnline;
-    Connect-ToSharePoint -Url $appCatalogUrl -TenantAdminUrl $sharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$useWebLogin;
+    Connect-ToSharePoint -Url $appCatalogUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 
     Write-Host "Configuring tenant-wide extensions...";
     Apply-PnPProvisioningTemplate -Path $templatePath -TemplateId "PIWIK-TENANT-WIDE";
 }
 
-Write-Host "Checking if Piwik PRO Admin site already exists...";
+Write-Host "Checking if Piwik PRO Administration site already exists...";
 if (-not (Get-PnPTenantSite -Url $piwikAdminUrl -ErrorAction SilentlyContinue)) {
-    Write-Host "Piwik PRO Admin site doesn't exist. Creating...";
-    New-PnPTenantSite -Title "Piwik PRO Admin" -Url $piwikAdminUrl -Owner $owner -TimeZone 4 -Lcid 1033 -Template "STS#3" -Wait -Force | Out-Null;
+    Write-Host "Piwik PRO Administration site doesn't exist. Creating...";
+    New-PnPTenantSite -Title "Piwik PRO Administration" -Url $piwikAdminUrl -Owner $Owner -TimeZone 4 -Lcid 1033 -Template "STS#3" -Wait -Force | Out-Null;
 }
 
-Write-Host "Connecting to Piwik PRO Admin site...";
+Write-Host "Connecting to Piwik PRO Administration site...";
 Disconnect-PnPOnline;
-Connect-ToSharePoint -Url $piwikAdminUrl -TenantAdminUrl $sharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$useWebLogin;
+Connect-ToSharePoint -Url $piwikAdminUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 
-Write-Host "Applying Piwik PRO Admin site template...";
-Apply-PnPProvisioningTemplate -Path $templatePath -TemplateId "PIWIK-ADMIN-TEMPLATE" -Parameters @{"SharePointUrl" = $sharePointUrl; "PiwikAdminServerRelativeUrl" = $piwikAdminServerRelativeUrl; "Owner" = $owner };
+Write-Host "Applying Piwik PRO Administration site template...";
+Apply-PnPProvisioningTemplate -Path $templatePath -TemplateId "PIWIK-ADMIN-TEMPLATE" -Parameters @{"SharePointUrl" = $SharePointUrl; "PiwikAdminServerRelativeUrl" = $piwikAdminServerRelativeUrl; "Owner" = $Owner };
 
 Disconnect-PnPOnline;
 

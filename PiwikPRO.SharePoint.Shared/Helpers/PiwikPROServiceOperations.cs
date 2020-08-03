@@ -11,12 +11,11 @@ namespace PiwikPRO.SharePoint.Shared
 {
     public class PiwikPROServiceOperations
     {
-        public PiwikPROServiceOperations(string _clientId, string _clientSecret, string _serviceUrl, string _oldApiToken, ISPLogger _logger)
+        public PiwikPROServiceOperations(string _clientId, string _clientSecret, string _serviceUrl, ISPLogger _logger)
         {
             this.piwik_clientID = _clientId;
             this.piwik_clientSecret = _clientSecret;
             this.piwik_serviceUrl = _serviceUrl;
-            this.piwik_oldapitoken = _oldApiToken;
             this.logger = _logger;
         }
 
@@ -27,7 +26,6 @@ namespace PiwikPRO.SharePoint.Shared
         private string piwik_clientID;
         private string piwik_clientSecret;
         private string piwik_serviceUrl;
-        private string piwik_oldapitoken;
 
 
         #region Public Methods
@@ -105,94 +103,6 @@ namespace PiwikPRO.SharePoint.Shared
             }
         }
 
-        internal int AddGoalToPiwik(string siteId, string goalName)
-        {
-            try
-            {
-                string callCommand = String.Format("{0}"+
-                    "/?module=API&format=XML" +
-                    "&method=Goals.addGoal" +
-                    "&idSite={1}" +
-                    "&name={2}" +
-                    "&matchAttribute=manually&pattern={3}" +
-                    "&patternType=regex&caseSensitive=0&revenue=0&allowMultipleConversionsPerVisit=1&token_auth={4}", piwik_serviceUrl, siteId, HttpUtility.HtmlEncode(goalName), HttpUtility.HtmlEncode(".*"), piwik_oldapitoken);
-
-                if (callCommand.ToString().Contains("https"))
-                {
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                }
-                HttpWebRequest HttpRequest = (HttpWebRequest)HttpWebRequest.Create(callCommand);
-                XmlDocument doc = new XmlDocument();
-                WebResponse response = HttpRequest.GetResponse();
-                using (var streamReader = new StreamReader(response.GetResponseStream()))
-                {
-                    doc.LoadXml(streamReader.ReadToEnd());
-
-                    XmlNodeList error = doc.GetElementsByTagName("error");
-
-                    if (error.Count > 0)
-                    {
-                        var message = error[0].Attributes["message"].Value;
-                        //write to log
-                    }
-                }
-
-                XmlNode newMetaSiteId = doc.GetElementsByTagName("result").Item(0);
-                return Convert.ToInt32(newMetaSiteId.InnerText);
-            }
-            catch(Exception ex)
-            {
-                logger.WriteLog(Category.Unexpected, "Piwik AddGoalToPiwik", ex.Message);
-            }
-
-            return -1;
-        }
-
-        internal void UpdateGoalToPiwik(string siteId, string goalName, string goalId, bool? goalActive)
-        {
-            try
-            {
-                string matchAttribute = "manually";
-                if (goalActive == false)
-                {
-                    matchAttribute = "disabled";
-                }
-                string callCommand = String.Format("{0}" +
-                    "?module=API&format=XML" +
-                    "&method=Goals.updateGoal&idGoal={1}" +
-                    "&idSite={2}" +
-                    "&name={3}" +
-                    "&matchAttribute={4}&pattern={5}" +
-                    "&patternType=regex&caseSensitive=0&revenue=0&allowMultipleConversionsPerVisit=1&token_auth={6}", piwik_serviceUrl, goalId, siteId, HttpUtility.HtmlEncode(goalName), matchAttribute, HttpUtility.HtmlEncode(".*"), piwik_oldapitoken);
-
-                if (callCommand.ToString().Contains("https"))
-                {
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                }
-                HttpWebRequest HttpRequest = (HttpWebRequest)HttpWebRequest.Create(callCommand);
-                XmlDocument doc = new XmlDocument();
-                WebResponse response = HttpRequest.GetResponse();
-                using (var streamReader = new StreamReader(response.GetResponseStream()))
-                {
-                    doc.LoadXml(streamReader.ReadToEnd());
-
-                    XmlNodeList error = doc.GetElementsByTagName("error");
-
-                    if (error.Count > 0)
-                    {
-                        var message = error[0].Attributes["message"].Value;
-                        //write to log
-                    }
-                }
-
-                XmlNode newMetaSiteId = doc.GetElementsByTagName("result").Item(0);
-            }
-            catch (Exception ex)
-            {
-                 logger.WriteLog(Category.Unexpected, "Piwik UpdateGoalToPiwik", ex.Message);
-            }
-        }
-
         #endregion
 
         #region Private Methods
@@ -237,6 +147,7 @@ namespace PiwikPRO.SharePoint.Shared
         new JObject(
             new JProperty("attributes",
                 new JObject(
+                    new JProperty("appType", "web"),
                     new JProperty("name", siteName),
                     new JProperty("urls", arrayUrls))),
                     new JProperty("type", "ppms/app"))));

@@ -45,14 +45,14 @@ namespace PiwikPRO.SharePoint.Shared.Commands
                 TrimDuplicates = true,
                 RowLimit = 500
             };
-            searchQuery.SelectProperties.Add("WebUrl");
+            searchQuery.SelectProperties.Add("SPWebUrl");
             SearchExecutor executor = new SearchExecutor(ctx);
             ClientResult<ResultTableCollection> results = executor.ExecuteQuery(searchQuery);
             await ctx.ExecuteQueryRetryAsync();
 
             foreach (var result in results.Value[0].ResultRows)
             {
-                using (ClientContext webCtx = ctx.Clone((string)result["WebUrl"]))
+                using (ClientContext webCtx = ctx.Clone((string)result["SPWebUrl"]))
                 {
                     webCtx.Load(webCtx.Web, x => x.Title, x => x.Url);
                     List list = webCtx.Web.Lists.GetByTitle("PiwikSettings");

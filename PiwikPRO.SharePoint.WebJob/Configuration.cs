@@ -20,6 +20,6 @@ namespace PiwikPRO.SharePoint.WebJob
 
         public string Tenant => ConfigurationManager.AppSettings["Tenant"];
 
-        public string ThumbPrint => ConfigurationManager.AppSettings["ThumbPrint"];
+        public string Thumbprint => ConfigurationManager.AppSettings["Thumbprint"];
     }
 }

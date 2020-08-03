@@ -25,7 +25,7 @@ namespace PiwikPRO.SharePoint.WebJob
                 configuration.Tenant,
                 configuration.StoreName,
                 configuration.StoreLocation,
-                configuration.ThumbPrint))
+                configuration.Thumbprint))
             {
                 AzureLogger splogger = new AzureLogger();
                 splogger.WriteLog(Category.Information, "Piwik PRO Job", "Started");
@@ -41,7 +41,6 @@ namespace PiwikPRO.SharePoint.WebJob
 
                 cfg.PiwikClientID = items.FirstOrDefault(x => (string)x["Title"] == ConfigValues.PiwikPro_PropertyBag_ClientID)?["Value"]?.ToString();
                 cfg.PiwikClientSecret = items.FirstOrDefault(x => (string)x["Title"] == ConfigValues.PiwikPro_PropertyBag_ClientSecret)?["Value"]?.ToString();
-                cfg.PiwikOldApiToken = items.FirstOrDefault(x => (string)x["Title"] == ConfigValues.PiwikPro_PropertyBag_OldApiToken)?["Value"]?.ToString();
 
                 var listProcessor = new ListProcessor(ctx, splogger);
 

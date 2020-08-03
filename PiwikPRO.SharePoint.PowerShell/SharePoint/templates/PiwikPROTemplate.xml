@@ -23,7 +23,16 @@
   </pnp:Sequence>
   <pnp:Templates ID="TEMPLATES">
     <pnp:ProvisioningTemplate ID="PIWIK-ADMIN-TEMPLATE" Version="1" BaseSiteTemplate="STS#3" Scope="RootSite">
-      <pnp:WebSettings WelcomePage="SitePages/Home.aspx" SiteLogo="{hosturl}{site}/Style Library/Piwik_PRO.png" CommentsOnSitePagesDisabled="true" QuickLaunchEnabled="true" MembersCanShare="true" />
+      <pnp:WebSettings Title="Piwik PRO Administration" WelcomePage="SitePages/Home.aspx" SiteLogo="{hosturl}{site}/Style Library/Piwik_PRO.png" CommentsOnSitePagesDisabled="true" QuickLaunchEnabled="true" MembersCanShare="true" />
+      <pnp:PropertyBagEntries>
+        <pnp:PropertyBagEntry Key="piwik_enforcessl" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesenddepartment" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesenduserextendedinfo" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesendjobtitle" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesendoffice" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesendusername" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_sha3" Value="false" Overwrite="false" />
+      </pnp:PropertyBagEntries>
       <pnp:Security AssociatedOwnerGroup="{sitetitle} Owners" AssociatedMemberGroup="{sitetitle} Members" AssociatedVisitorGroup="{sitetitle} Visitors">
         <pnp:AdditionalVisitors>
           <pnp:User Name="c:0(.s|true" />
@@ -86,7 +95,7 @@
             </pnp:BreakRoleInheritance>
           </pnp:Security>
         </pnp:ListInstance>
-        <pnp:ListInstance Title="Piwik Pro Site Directory" Description="" DocumentTemplate="" OnQuickLaunch="true" TemplateType="100" Url="Lists/PiwikAdmin" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/PiwikAdmin/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/PiwikAdmin/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/PiwikAdmin/NewForm.aspx" ImageUrl="{site}/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+        <pnp:ListInstance Title="Piwik PRO Site Directory" Description="" DocumentTemplate="" OnQuickLaunch="true" TemplateType="100" Url="Lists/PiwikAdmin" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/PiwikAdmin/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/PiwikAdmin/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/PiwikAdmin/NewForm.aspx" ImageUrl="{site}/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
             <pnp:ContentTypeBinding ContentTypeID="0x0120" />

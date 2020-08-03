@@ -8,8 +8,6 @@ namespace PiwikPRO.SharePoint.WebJob
 
         public string PiwikClientSecret { get; set; }
 
-        public string PiwikOldApiToken { get; set; }
-
         public string PiwikServiceUrl { get; set; }
     }
 }
