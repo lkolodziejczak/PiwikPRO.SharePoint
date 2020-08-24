@@ -27,7 +27,7 @@
       "eventType": "pageView",
       "pageUrl": "^(?:(?!SitePages\/Forms|\/Lists\/|\/Forms\/|\/_layouts\/|mode=preview|Mode=Edit).)*$",
       "deepCatch": {
-        "props": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$expand=ContentType/Name,FieldValuesAsText",
+        "props": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$expand=ContentType,FieldValuesAsText",
         "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=UserName",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
@@ -36,12 +36,13 @@
       "mappings": {
         "authorDisplayName": "deep:props.FieldValuesAsText.Author",
         "authorID": "deep:author.UserName.decodeClaims().anonymize()",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value",
         "pageUrl": "global:location.href",
-        "contentType": "deep:props.ContentType.Name",
+        "contentType": "deep:props.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "pageID": "deep:props.FieldValuesAsText.UniqueId",
+        "pageTitle": "deep:props.Title",
         "pageWebTitle": "context:webTitle",
         "pageWebId": "context:webId",
         "sitecolectionID": "context:siteId",
@@ -82,7 +83,7 @@
       "method": "post",
       "catchFilter": "\\/GetItemById\\([0-9]+\\)\\/like[/]*$",
       "deepCatch": {
-        "item": "complex:{{ancestor:2}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=Id,UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/Name,LayoutWebpartsContent&$expand=Author,ContentType",
+        "item": "complex:{{ancestor:2}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=Id,UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/SchemaXml,LayoutWebpartsContent&$expand=Author,ContentType",
         "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,UserName",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
@@ -92,13 +93,13 @@
         "authorDisplayName": "deep:author.Title",
         "itemUniqueId": "deep:item.UniqueId",
         "itemAuthorUserName": "deep:item.Author.UserName.anonymize()",
-        "itemContentTypeName": "deep:item.ContentType.Name",
+        "itemContentTypeName": "deep:item.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "itemUrl": "deep:item.EncodedAbsUrl",
         "!testCommentPageProperty1": "deep:item.LayoutWebpartsContent",
         "itemContentTypeId": "deep:item.ContentTypeId",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -107,7 +108,7 @@
       "method": "post",
       "catchFilter": "\\/GetItemById\\([0-9]+\\)\\/unlike[/]*$",
       "deepCatch": {
-        "item": "complex:{{ancestor:2}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/Name,LayoutWebpartsContent&$expand=Author,ContentType",
+        "item": "complex:{{ancestor:2}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/SchemaXml,LayoutWebpartsContent&$expand=Author,ContentType",
         "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,UserName",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
@@ -117,13 +118,13 @@
         "authorDisplayName": "deep:author.Title",
         "itemUniqueId": "deep:item.UniqueId",
         "itemAuthorUserName": "deep:item.Author.UserName.anonymize()",
-        "itemContentTypeName": "deep:item.ContentType.Name",
+        "itemContentTypeName": "deep:item.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "itemUrl": "deep:item.EncodedAbsUrl",
         "!testCommentPageProperty1": "deep:item.LayoutWebpartsContent",
         "itemContentTypeId": "deep:item.ContentTypeId",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -132,7 +133,7 @@
       "method": "post",
       "catchFilter": "\\/GetItemById\\([0-9]+\\)\\/comments[/]*$",
       "deepCatch": {
-        "item": "complex:{{ancestor:2}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/Name,LayoutWebpartsContent&$expand=Author,ContentType",
+        "item": "complex:{{ancestor:2}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/SchemaXml,LayoutWebpartsContent&$expand=Author,ContentType",
         "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,UserName",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
@@ -144,12 +145,12 @@
         "itemAuthorUserName": "deep:item.Author.UserName.anonymize()",
         "itemUrl": "deep:item.EncodedAbsUrl",
         "commentUrl": "complex:{{deep:item.EncodedAbsUrl}}#comment={{response:id}}",
-        "itemContentTypeName": "deep:item.ContentType.Name",
+        "itemContentTypeName": "deep:item.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "!testCommentPageProperty1": "deep:item.LayoutWebpartsContent",
         "itemContentTypeId": "deep:item.ContentTypeId",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -158,7 +159,7 @@
       "method": "post",
       "catchFilter": "\\/GetItemById\\([0-9]+\\)\\/comments\\([0-9]+\\)\\/replies[/]*$",
       "deepCatch": {
-        "item": "complex:{{ancestor:3}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/Name,LayoutWebpartsContent&$expand=Author,ContentType",
+        "item": "complex:{{ancestor:3}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/SchemaXml,LayoutWebpartsContent&$expand=Author,ContentType",
         "comment": "complex:{{ancestor:1}}?$select=id,author",
         "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,UserName",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
@@ -173,12 +174,12 @@
         "commentAuthor": "deep:comment.author.loginName.decodeClaims().anonymize()",
         "commentUrl": "complex:{{deep:item.EncodedAbsUrl}}#comment={{deep:comment.id}}",
         "commentReplyUrl": "complex:{{deep:item.EncodedAbsUrl}}#comment={{response:id}}",
-        "itemContentTypeName": "deep:item.ContentType.Name",
+        "itemContentTypeName": "deep:item.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "!testCommentPageProperty1": "deep:item.LayoutWebpartsContent",
         "itemContentTypeId": "deep:item.ContentTypeId",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -187,7 +188,7 @@
       "method": "post",
       "catchFilter": "\\/GetItemById\\([0-9]+\\)\\/comments\\([0-9]+\\)\\/like[/]*$",
       "deepCatch": {
-        "item": "complex:{{ancestor:3}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/Name,LayoutWebpartsContent&$expand=Author,ContentType",
+        "item": "complex:{{ancestor:3}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/SchemaXml,LayoutWebpartsContent&$expand=Author,ContentType",
         "comment": "complex:{{ancestor:1}}?$select=id,author",
         "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,UserName",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
@@ -201,12 +202,12 @@
         "itemUrl": "deep:item.EncodedAbsUrl",
         "commentAuthor": "deep:comment.author.loginName.decodeClaims().anonymize()",
         "commentUrl": "complex:{{deep:item.EncodedAbsUrl}}#comment={{deep:comment.id}}",
-        "itemContentTypeName": "deep:item.ContentType.Name",
+        "itemContentTypeName": "deep:item.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "!testCommentPageProperty1": "deep:item.LayoutWebpartsContent",
         "itemContentTypeId": "deep:item.ContentTypeId",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -215,7 +216,7 @@
       "method": "post",
       "catchFilter": "\\/GetItemById\\([0-9]+\\)\\/comments\\([0-9]+\\)\\/unlike[/]*$",
       "deepCatch": {
-        "item": "complex:{{ancestor:3}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/Name,LayoutWebpartsContent&$expand=Author,ContentType",
+        "item": "complex:{{ancestor:3}}/items({{url:\\/GetItemById\\(([0-9]+)\\)\\/}})?$select=UniqueId,EncodedAbsUrl,Author/UserName,ContentTypeId,ContentType/SchemaXml,LayoutWebpartsContent&$expand=Author,ContentType",
         "comment": "complex:{{ancestor:1}}?$select=id,author",
         "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,UserName",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
@@ -229,12 +230,12 @@
         "itemUrl": "deep:item.EncodedAbsUrl",
         "commentAuthor": "deep:comment.author.loginName.decodeClaims().anonymize()",
         "commentUrl": "complex:{{deep:item.EncodedAbsUrl}}#comment={{deep:comment.id}}",
-        "itemContentTypeName": "deep:item.ContentType.Name",
+        "itemContentTypeName": "deep:item.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "!testCommentPageProperty1": "deep:item.LayoutWebpartsContent",
         "itemContentTypeId": "deep:item.ContentTypeId",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -254,7 +255,7 @@
       "deepCatch": {
         "item": "complex:{{ancestor:1}}?@a1={{querystring:@a1}}&@a2={{querystring:@a2}}&$expand=FieldValuesAsText",
         "listTitle": "complex:{{ancestor:2}}?@a1={{querystring:@a1}}",
-        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name&$expand=Author&$filter=Id eq {{querystring:@a2}}&@a1=%27{{context:listId}}%27",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{querystring:@a2}}&@a1=%27{{context:listId}}%27",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
         "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
@@ -266,9 +267,10 @@
         "listId": "context:listId",
         "itemTitle": "deep:item.Title",
         "itemUrl": "complex:{{global:location.origin}}{{deep:item.FieldValuesAsText.FileRef}}",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -282,7 +284,7 @@
       "catchFilter": "\/Lists.*?\/GetItemById.*?\/ShareLink.*?[/]*$",
       "deepCatch": {
         "item": "complex:{{ancestor:1}}?@a1={{querystring:@a1}}&@a2={{querystring:@a2}}&$expand=File,Properties,FieldValuesAsText,ContentType",
-        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name&$expand=Author&$filter=Id eq {{querystring:@a2}}&@a1=%27{{context:listId}}%27",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{querystring:@a2}}&@a1=%27{{context:listId}}%27",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
         "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
@@ -294,9 +296,10 @@
         "pageTitle": "deep:item.Title",
         "pageId": "deep:item.Id",
         "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -306,7 +309,11 @@
       "catchFilter": "\/folders\/AddUsingPath\\(DecodedUrl=@a1,overwrite=@a2\\)\\?.*$[/]*$",
       "deepCatch": {
         "folder": "complex:{{ancestor:3}}/GetFolderByServerRelativePath(DecodedUrl={{querystring:@a1}})?&$expand=ListItemAllFields,ListItemAllFields/ContentType",
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{deep:folder.ListItemAllFields.ID}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{deep:folder.ListItemAllFields.ID}}&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{deep:folder.ListItemAllFields.ID}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "folderUrl": "complex:{{global:location.origin}}{{deep:folder.ServerRelativeUrl}}",
@@ -319,7 +326,12 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:folder.ListItemAllFields.ContentType.Name"
+        "objectType": "deep:folder.ListItemAllFields.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -332,7 +344,11 @@
       "method": "post",
       "catchFilter": "\/AddToSpotlight\\(itemId=@a3,folderPath=@a4,afterItemId=@a5\\)\\?@a1=.*?[/]*$",
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a3}}&$expand=File/Author,FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a3}}&$expand=File/Author,FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{querystring:@a3}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "fileTitle": "deep:request.FieldValuesAsText.Title",
@@ -343,9 +359,14 @@
         "fileUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
-        "documentlibraryName": "context:listUrl.getLastSegment()",
+        "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -359,7 +380,11 @@
       "catchFilter": "\/RemoveFromSpotlight\\(itemId=@a3,folderPath=@a4\\)\\?@a1=.*?[/]*$",
       "deepCatch": {
         "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a3}}&$expand=File/Author,FieldValuesAsText,ContentType",
-        "item": "complex:{{ancestor:3}}/GetList({{querystring:@a1}})/Items({{querystring:@a3}})/FieldValuesAsText"
+        "item": "complex:{{ancestor:3}}/GetList({{querystring:@a1}})/Items({{querystring:@a3}})/FieldValuesAsText",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{querystring:@a3}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "fileTitle": "deep:item.Title",
@@ -370,9 +395,14 @@
         "fileUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
-        "documentlibraryName": "context:listUrl.getLastSegment()",
+        "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -386,7 +416,11 @@
       "catchFilter": "\/AddToSpotlight\\(itemId=@a3,folderPath=@a4,afterItemId=@a5\\)\\?@a1=.*?-1[/]*$",
       "deepCatch": {
         "item": "complex:{{ancestor:3}}/GetList({{querystring:@a1}})/Items({{querystring:@a3}})/FieldValuesAsText",
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a3}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a3}}&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{querystring:@a3}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "folderTitle": "deep:item.Title",
@@ -394,11 +428,16 @@
         "folderUniqueId": "deep:request.FieldValuesAsText.UniqueId",
         "folderName": "deep:request.FieldValuesAsText.FileRef.getLastSegment()",
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
-        "documentlibraryName": "context:listUrl.getLastSegment()",
-        "documentlibraryUrl": "context:listUrl",
-        "objectType": "deep:request.ContentType.Name",
+        "documentlibraryName": "context:listTitle",
+        "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
-        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}"
+        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -412,7 +451,11 @@
       "catchFilter": "\/RemoveFromSpotlight\\(itemId=@a3,folderPath=@a4\\)\\?@a1=.*?[/]*$",
       "deepCatch": {
         "item": "complex:{{ancestor:3}}/GetList({{querystring:@a1}})/Items({{querystring:@a3}})/FieldValuesAsText",
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a3}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a3}}&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{querystring:@a3}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "folderTitle": "deep:item.Title",
@@ -420,11 +463,16 @@
         "folderUniqueId": "deep:request.FieldValuesAsText.UniqueId",
         "folderName": "deep:request.FieldValuesAsText.FileRef.getLastSegment()",
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
-        "documentlibraryName": "context:listUrl.getLastSegment()",
-        "documentlibraryUrl": "context:listUrl",
-        "objectType": "deep:request.ContentType.Name",
+        "documentlibraryName": "context:listTitle",
+        "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
-        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}"
+        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -471,7 +519,11 @@
       "method": "post",
       "catchFilter": "\\/GetFolderById\\(@a1\\)\\/recycle\\?@a1=.*?[/]*$",
       "deepCatchPre": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemByUniqueId(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a1}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemByUniqueId(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a1}}&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{deep:request.ID}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "deepCatch": {
         "item": "complex:{{ancestor:2}}\/RecycleBin(guid'{{response:parseJson().d.Recycle}}')"
@@ -483,12 +535,17 @@
         "FolderUrl": "deep:item.DirName",
         "folderName": "deep:request.FieldValuesAsText.FileRef.getLastSegment()",
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
-        "documentlibraryName": "context:listUrl.getLastSegment()",
-        "documentlibraryUrl": "context:listUrl",
-        "objectType": "deep:request.ContentType.Name",
+        "documentlibraryName": "context:listTitle",
+        "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "folderModified": "deep:request.FieldValuesAsText.Modified",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
-        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}"
+        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -515,9 +572,9 @@
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
         "authorDisplayName": "deep:item.Files.0.Author.Title",
         "authorID": "deep:item.Files.0.Author.Email.anonymize()",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -532,7 +589,7 @@
       "catchFilter": "\/GetItemById.*?\/recycle.*?[/]*$",
       "deepCatchPre": {
         "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a2}}&$expand=FieldValuesAsText,ContentType",
-        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=UserName",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{selectedRows:0.ID}}%27&$select=UserName",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
         "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
@@ -553,12 +610,12 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name",
-        "authorDisplayName": "deep:props.FieldValuesAsText.Author",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorDisplayName": "deep:author.Title",
         "authorID": "deep:author.UserName.decodeClaims()",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -571,7 +628,11 @@
       "method": "post",
       "catchFilter": "\/GetItemById.*?\/recycle.*?[/]*$",
       "deepCatchPre": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a2}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{querystring:@a2}}&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2={{querystring:@a2}}&$select=Title,UserName",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "deepCatch": {
         "item": "complex:{{ancestor:3}}\/RecycleBin(guid'{{response:parseJson().d.Recycle}}')"
@@ -589,7 +650,12 @@
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorDisplayName": "deep:author.Title",
+        "authorID": "deep:author.UserName.decodeClaims()",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -603,7 +669,7 @@
       "catchFilter": "\/Lists.*?\/GetItemById.*?\/ShareLink.*?[/]*$",
       "deepCatch": {
         "request": "complex:{{ancestor:1}}?@a1={{querystring:@a1}}&@a2={{querystring:@a2}}&$expand=File/Author,FieldValuesAsText,ContentType",
-        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name&$expand=Author&$filter=Id eq {{querystring:@a2}}&@a1=%27{{context:listId}}%27",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{querystring:@a2}}&@a1=%27{{context:listId}}%27",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
         "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
@@ -616,13 +682,14 @@
         "fileUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
-        "documentlibraryName": "context:listUrl.getLastSegment()",
+        "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -699,7 +766,7 @@
       "deepCatch": {
         "item": "complex:{{ancestor:1}}?@a1={{querystring:@a1}}&@a2={{querystring:@a2}}&$expand=Folder,Properties,ContentType",
         "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1={{querystring:@a1}}&@a2={{querystring:@a2}}&$expand=FieldValuesAsText,ContentType",
-        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name&$expand=Author&$filter=Id eq {{querystring:@a2}}&@a1=%27{{context:listId}}%27",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{querystring:@a2}}&@a1=%27{{context:listId}}%27",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
         "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
@@ -711,13 +778,14 @@
         "folderId": "deep:request.ID",
         "folderUniqueId": "deep:item.Folder.UniqueId",
         "folderName": "deep:request.FieldValuesAsText.FileRef.getLastSegment()",
-        "documentlibraryName": "context:listUrl.getLastSegment()",
-        "documentlibraryUrl": "context:listUrl",
-        "objectType": "deep:request.ContentType.Name",
+        "documentlibraryName": "context:listTitle",
+        "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}"
       }
@@ -730,15 +798,26 @@
       "method": "click",
       "catchFilter": "button[data-automation-id='pageCommandBarSaveTemplateButton']",
       "deferred": false,
+      "registerOnInit": true,
       "registerOnEvent": "click",
-      "delay": 300,
+      "delay": 800,
       "nextPageUrl": null,
       "deepCatch": {
-        "item": "complex:{{context:webAbsoluteUrl}}/_api/web/GetFileByServerRelativePath(decodedurl='/sites/{{context:webTitle}}/SitePages{{url:(\/Templates.*?\\.aspx)}}')?&$expand=ListItemAllFields"
+        "item": "complex:{{context:webAbsoluteUrl}}/_api/web/GetFileByServerRelativePath(decodedurl='/sites/{{context:webTitle}}/SitePages{{url:(\/Templates.*?\\.aspx)}}')?&$expand=ListItemAllFields,Author",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=UserName,Title",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "mappings": {
-        "TextFieldValue": "",
-        "InputField": ""
+        "pageUrl": "complex:{{global:location.origin}}{{deep:item.ServerRelativeUrl}}",
+        "pageTitle": "deep:item.Title",
+        "pageId": "deep:item.ListItemAllFields.ID",
+        "itemAuthorUserName": "deep:item.Author.Email.anonymize()",
+        "authorDisplayName": "deep:author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -751,15 +830,26 @@
       "deferred": false,
       "registerOnInit": true,
       "registerOnEvent": "click",
-      "delay": 300,
+      "delay": 800,
+      "delayExecution": 1500,
       "nextPageUrl": null,
       "deepCatch": {
-        "item": "complex:{{context:webAbsoluteUrl}}/_api/web/GetFileByServerRelativePath(decodedurl='/sites/{{context:webTitle}}/SitePages/Templates/{{eval:document.querySelector('[class^=container] > [class^=contentBox] [class*=fontColorFix]').innerHTML + '.aspx'}}')?&$expand=ListItemAllFields"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{context:pageItemId}}&$expand=FieldValuesAsText,ContentType",
+        "item": "complex:{{context:webAbsoluteUrl}}/_api/web/GetFileByServerRelativePath(decodedurl='/sites/{{context:webTitle}}/SitePages/Templates/{{url:(?<=\/SitePages\/)(.*?)$}}')?&$expand=ListItemAllFields,Author",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=UserName,Title",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "mappings": {
         "pageUrl": "complex:{{global:location.origin}}{{deep:item.ServerRelativeUrl}}",
         "pageTitle": "deep:item.Title",
-        "pageId": "deep:item.ListItemAllFields.ID"
+        "pageId": "deep:item.ListItemAllFields.ID",
+        "itemAuthorUserName": "deep:item.Author.Email.anonymize()",
+        "authorDisplayName": "deep:author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -768,12 +858,21 @@
       "method": "post",
       "catchFilter": "\/sitepages\/pages\\(\\d+\\)\/PromoteToNews$",
       "deepCatch": {
-        "item": "complex:{{ancestor:3}}/Web/GetFileByServerRelativePath(decodedurl='{{global:location.pathname}}')?&$expand=ListItemAllFields"
+        "item": "complex:{{ancestor:3}}/Web/GetFileByServerRelativePath(decodedurl='{{global:location.pathname}}')?&$expand=ListItemAllFields,Author",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=UserName,Title",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "mappings": {
         "pageUrl": "complex:{{global:location.origin}}{{deep:item.ServerRelativeUrl}}",
         "pageTitle": "deep:item.Title",
-        "pageId": "deep:item.ListItemAllFields.ID"
+        "pageId": "deep:item.ListItemAllFields.ID",
+        "itemAuthorUserName": "deep:item.Author.Email.anonymize()",
+        "authorDisplayName": "deep:author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -788,7 +887,7 @@
       "nextPageUrl": null,
       "deepCatch": {
         "item": "complex:{{ancestor:2}}/_api/Web/GetFileByServerRelativePath(decodedurl='{{context:listUrl}}/{{url:(?<=\/SitePages\/)(.*?)(?=\\.aspx)}}.aspx')?&$expand=ListItemAllFields,Author",
-        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=UserName",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=UserName,Title",
         "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
         "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
         "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
@@ -798,9 +897,10 @@
         "pageTitle": "deep:item.Title",
         "pageId": "deep:item.ListItemAllFields.ID",
         "itemAuthorUserName": "deep:item.Author.Email.anonymize()",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "authorDisplayName": "deep:author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1149,9 +1249,9 @@
         "contentType": "eval:'Wiki Page'",
         "authorDisplayName": "deep:author.Title",
         "authorID": "deep:author.UserName.decodeClaims()",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1164,7 +1264,11 @@
       "delay": 0,
       "nextPageUrl": "\\.aspx\\?PageView=Shared\\&DisplayMode=Design\\&InitialTabId=Ribbon.WebPartPage\\&VisibilityContext=WSSWebPartPage.*?[/]*$",
       "deepCatch": {
-        "propList": "complex:{{ancestor:2}}/_api/web/lists(guid'{{deferred:ListID}}')/Items?$filter=FileLeafRef eq '{{deferred:PageName}}.aspx'&$select=GUID"
+        "propList": "complex:{{ancestor:2}}/_api/web/lists(guid'{{deferred:ListID}}')/Items?$filter=FileLeafRef eq '{{deferred:PageName}}.aspx'&$select=GUID",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,UserName",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "deferredMappings": {
         "ListID": "eval:document.querySelector('#onetidDocLibIDSelect').value",
@@ -1177,7 +1281,12 @@
         "contentTypeId": "deferred:ContentTypeID",
         "fileId": "deep:propList.value.0.GUID",
         "listId": "deferred:ListID",
-        "contentType": "eval:'Web Part Page'"
+        "contentType": "eval:'Web Part Page'",
+        "authorDisplayName": "deep:author.Title",
+        "authorID": "deep:author.UserName.decodeClaims()",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1202,11 +1311,20 @@
       "delay": 500,
       "nextPageUrl": null,
       "deepCatch": {
-        "propList": "complex:{{ancestor:2}}/_api/web/lists(guid'{{context:listId}}')/Items?$filter=ID eq '{{context:pageItemId}}'&$select=ContentType/Name&$expand=ContentType"
+        "propList": "complex:{{ancestor:2}}/_api/web/lists(guid'{{context:listId}}')/Items?$filter=ID eq '{{context:pageItemId}}'&$select=ContentType/SchemaXml&$expand=ContentType",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,UserName",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "mappings": {
         "pageTitle": "eval:document.querySelectorAll('#DeltaPlaceHolderPageTitleInTitleArea')[0].innerText.trim()",
-        "typeOfContent": "deep:propList.value.0.ContentType.Name"
+        "typeOfContent": "deep:propList.value.0.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorDisplayName": "deep:author.Title",
+        "authorID": "deep:author.UserName.decodeClaims()",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1219,11 +1337,20 @@
       "delay": 500,
       "nextPageUrl": null,
       "deepCatch": {
-        "propList": "complex:{{ancestor:2}}/_api/web/lists(guid'{{context:listId}}')/Items?$filter=ID eq '{{context:pageItemId}}'&$select=ContentType/Name&$expand=ContentType"
+        "propList": "complex:{{ancestor:2}}/_api/web/lists(guid'{{context:listId}}')/Items?$filter=ID eq '{{context:pageItemId}}'&$select=ContentType/SchemaXml&$expand=ContentType",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,UserName",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "mappings": {
         "pageTitle": "eval:document.querySelectorAll('#DeltaPlaceHolderPageTitleInTitleArea')[0].innerText.trim()",
-        "typeOfContent": "deep:propList.value.0.ContentType.Name"
+        "typeOfContent": "deep:propList.value.0.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorDisplayName": "deep:author.Title",
+        "authorID": "deep:author.UserName.decodeClaims()",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1272,9 +1399,9 @@
         "!pageVersion": "deep:propList.Version",
         "authorDisplayName": "deep:author.Title",
         "authorID": "deep:author.UserName.decodeClaims()",
-        "pageAuthorDepartment": "deep:authorDepartment.value",
-        "pageAuthorOffice": "deep:authorOffice.value",
-        "pageAuthorJobTitle": "deep:authorJobTitle.value"
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1360,7 +1487,11 @@
       "nextPageUrl": null,
       "deepCatch": {
         "item": "complex:{{context:siteAbsoluteUrl}}/_api/web/GetFileByServerRelativePath(decodedurl='{{context:listUrl}}/{{selectedrows:0.FileLeafRef}}')",
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{selectedrows:0.ID}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{selectedrows:0.ID}}&$expand=FieldValuesAsText,ContentType/SchemaXml",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{selectedRows:0.ID}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "fileTitle": "deep:item.Title",
@@ -1372,7 +1503,12 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1381,7 +1517,11 @@
       "method": "get",
       "catchFilter": "\/download\\.aspx\\?UniqueId=.*?$[/]*$",
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{selectedRows:0.ID}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{selectedRows:0.ID}}&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{selectedRows:0.ID}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "fileName": "deep:request.FieldValuesAsText.FileLeafRef",
@@ -1391,7 +1531,12 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1410,7 +1555,11 @@
       "delay": 800,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{selectedRows:0.ID}}'&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{selectedRows:0.ID}}'&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{selectedRows:0.ID}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "fileTitle": "deep:request.Title",
@@ -1421,7 +1570,12 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1440,7 +1594,11 @@
       "delay": 800,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{selectedRows:0.ID}}'&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{selectedRows:0.ID}}'&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{selectedRows:0.ID}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "fileTitle": "deep:request.Title",
@@ -1451,7 +1609,12 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1470,7 +1633,11 @@
       "delay": 800,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{selectedRows:0.ID}}'&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{selectedRows:0.ID}}'&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{selectedRows:0.ID}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "folderTitle": "deep:request.Title",
@@ -1479,9 +1646,14 @@
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
-        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}"
+        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1500,7 +1672,11 @@
       "delay": 800,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{selectedRows:0.ID}}'&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{selectedRows:0.ID}}'&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name,Author/Title&$expand=Author&$filter=Id eq {{selectedRows:0.ID}}&@a1=%27{{context:listId}}%27",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.value.0.Author.Name.decodeClaims()}}%27"
       },
       "mappings": {
         "folderTitle": "deep:request.Title",
@@ -1509,9 +1685,14 @@
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
-        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}"
+        "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
+        "authorId": "deep:author.value.0.Author.Name.decodeClaims().anonymize()",
+        "authorDisplayName": "deep:author.value.0.Author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1524,12 +1705,21 @@
       "delay": 300,
       "nextPageUrl": null,
       "deepCatch": {
-        "item": "complex:{{ancestor:2}}/_api/Web/GetFileByServerRelativePath(decodedurl='{{context:listUrl}}/{{url:(?<=\/SitePages\/)(.*?)(?=\\.aspx)}}.aspx')?&$expand=ListItemAllFields"
+        "item": "complex:{{ancestor:2}}/_api/Web/GetFileByServerRelativePath(decodedurl='{{context:listUrl}}/{{url:(?<=\/SitePages\/)(.*?)(?=\\.aspx)}}.aspx')?&$expand=ListItemAllFields,Author",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=UserName,Title",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "mappings": {
         "pageUrl": "complex:{{global:location.origin}}{{deep:item.ServerRelativeUrl}}",
         "pageTitle": "deep:item.Title",
-        "pageId": "deep:item.ListItemAllFields.ID"
+        "pageId": "deep:item.ListItemAllFields.ID",
+        "itemAuthorUserName": "deep:item.Author.Email.anonymize()",
+        "authorDisplayName": "deep:author.Title",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1542,7 +1732,7 @@
       "delay": 1500,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{global:location.origin}}/{{context:webServerRelativeUrl}}/_api/Web/lists/GetByTitle('{{context:listTitle}}')/items?$filter=Title eq '{{selectedRows:0.Title}}'&$expand=FieldValuesAsText"
+        "request": "complex:{{global:location.origin}}/{{context:webServerRelativeUrl}}/_api/Web/lists/GetByTitle('{{context:listTitle}}')/items?$filter=Title eq '{{eval:document.querySelector('.od-Panel .od-Panel-content .od-ListForm-breadcrumb ul.BreadcrumbBar-list span.BreadcrumbBar-item').getAttribute('title')}}'&$expand=FieldValuesAsText"
       },
       "mappings": {
         "listUrl": "complex:{{global:location.origin}}{{context:listUrl}}/",
@@ -1575,7 +1765,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -1590,7 +1780,7 @@
       "delay": 0,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{deferred:id}}%27&$expand=File,File/Author,Properties,FieldValuesAsText,ContentType"
+        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{deferred:id}}%27&$expand=File,File/Author,Properties,FieldValuesAsText,ContentType/SchemaXml"
       },
       "deferredMappings": {
         "id": "event:target.getId()"
@@ -1603,7 +1793,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -1624,7 +1814,7 @@
       "delay": 800,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}'&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}'&$expand=FieldValuesAsText,ContentType/SchemaXml"
       },
       "mappings": {
         "whoCreated": "deep:request.FieldValuesAsText.Created_x005f_x0020_x005f_By.decodeClaims()",
@@ -1639,7 +1829,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -1660,7 +1850,7 @@
       "delay": 800,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}'&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}'&$expand=FieldValuesAsText,ContentType/SchemaXml"
       },
       "mappings": {
         "whoCreated": "deep:request.FieldValuesAsText.Created_x005f_x0020_x005f_By.decodeClaims()",
@@ -1675,7 +1865,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -1696,7 +1886,11 @@
       "delay": 800,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}'&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}'&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1='{{context:listId}}'&@a2={{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}&$select=Title,UserName",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "mappings": {
         "whoCreated": "deep:request.FieldValuesAsText.Created_x005f_x0020_x005f_By.decodeClaims()",
@@ -1711,7 +1905,12 @@
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorDisplayName": "deep:author.Title",
+        "authorID": "deep:author.UserName.decodeClaims()",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1732,7 +1931,11 @@
       "delay": 800,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}'&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2='{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}'&$expand=FieldValuesAsText,ContentType",
+        "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1='{{context:listId}}'&@a2={{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}&$select=Title,UserName",
+        "authorJobTitle": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Title')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorDepartment": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Department')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27",
+        "authorOffice": "complex:{{context:webAbsoluteUrl}}/_api/SP.UserProfiles.PeopleManager/GetUserProfilePropertyFor(accountName=@v,propertyName='Office')?@v=%27i:0%23.f|membership|{{deep:author.UserName}}%27"
       },
       "mappings": {
         "whoCreated": "deep:request.FieldValuesAsText.Created_x005f_x0020_x005f_By.decodeClaims()",
@@ -1747,7 +1950,12 @@
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
+        "authorDisplayName": "deep:author.Title",
+        "authorID": "deep:author.UserName.decodeClaims()",
+        "itemAuthorDepartment": "deep:authorDepartment.value",
+        "itemAuthorOffice": "deep:authorOffice.value",
+        "itemAuthorJobTitle": "deep:authorJobTitle.value"
       }
     },
     {
@@ -1779,7 +1987,7 @@
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}"
       }
@@ -1813,7 +2021,7 @@
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
         "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}"
       }
@@ -1833,13 +2041,13 @@
       "delayExecution": 500,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/Web/GetFolderByServerRelativePath(DecodedUrl=%27{{context:listUrl}}/{{eval:document.querySelector('.ccfc_folderNameInput').value}}%27)?$select=Name,UniqueId,ListItemAllFields/Title,ListItemAllFields/Id,ListItemAllFields/ContentType/Name,ServerRelativeUrl&$expand=ListItemAllFields,ListItemAllFields/ContentType"
+        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/Web/GetFolderByServerRelativePath(DecodedUrl=%27{{context:listUrl}}/{{eval:document.querySelector('.ccfc_folderNameInput').value}}%27)?$select=Name,UniqueId,ListItemAllFields/Title,ListItemAllFields/Id,ListItemAllFields/ContentType/SchemaXml,ServerRelativeUrl&$expand=ListItemAllFields,ListItemAllFields/ContentType"
       },
       "mappings": {
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.ServerRelativeUrl}}",
         "folderName": "deep:request.Name",
         "folderTitle": "deep:request.ListItemAllFields.Title",
-        "contentType": "deep:request.ListItemAllFields.ContentType.Name",
+        "contentType": "deep:request.ListItemAllFields.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "folderUniqueId": "deep:request.UniqueId",
         "folderId": "deep:request.ListItemAllFields.Id",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
@@ -1861,13 +2069,13 @@
       "delayExecution": 500,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/Web/GetFolderByServerRelativePath(DecodedUrl=%27{{querystring:RootFolder}}/{{eval:document.querySelector('.ccfc_folderNameInput').value}}%27)?$select=Name,UniqueId,ListItemAllFields/Title,ListItemAllFields/Id,ListItemAllFields/ContentType/Name,ServerRelativeUrl&$expand=ListItemAllFields,ListItemAllFields/ContentType"
+        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/Web/GetFolderByServerRelativePath(DecodedUrl=%27{{querystring:RootFolder}}/{{eval:document.querySelector('.ccfc_folderNameInput').value}}%27)?$select=Name,UniqueId,ListItemAllFields/Title,ListItemAllFields/Id,ListItemAllFields/ContentType/SchemaXml,ServerRelativeUrl&$expand=ListItemAllFields,ListItemAllFields/ContentType"
       },
       "mappings": {
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.ServerRelativeUrl}}",
         "folderName": "deep:request.Name",
         "folderTitle": "deep:request.ListItemAllFields.Title",
-        "contentType": "deep:request.ListItemAllFields.ContentType.Name",
+        "contentType": "deep:request.ListItemAllFields.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "folderUniqueId": "deep:request.UniqueId",
         "folderId": "deep:request.ListItemAllFields.Id",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
@@ -2024,7 +2232,7 @@
       "delay": 1000,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/lists/GetByTitle('{{context:listTitle}}')/items({{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}})?$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/lists/GetByTitle('{{context:listTitle}}')/items({{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}})?$expand=FieldValuesAsText,ContentType/SchemaXml"
       },
       "mappings": {
         "fileTitle": "deep:request.Title",
@@ -2035,7 +2243,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -2050,7 +2258,7 @@
       "delay": 1000,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/lists/GetByTitle('{{context:listTitle}}')/items({{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}})?$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/lists/GetByTitle('{{context:listTitle}}')/items({{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}})?$expand=FieldValuesAsText,ContentType/SchemaXml"
       },
       "mappings": {
         "fileTitle": "deep:request.Title",
@@ -2061,7 +2269,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -2102,7 +2310,7 @@
       "delay": 0,
       "pageUrl": "^(?:(?!Lists).)*$",
       "deepCatch": {
-        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}%27&$expand=File,File/Author,Properties,FieldValuesAsText,ContentType"
+        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}%27&$expand=File,File/Author,Properties,FieldValuesAsText,ContentType/SchemaXml"
       },
       "deferredMappings": {},
       "mappings": {
@@ -2116,7 +2324,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -2135,7 +2343,7 @@
       "delay": 0,
       "pageUrl": "^(?:(?!Lists).)*$",
       "deepCatch": {
-        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}%27&$expand=Properties,FieldValuesAsText,ContentType",
+        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}%27&$expand=Properties,FieldValuesAsText,ContentType/SchemaXml",
         "author": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/Items?$select=Author/Name&$expand=Author&$filter=Id eq '{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}'&@a1=%27{{context:listId}}%27"
       },
       "mappings": {
@@ -2143,9 +2351,9 @@
         "docLocalizaton": "complex:{{context:webAbsoluteUrl}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "folderName": "deep:request.FieldValuesAsText.FileLeafRef",
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
-        "documentlibraryName": "context:listUrl.getLastSegment()",
+        "documentlibraryName": "context:listTitle",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "parentFolderName": "deep:request.FieldValuesAsText.FileDirRef.getLastSegment()",
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}"
       }
@@ -2204,7 +2412,7 @@
       "delay": 600,
       "nextPageUrl": null,
       "deepCatch": {
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}&$expand=FieldValuesAsText,ContentType/SchemaXml"
       },
       "mappings": {
         "fileTitle": "deep:request.Title",
@@ -2216,7 +2424,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -2244,7 +2452,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -2270,7 +2478,7 @@
         "elTitle": "deep:request.FieldValuesAsText.Title",
         "elId": "deep:request.Id",
         "elUniqueId": "deep:request.FieldValuesAsText.UniqueId",
-        "objectType": "deep:request.ContentType.Name",
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()",
         "fileName": "deep:request.FieldValuesAsText.FileLeafRef",
         "fileExt": "deep:request.FieldValuesAsText.File_x005f_x0020_x005f_Type",
         "fileUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileRef}}",
@@ -2296,7 +2504,7 @@
       "delay": 0,
       "pageUrl": null,
       "deepCatch": {
-        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}%27&$expand=File,File/Author,Properties,FieldValuesAsText,ContentType"
+        "request": "complex:{{global:location.origin}}{{context:webServerRelativeUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{eval:SP.ListOperation.Selection.getSelectedItems()[0].id}}%27&$expand=File,File/Author,Properties,FieldValuesAsText,ContentType/SchemaXml"
       },
       "deferredMappings": {},
       "mappings": {
@@ -2310,7 +2518,7 @@
         "folderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -2383,7 +2591,7 @@
       "nextPageUrl": null,
       "deepCatch": {
         "item": "complex:{{context:siteAbsoluteUrl}}/_api/web/GetFileByServerRelativePath(decodedurl='{{context:listUrl}}/{{selectedrows:0.FileLeafRef}}')",
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{selectedrows:0.ID}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{selectedrows:0.ID}}&$expand=FieldValuesAsText,ContentType/SchemaXml"
       },
       "mappings": {
         "fileTitle": "deep:item.Title",
@@ -2395,7 +2603,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     },
     {
@@ -2412,7 +2620,7 @@
       "nextPageUrl": null,
       "deepCatch": {
         "item": "complex:{{context:siteAbsoluteUrl}}/_api/web/GetFileByServerRelativePath(decodedurl='{{context:listUrl}}/{{selectedrows:0.FileLeafRef}}')",
-        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{selectedrows:0.ID}}&$expand=FieldValuesAsText,ContentType"
+        "request": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1='{{context:listId}}'&@a2={{selectedrows:0.ID}}&$expand=FieldValuesAsText,ContentType/SchemaXml"
       },
       "mappings": {
         "fileTitle": "deep:item.Title",
@@ -2424,7 +2632,7 @@
         "parentFolderUrl": "complex:{{global:location.origin}}{{deep:request.FieldValuesAsText.FileDirRef}}",
         "documentlibraryName": "context:listUrl.getLastSegment()",
         "documentlibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}",
-        "objectType": "deep:request.ContentType.Name"
+        "objectType": "deep:request.ContentType.SchemaXml.getContentTypeFromSchemaXml()"
       }
     }
   ]

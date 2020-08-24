@@ -13,7 +13,8 @@
     [Parameter(Position = 5)]
     [SecureString]$CertificatePassword,
     [Parameter(Position = 6)]
-    [string]$Location = "westeurope"
+    [string]$Location = "westeurope",
+    [Switch]$NoConsent
 )
 
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition;
@@ -57,7 +58,9 @@ if (-not (az ad sp list --filter "appId eq '$clientId'" --query '[].appId' -o ts
     az ad sp create --id "$clientId" -o none;
 }
 
-az ad app permission admin-consent --id "$clientId" -o none;
+if (-not $NoConsent) {
+    az ad app permission admin-consent --id "$clientId" -o none;
+}
 
 if ($sharePointTenant -ne $Tenant) {
     Write-Host "Connecting to Azure tenant...";
