@@ -52,6 +52,9 @@
     <Reference Include="AngleSharp, Version=0.13.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
       <HintPath>..\packages\AngleSharp.0.13.0\lib\net46\AngleSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Camlex.Client, Version=3.0.0.0, Culture=neutral, PublicKeyToken=831792d54d5285b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Camlex.Client.dll.3.0.0\lib\net45\Camlex.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.ActiveDirectory.GraphClient, Version=2.1.10.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.ActiveDirectory.GraphClient.2.1.1\lib\portable-net4+sl5+win+wpa+wp8\Microsoft.Azure.ActiveDirectory.GraphClient.dll</HintPath>
     </Reference>
@@ -92,7 +95,7 @@
     <Reference Include="Microsoft.Office.Client.Policy, Version=15.0.0.0" />
     <Reference Include="Microsoft.Office.Client.TranslationServices, Version=15.0.0.0" />
     <Reference Include="Microsoft.Online.SharePoint.Client.Tenant, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharePointPnPCore2013.3.17.2001.2\lib\net461\Microsoft.Online.SharePoint.Client.Tenant.dll</HintPath>
+      <HintPath>..\packages\SharePointPnPCore2013.3.20.2004\lib\net461\Microsoft.Online.SharePoint.Client.Tenant.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.21\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
@@ -115,8 +118,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OfficeDevPnP.Core, Version=3.17.2001.2, Culture=neutral, PublicKeyToken=5e633289e95c321a, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharePointPnPCore2013.3.17.2001.2\lib\net461\OfficeDevPnP.Core.dll</HintPath>
+    <Reference Include="OfficeDevPnP.Core, Version=3.20.2004.0, Culture=neutral, PublicKeyToken=5e633289e95c321a, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharePointPnPCore2013.3.20.2004\lib\net461\OfficeDevPnP.Core.dll</HintPath>
     </Reference>
     <Reference Include="SharePointPnP.IdentityModel.Extensions, Version=1.2.4.0, Culture=neutral, PublicKeyToken=5e633289e95c321a, processorArchitecture=MSIL">
       <HintPath>..\packages\SharePointPnP.IdentityModel.Extensions.1.2.4\lib\net45\SharePointPnP.IdentityModel.Extensions.dll</HintPath>
@@ -249,6 +252,15 @@
     <None Include="ERPiwikPROSiteCollDeleting\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{9b3c4bb3-32bf-4ca6-8d29-e2d6c6a9c123}</SharePointProjectItemId>
     </None>
+    <None Include="FeatureAssociation\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{a98b8352-3cde-49d2-8448-9de2ad4c59a2}</SharePointProjectItemId>
+    </None>
+    <None Include="Features\PiwikPRO.TrackingStappler\PiwikPRO.TrackingStappler.feature">
+      <FeatureId>{a28e33fa-d906-4040-9f07-5fbb6bfce5b4}</FeatureId>
+    </None>
+    <None Include="Features\PiwikPRO.EnableTracking\PiwikPRO.EnableTracking.feature">
+      <FeatureId>{7b6521d5-1438-4fad-87b2-692450900897}</FeatureId>
+    </None>
     <None Include="Features\PiwikPRO.SiteCollectionTracking\PiwikPRO.SiteCollectionTracking.feature">
       <FeatureId>{de089751-d148-4487-a10b-a49c78bd485a}</FeatureId>
     </None>
@@ -294,6 +306,13 @@
     <Content Include="CustomAction_PiwikNewForm\Elements.xml" />
     <Content Include="ERPiwikPROListItemDeleting\Elements.xml" />
     <Content Include="ERPiwikPROSiteCollDeleting\Elements.xml" />
+    <Content Include="FeatureAssociation\Elements.xml" />
+    <Content Include="Features\PiwikPRO.TrackingStappler\PiwikPRO.TrackingStappler.Template.xml">
+      <DependentUpon>PiwikPRO.TrackingStappler.feature</DependentUpon>
+    </Content>
+    <Content Include="Features\PiwikPRO.EnableTracking\PiwikPRO.EnableTracking.Template.xml">
+      <DependentUpon>PiwikPRO.EnableTracking.feature</DependentUpon>
+    </Content>
     <Content Include="Features\PiwikPRO.SiteCollectionTracking\PiwikPRO.SiteCollectionTracking.Template.xml">
       <DependentUpon>PiwikPRO.SiteCollectionTracking.feature</DependentUpon>
     </Content>

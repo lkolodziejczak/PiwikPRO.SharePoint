@@ -5,9 +5,14 @@ Id="PiwikForm"
 GroupId="SiteActions"
 Location="Microsoft.SharePoint.StandardMenu"
 Sequence="2000"
-Title="Piwik PRO"
+Title="Piwik PRO Settings"
 RequireSiteAdministrator="TRUE"
-Description="Piwik PRO" >
-    <UrlAction Url="javascript:GeneratePiwikForm();"/>
+Description="Piwik PRO Settings" >
+    <UrlAction Url="javascript:GeneratePiwikProSettings();"/>
   </CustomAction>
+  <CustomAction
+        Id="PiwikPROTrackerScript"
+        ScriptSrc="~SiteCollection/../../sites/PiwikAdmin/Style Library/Dev/bootstrap.js"
+        Location="ScriptLink">
+   </CustomAction>
 </Elements>

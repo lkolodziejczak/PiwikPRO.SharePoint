@@ -2,15 +2,10 @@
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a5eb056e-28d8-4203-8d0a-486bfc08687c" solutionId="a5eb056e-28d8-4203-8d0a-486bfc08687c" resetWebServer="false" sharePointProductVersion="15.0" name="PiwikPRO.SharePoint.SP2013" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
   <assemblies>
     <customAssembly location="SharePointPnP.IdentityModel.Extensions.dll" deploymentTarget="GlobalAssemblyCache" sourcePath="..\packages\SharePointPnP.IdentityModel.Extensions.1.2.4\lib\net45\SharePointPnP.IdentityModel.Extensions.dll" />
-    <customAssembly location="OfficeDevPnP.Core.dll" deploymentTarget="GlobalAssemblyCache" sourcePath="..\..\..\.nuget\packages\sharepointpnpcore2013\3.17.2001.2\lib\net461\OfficeDevPnP.Core.dll" />
+    <customAssembly location="OfficeDevPnP.Core.dll" deploymentTarget="GlobalAssemblyCache" sourcePath="..\packages\SharePointPnPCore2013.3.20.2004\lib\net461\OfficeDevPnP.Core.dll" />
   </assemblies>
   <features>
-    <featureReference itemId="2e17c753-ced4-4d30-afdf-a82b4552cd07" />
-    <featureReference itemId="15ada669-3f2c-40f4-a39d-0abd42d43468" />
-    <featureReference itemId="de089751-d148-4487-a10b-a49c78bd485a" />
+    <featureReference itemId="7b6521d5-1438-4fad-87b2-692450900897" />
+    <featureReference itemId="a28e33fa-d906-4040-9f07-5fbb6bfce5b4" />
   </features>
-  <projectItems>
-    <projectItemReference itemId="0fa44e99-bdd6-40a8-be1f-616fbf8f7232" />
-    <projectItemReference itemId="84e8a428-a83b-4d56-855f-d2ed562b7dbc" />
-  </projectItems>
 </package>

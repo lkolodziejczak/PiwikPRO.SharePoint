@@ -28,7 +28,7 @@ namespace PiwikPRO.SharePoint.SP2013
                 SPLogger splogger = new SPLogger();
                 using (var ctx = new ClientContext(cfg.PiwikAdminSiteUrl))
                 {
-                    PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, splogger);
+                    PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
 
                     pbjo.GetAllNewSitesAndOperate();
                     pbjo.GetAllDeactivatingSitesAndOperate();

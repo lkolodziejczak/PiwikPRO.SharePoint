@@ -46,5 +46,13 @@
         public const string PiwikPro_SiteDirectory_Column_Status_Error = "Error";
         public const string PiwikPro_SiteDirectory_Column_Status_SettingsUpdated = "Settings updated";
         public const string PiwikPro_SiteDirectory_Column_Status_Deleted = "Deleted";
+
+        //old - not used
+        public const string PiwikPro_PropertyBag_AdminSiteUrl = "piwik_adminsiteurl";
+        public const string PiwikPro_PropertyBag_PiwikListName = "piwik_listname";
+        public const string PiwikPro_PropertyBag_TrackerJSScriptUrl = "piwik_trackerjsscripturl";
+        public const string PiwikPro_PropertyBag_TemplateShouldTrackDocumentAddedGoal = "piwik_templateusegoaldocumentadded";
+        public const string PiwikPro_PropertyBag_TemplateShouldTrackPageAddedGoal = "piwik_templateusegoalpageadded";
+        public const string PiwikPro_PropertyBag_TemplateShouldTrackPageEditedGoal = "piwik_templateusegoalpageedited";
     }
 }
