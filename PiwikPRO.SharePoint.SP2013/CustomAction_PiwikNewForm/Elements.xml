@@ -11,8 +11,9 @@ Description="Piwik PRO Settings" >
     <UrlAction Url="javascript:GeneratePiwikProSettings();"/>
   </CustomAction>
   <CustomAction
+    Sequence="100"
         Id="PiwikPROTrackerScript"
-        ScriptSrc="~SiteCollection/../../sites/PiwikAdmin/Style Library/Dev/bootstrap.js"
+        ScriptSrc="~sitecollection/../../sites/PiwikAdmin/Style Library/DevLK/bootstrap.js"
         Location="ScriptLink">
    </CustomAction>
 </Elements>

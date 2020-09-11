@@ -2,7 +2,9 @@
 {
     public class ConfigValues
     {
+        public const string PiwikPro_JobName = "Piwik PRO Job";
         public const string PiwikPro_SiteDirectoryListName = "Piwik Pro Site Directory";
+        public const string PiwikPro_ConfigListName = "PiwikConfig";
 
         //property bag keys
         public const string PiwikPro_PropertyBag_SiteId = "piwik_metasitenamestored";

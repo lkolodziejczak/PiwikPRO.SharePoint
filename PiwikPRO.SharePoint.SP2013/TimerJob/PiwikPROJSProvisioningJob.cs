@@ -24,9 +24,9 @@ namespace PiwikPRO.SharePoint.SP2013
         {
             try
             {
-                Configuration cfg = new Configuration();
+                Configuration cfg = new Configuration(Convert.ToString(this.Properties[ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl]));
                 SPLogger splogger = new SPLogger();
-                using (var ctx = new ClientContext(cfg.PiwikAdminSiteUrl))
+                using (var ctx = new ClientContext(Convert.ToString(this.Properties[ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl])))
                 {
                     PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
 

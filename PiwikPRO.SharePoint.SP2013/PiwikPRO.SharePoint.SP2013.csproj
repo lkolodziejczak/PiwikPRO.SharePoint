@@ -226,6 +226,9 @@
     <Compile Include="Features\PiwikPRO.TrackerJSFile_TimerJob\PiwikPRO.EventReceiver.cs">
       <DependentUpon>PiwikPRO.TrackerJSFile_TimerJob.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\PiwikPRO.WebJob\PiwikPRO.EventReceiver.cs">
+      <DependentUpon>PiwikPRO.WebJob.feature</DependentUpon>
+    </Compile>
     <Compile Include="PiwikPRO_MasterPageER\PiwikPRO_MasterPageER.cs" />
     <Compile Include="SPLogger.cs" />
     <Compile Include="TimerJob\PiwikPROJSProvisioningJob.cs" />
@@ -254,6 +257,9 @@
     </None>
     <None Include="FeatureAssociation\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{a98b8352-3cde-49d2-8448-9de2ad4c59a2}</SharePointProjectItemId>
+    </None>
+    <None Include="Features\PiwikPRO.WebJob\PiwikPRO.WebJob.feature">
+      <FeatureId>{476e1c0c-b688-4907-9eca-96b4f7d57c83}</FeatureId>
     </None>
     <None Include="Features\PiwikPRO.TrackingStappler\PiwikPRO.TrackingStappler.feature">
       <FeatureId>{a28e33fa-d906-4040-9f07-5fbb6bfce5b4}</FeatureId>
@@ -307,6 +313,9 @@
     <Content Include="ERPiwikPROListItemDeleting\Elements.xml" />
     <Content Include="ERPiwikPROSiteCollDeleting\Elements.xml" />
     <Content Include="FeatureAssociation\Elements.xml" />
+    <Content Include="Features\PiwikPRO.WebJob\PiwikPRO.WebJob.Template.xml">
+      <DependentUpon>PiwikPRO.WebJob.feature</DependentUpon>
+    </Content>
     <Content Include="Features\PiwikPRO.TrackingStappler\PiwikPRO.TrackingStappler.Template.xml">
       <DependentUpon>PiwikPRO.TrackingStappler.feature</DependentUpon>
     </Content>

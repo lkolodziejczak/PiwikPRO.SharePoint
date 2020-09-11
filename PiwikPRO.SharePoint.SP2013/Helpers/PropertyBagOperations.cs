@@ -1,5 +1,6 @@
 ﻿using Microsoft.SharePoint;
 using Microsoft.SharePoint.Administration;
+using Microsoft.SharePoint.Client;
 using PiwikPRO.SharePoint.Shared;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,40 @@ namespace PiwikPRO.SharePoint.SP2013
             if (PropertyBagList == null)
             {
                 PropertyBagList = new List<PropertyBagEntity>();
-                GetFarmProperties();
-                GetPiwikAdminProperties();
+                //GetFarmProperties();
+                //GetPiwikAdminProperties();
+                GetPiwikAdminListProperties();
             }
             //GetSiteCollectionProperties();
+        }
+
+        public PropertyBagOperations(string piwikAdminSiteUrl)
+        {
+            if (PropertyBagList == null)
+            {
+                PropertyBagList = new List<PropertyBagEntity>();
+                PropertyBagList.Add(new PropertyBagEntity("PiwikAdminSiteUrl", ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl, piwikAdminSiteUrl, PropertyBagEntity.PropertyLevelEnum.Farm));
+
+                //GetFarmProperties();
+                GetPiwikAdminListProperties();
+                //GetPiwikAdminProperties();
+            }
+            //GetSiteCollectionProperties();
+        }
+
+        private void GetJobProperties()
+        {
+            SPSecurity.RunWithElevatedPrivileges(delegate ()
+            {
+                try
+                {
+                    //PropertyBagList.Add(new PropertyBagEntity("PiwikAdminSiteUrl", ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl, Convert.ToString(this.Properties[ConfigValues.PiwikPro_PropertyBag_AdminSiteUrl]), PropertyBagEntity.PropertyLevelEnum.Farm));
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLog(Logger.Category.Unexpected, "Piwik GetFarmProperties", ex.Message);
+                }
+            });
         }
 
         private void GetFarmProperties()
@@ -71,6 +102,48 @@ namespace PiwikPRO.SharePoint.SP2013
                         catch (Exception ex)
                         {
                             Logger.WriteLog(Logger.Category.Unexpected, "Piwik GetPiwikAdminProperties", ex.Message);
+                        }
+                    }
+                }
+            });
+        }
+
+        private void GetPiwikAdminListProperties()
+        {
+            SPSecurity.RunWithElevatedPrivileges(delegate ()
+            {
+                using (SPSite site = new SPSite(GetPropertyValueFromListByKey("piwik_adminsiteurl")))
+                {
+                    using (SPWeb web = site.OpenWeb())
+                    {
+                            try
+                            {
+                                SPList oList = web.Lists.TryGetList(ConfigValues.PiwikPro_ConfigListName);
+                            SPListItemCollection collListItems = oList.GetItems();
+
+                            foreach(SPListItem item in collListItems)
+                            {
+                                if(item["Title"].Equals(ConfigValues.PiwikPro_PropertyBag_ClientID))
+                                {
+                                    PropertyBagList.Add(new PropertyBagEntity("ClientID", ConfigValues.PiwikPro_PropertyBag_ClientID, Convert.ToString(item["Value"]), PropertyBagEntity.PropertyLevelEnum.Farm));
+                                }
+                                if (item["Title"].Equals(ConfigValues.PiwikPro_PropertyBag_ClientSecret))
+                                {
+                                    PropertyBagList.Add(new PropertyBagEntity("ClientSecret", ConfigValues.PiwikPro_PropertyBag_ClientSecret, Convert.ToString(item["Value"]), PropertyBagEntity.PropertyLevelEnum.Farm));
+                                }
+                                if (item["Title"].Equals(ConfigValues.PiwikPro_PropertyBag_OldApiToken))
+                                {
+                                    PropertyBagList.Add(new PropertyBagEntity("OldApiToken", ConfigValues.PiwikPro_PropertyBag_OldApiToken, Convert.ToString(item["Value"]), PropertyBagEntity.PropertyLevelEnum.Farm));
+                                }
+                                if (item["Title"].Equals(ConfigValues.PiwikPro_PropertyBag_ServiceUrl))
+                                {
+                                    PropertyBagList.Add(new PropertyBagEntity("ServiceUrl", ConfigValues.PiwikPro_PropertyBag_ServiceUrl, Convert.ToString(item["Value"]), PropertyBagEntity.PropertyLevelEnum.Farm));
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.WriteLog(Logger.Category.Unexpected, "Piwik GetPiwikAdminListProperties", ex.Message);
                         }
                     }
                 }

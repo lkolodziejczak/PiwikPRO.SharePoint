@@ -95,7 +95,7 @@ namespace PiwikPRO.SharePoint.Shared
             List<ListItem> listToReturn = new List<ListItem>();
             try
             {
-                List oList = context.Web.Lists.GetByTitle("Piwik Pro Site Directory");
+                List oList = context.Web.Lists.GetByTitle(ConfigValues.PiwikPro_SiteDirectoryListName);
                 CamlQuery qry = new CamlQuery();
                 qry.ViewXml =
                     @"<View><Query><Where>" +
