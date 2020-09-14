@@ -3,6 +3,7 @@
   <assemblies>
     <customAssembly location="SharePointPnP.IdentityModel.Extensions.dll" deploymentTarget="GlobalAssemblyCache" sourcePath="..\packages\SharePointPnP.IdentityModel.Extensions.1.2.4\lib\net45\SharePointPnP.IdentityModel.Extensions.dll" />
     <customAssembly location="OfficeDevPnP.Core.dll" deploymentTarget="GlobalAssemblyCache" sourcePath="..\packages\SharePointPnPCore2013.3.20.2004\lib\net461\OfficeDevPnP.Core.dll" />
+    <customAssembly location="Newtonsoft.Json.dll" deploymentTarget="GlobalAssemblyCache" sourcePath="..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll" />
   </assemblies>
   <features>
     <featureReference itemId="7b6521d5-1438-4fad-87b2-692450900897" />
