@@ -166,7 +166,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
         {
             if (!indexedProps.Contains(propBagKey))
             {
-                webToPropertyBag.Web.AddIndexedPropertyBagKey("key");
+                webToPropertyBag.Web.AddIndexedPropertyBagKey(propBagKey);
             }
         }
 
