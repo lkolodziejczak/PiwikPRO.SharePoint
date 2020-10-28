@@ -18,17 +18,21 @@
 )
 
 # for Sharepoint OnPremise
-$IsNewInstallation = $true
+
 $sharepointAdminLogin = "piwik\lkolodziejczak"
 $clientIdValue = "7VzT7CvAs9UFwDXTfEFhXsJHOPjFiVKM"
 $clientSecretValue = "yaOAuNhEkD8sHC4F3gOzftaDZnD8nlwbpBR0Cc2xJjCLiUGb8Ciz7ljPy2C3mAlL0ObHgNwxdrwZPlui"
 $serviceUrlValue ="https://kogifi.piwik.pro"
-$wspSolutionPath = ".\solutions\";
+$wspSolutionPath = "C:\Users\lkolodziejczak\source\repos\PiwikPRO.SharePoint\PiwikPRO.SharePoint.PowerShell\SharePoint\solutions\";
+$activateFeatureStapplerOnDefault = $true
+
+#not changeable values
 $filesSolutionFolder = ".\solutions\build\";
 $filesImagesdFolder = ".\assets\";
 $MywspName = "PiwikPRO.SharePoint.SP2013.wsp"
 $timerJobName = "Piwik PRO Job"
 
+# for Sharepoint Online
 
 $templatePath = ".\templates\PiwikPROTemplate.xml";
 $spfxPackagePath = ".\solutions\piwikpro-sharepoint.sppkg";
@@ -222,6 +226,41 @@ function UploadandApprove($siteUrl, $DestFolderUrl, $LocalFilePath)
        Write-Host -ForegroundColor Red $_.Exception.stacktrace
     } 
 }
+
+function ActivateFeatureInSiteCollectionScope($DisplayName, $siteurl)
+ {
+     Write-Host "Activating Feature :- " $DisplayName " -: In Site Collection " $siteurl
+     $TempCount = (Get-SPSite  $siteurl | %{ Get-SPFeature -Site $_ } | Where-Object {$_.ID -eq $DisplayName} ).Count
+     if($TempCount -eq 0)
+     {
+         # if not, Enable the Feature.
+         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl 
+     }            
+     else
+     {
+         # If already Activated, then De-Activate and Activate Again.
+         Disable-SPFeature -Identity $DisplayName -Url $siteurl  –Confirm:$false
+         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl 
+     }
+ }
+ 
+ function ActivateFeatureInWebApplicationScope($DisplayName, $webApplicationUrl)
+ {
+         
+     Write-Host "Activating Feature :- " $DisplayName " -: In Web Application " $webApplicationUrl
+     $TempCount = (Get-SPWebApplication $webApplicationUrl | %{ Get-SPFeature -WebApplication $_ } | Where-Object {$_.ID -eq $DisplayName} ).Count
+     if($TempCount -eq 0)
+     {
+         # if not, Enable the Feature.
+         Get-SPFeature  $DisplayName | Enable-SPFeature -Url $webApplicationUrl 
+     }            
+     else
+     {
+         # If already Activated, then De-Activate and Activate Again.
+         Disable-SPFeature $DisplayName -Url $webApplicationUrl  –Confirm:$false
+         Get-SPFeature  $DisplayName | Enable-SPFeature -Url  $webApplicationUrl 
+     }
+ }
 
 function EnableJSONLight()
 {
@@ -479,23 +518,23 @@ $WebApp.Update()
     }
     catch
     {
-        Write-Host "Exception Occured on DeployWSP : $Error[0].Exception.Message"
+        Write-Host "Exception Occured on DeployWSP"
     }
 	
 	try
     {
 		Start-Sleep -s 5
 		Write-Host "Enabling job feature"
-		Enable-SPFeature -Identity fb5decb7-5b5d-49c2-9090-4133b8e80e5e -Url $SharePointUrl -Confirm:$false 
+		ActivateFeatureInWebApplicationScope -DisplayName "fb5decb7-5b5d-49c2-9090-4133b8e80e5e" -webApplicationUrl $SharePointUrl
 	}
     catch
     {
-        Write-Host "Exception Occured on job feature activation : $Error[0].Exception.Message"
+        Write-Host "Exception Occured on job feature activation"
     }
 		
 	try
     {
-		Start-Sleep -s 5
+		Start-Sleep -s 10
 		Write-Host "Configuring timer job..."
 		#Add property to job of piwik admin url
 		$job = Get-SPTimerJob $timerJobName
@@ -504,19 +543,33 @@ $WebApp.Update()
 	}
     catch
     {
-        Write-Host "Exception Occured on job adding property : $Error[0].Exception.Message"
+        Write-Host "Exception Occured on job adding property"
     }
 
 	try
     {
 	Write-Host "Enabling other features"
 	#Enable push notification service
-	Enable-SPFeature -Identity 41e1d4bf-b1a2-47f7-ab80-d5d6cbba3092 -URL $piwikAdminUrl 
+	ActivateFeatureInSiteCollectionScope -DisplayName "41e1d4bf-b1a2-47f7-ab80-d5d6cbba3092" -siteurl $piwikAdminUrl
 	}
     catch
     {
-        Write-Host "Exception Occured on enabling features : $Error[0].Exception.Message"
+        Write-Host "Exception Occured on enabling features"
     }
+	
+	if($activateFeatureStapplerOnDefault -eq $true)
+	{
+	try
+    {
+		Start-Sleep -s 5
+		Write-Host "Enabling stappler feature"
+		ActivateFeatureInWebApplicationScope -DisplayName "a07b809f-3b99-4177-90b7-181c33b11c92" -webApplicationUrl $SharePointUrl
+	}
+    catch
+    {
+        Write-Host "Exception Occured on job feature activation"
+    }
+	}
 }
 
 Write-Host "Finished." -ForegroundColor Green;
