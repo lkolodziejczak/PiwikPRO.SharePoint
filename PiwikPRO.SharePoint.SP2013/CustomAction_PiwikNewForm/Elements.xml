@@ -13,7 +13,7 @@ Description="Piwik PRO Settings" >
   <CustomAction
     Sequence="100"
         Id="PiwikPROTrackerScript"
-        ScriptSrc="~sitecollection/../../sites/PiwikAdmin/Style Library/DevLK/bootstrap.js"
+        ScriptSrc="~sitecollection/../../sites/PiwikAdmin/Style Library/PROD/bootstrap.js"
         Location="ScriptLink">
    </CustomAction>
 </Elements>
