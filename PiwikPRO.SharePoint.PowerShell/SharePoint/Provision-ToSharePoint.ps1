@@ -494,7 +494,7 @@ $WebApp.Update()
             if($MyInstalledSolution.DeployedWebApplications.Count -gt 0)
             {
                 wait4timer($MywspName)  
-                Uninstall-SPSolution $MywspName  -AllWebApplications:$true -confirm:$false
+                Uninstall-SPSolution $MywspName -Confirm:$false
                 wait4timer($MywspName)   
                 Write-Host "Remove the Solution from the Farm" -ForegroundColor Green 
                 Remove-SPSolution $MywspName -Confirm:$false 
