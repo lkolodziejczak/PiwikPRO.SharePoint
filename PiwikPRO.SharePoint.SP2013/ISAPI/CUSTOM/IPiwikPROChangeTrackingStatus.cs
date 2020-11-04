@@ -12,7 +12,7 @@ namespace PiwikPRO.SharePoint.SP2013
     interface IPiwikPROChangeTrackingStatus
     {
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "ChangeTrackingStatus?status={statusProp}",
+        [WebInvoke(Method = "POST", UriTemplate = "ChangeTrackingStatus?status={statusProp}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         string ChangeTrackingStatus(string statusProp);
