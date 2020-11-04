@@ -23,6 +23,7 @@ $sharepointAdminLogin = "piwik\lkolodziejczak"
 $clientIdValue = "7VzT7CvAs9UFwDXTfEFhXsJHOPjFiVKM"
 $clientSecretValue = "yaOAuNhEkD8sHC4F3gOzftaDZnD8nlwbpBR0Cc2xJjCLiUGb8Ciz7ljPy2C3mAlL0ObHgNwxdrwZPlui"
 $serviceUrlValue ="https://kogifi.piwik.pro"
+$containersUrlValue = ""
 $wspSolutionPath = "C:\Users\lkolodziejczak\source\repos\PiwikPRO.SharePoint\PiwikPRO.SharePoint.PowerShell\SharePoint\solutions\";
 $activateFeatureStapplerOnDefault = $true
 
@@ -36,6 +37,8 @@ $timerJobName = "Piwik PRO Job"
 
 $templatePath = ".\templates\PiwikPROTemplate.xml";
 $spfxPackagePath = ".\solutions\piwikpro-sharepoint.sppkg";
+
+#not editable
 $piwikAdminServerRelativeUrl = "/sites/PiwikAdmin";
 $piwikAdminUrl = $SharePointUrl + $piwikAdminServerRelativeUrl;
 
@@ -341,6 +344,7 @@ if ($SharePointVersion -eq '2013') {
 		Write-Host "Creating tenant site..."
 
 		New-SPSite $SharePointTenantAdminUrl -OwnerAlias $Owner -Template "STS#0"
+		Start-Sleep -s 10
 	}
 	
 	Write-Host "Connecting to Tenant Admin site..."
@@ -409,7 +413,7 @@ if ($SharePointVersion -eq '2013') {
 
 Write-Host "Connecting to Piwik PRO Administration site...";
 Disconnect-PnPOnline;
-Start-Sleep -s 5
+Start-Sleep -s 10
 Connect-ToSharePoint -Url $piwikAdminUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 
 Write-Host "Applying Piwik PRO Administration site template...";
@@ -445,6 +449,16 @@ if($listitem3Get)
 else
 {
 	$listItem3 = Add-PnPListItem -List "PiwikConfig" -Values @{"Title" = "piwik_serviceurl"; "Value"=$serviceUrlValue}
+}
+
+$listitem4Get = Get-PnPListItem -List "PiwikConfig" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>piwik_containersurl</Value></Eq></Where></Query></View>"
+if($listitem4Get)
+{
+	Set-PnPListItem -List "PiwikConfig" -Identity $listitem4Get -Values @{"Title" = "piwik_containersurl"; "Value"=$containersUrlValue}
+}
+else
+{
+	$listItem4 = Add-PnPListItem -List "PiwikConfig" -Values @{"Title" = "piwik_containersurl"; "Value"=$containersUrlValue}
 }
 }
 

@@ -1,6 +1,6 @@
 ﻿<%@ ServiceHost Language="C#" Debug="true"
-    Service="PiwikPRO.SharePoint.SP2013.PiwikPROFarmOperationsService, $SharePoint.Project.AssemblyFullName$"
-    CodeBehind="PiwikPROFarmOperationsService.svc.cs"
+    Service="PiwikPRO.SharePoint.SP2013.PiwikPROChangeTrackingStatusService, $SharePoint.Project.AssemblyFullName$"
+    CodeBehind="PiwikPROChangeTrackingStatus.svc.cs"
     Factory="Microsoft.SharePoint.Client.Services.MultipleBaseAddressWebServiceHostFactory,
     Microsoft.SharePoint.Client.ServerRuntime, Version=15.0.0.0, Culture=neutral,
     PublicKeyToken=71e9bce111e9429c" %>

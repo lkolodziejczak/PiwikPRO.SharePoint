@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace PiwikPRO.SharePoint.SP2013
 {
     [ServiceContract]
-    interface IPiwikPROFarmOperationsServiceCentral
+    interface IPiwikPROChangeTrackingStatus
     {
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "UpdateFarmProperty?propName={propName}&propValue={propValue}",
+        [WebInvoke(Method = "GET", UriTemplate = "ChangeTrackingStatus?status={statusProp}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        string UpdateFarmProperty(string propName, string propValue);
+        string ChangeTrackingStatus(string statusProp);
     }
 }

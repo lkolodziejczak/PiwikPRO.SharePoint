@@ -229,18 +229,14 @@
     <Compile Include="Features\PiwikPRO.WebJob\PiwikPRO.EventReceiver.cs">
       <DependentUpon>PiwikPRO.WebJob.feature</DependentUpon>
     </Compile>
+    <Compile Include="ISAPI\CUSTOM\IPiwikPROChangeTrackingStatus.cs" />
+    <Compile Include="ISAPI\CUSTOM\PiwikPROChangeTrackingStatus.svc.cs">
+      <DependentUpon>PiwikPROChangeTrackingStatus.svc</DependentUpon>
+    </Compile>
     <Compile Include="PiwikPRO_MasterPageER\PiwikPRO_MasterPageER.cs" />
     <Compile Include="SPLogger.cs" />
     <Compile Include="TimerJob\PiwikPROJSProvisioningJob.cs" />
     <Compile Include="Helpers\PropertyBagOperations.cs" />
-    <Compile Include="ISAPI\CUSTOM\IPiwikPROFarmOperationsService.cs" />
-    <Compile Include="ISAPI\CUSTOM\IPiwikPROFarmOperationsServiceCentral.cs" />
-    <Compile Include="ISAPI\CUSTOM\PiwikPROFarmOperationsService.svc.cs">
-      <DependentUpon>PiwikPROFarmOperationsService.svc</DependentUpon>
-    </Compile>
-    <Compile Include="ISAPI\CUSTOM\PiwikPROFarmOperationsServiceCentral.svc.cs">
-      <DependentUpon>PiwikPROFarmOperationsServiceCentral.svc</DependentUpon>
-    </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -332,8 +328,7 @@
       <DependentUpon>PiwikPRO.TrackerJSFile_TimerJob.feature</DependentUpon>
     </Content>
     <Content Include="Images\PiwikPRO.Sharepoint.FullTrust\piwikpro-logo-dark-47x30.jpg" />
-    <Content Include="ISAPI\CUSTOM\PiwikPROFarmOperationsService.svc" />
-    <Content Include="ISAPI\CUSTOM\PiwikPROFarmOperationsServiceCentral.svc" />
+    <Content Include="ISAPI\CUSTOM\PiwikPROChangeTrackingStatus.svc" />
     <Content Include="PiwikPRO_MasterPageER\Elements.xml" />
     <Content Include="Style Library\Elements.xml" />
     <Content Include="Style Library\piwikpro_logo_dark.jpg" />
