@@ -25,7 +25,7 @@ namespace PiwikPRO.SharePoint.SP2013
             string returner = "true";
             try
             {
-                if (SPContext.Current.Web.UserIsSiteAdmin)
+                if (SPContext.Current.Web.CurrentUser.IsSiteAdmin)
                 {
                     string siteToTrackUrl = SPContext.Current.Site.Url;
                     //string siteToTrackRelativeUrl = SPContext.Current.Site.ServerRelativeUrl;
