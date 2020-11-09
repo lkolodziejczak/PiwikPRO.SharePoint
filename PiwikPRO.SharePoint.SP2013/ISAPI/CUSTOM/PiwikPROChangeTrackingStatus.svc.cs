@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Cache;
+using System.Net.Security;
 using System.ServiceModel.Activation;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,9 +32,11 @@ namespace PiwikPRO.SharePoint.SP2013
                     //string siteToTrackRelativeUrl = SPContext.Current.Site.ServerRelativeUrl;
                     string siteToTrackTitle = SPContext.Current.Site.RootWeb.Title;
                     string piwikAdminSiteUrl = System.Web.HttpContext.Current.Request.Url.AbsoluteUri.Substring(0, System.Web.HttpContext.Current.Request.Url.AbsoluteUri.IndexOf("_vti_bin")) + "sites/piwikadmin";
+
                     SPSecurity.RunWithElevatedPrivileges(delegate ()
                     {
                         ClientContext context = new ClientContext(piwikAdminSiteUrl);
+                        ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
                         ListProcessor sdlo = new ListProcessor(context, new SPLogger());
                         if (statusProp == "0")
                         {
@@ -53,6 +56,6 @@ namespace PiwikPRO.SharePoint.SP2013
                 returner = ex.Message;
             }
             return returner;
-        }
+        }   
     }
 }
