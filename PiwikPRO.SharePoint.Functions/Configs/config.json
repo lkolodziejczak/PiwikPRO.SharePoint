@@ -739,22 +739,6 @@
       }
     },
     {
-      "name": "pageMakeHomePage",
-      "eventType": "ajax",
-      "suffix": "_classic",
-      "method": "post",
-      "catchFilter": "\/_vti_bin\/client.svc\/ProcessQuery$",
-      "catchFilterPropertyName": "WelcomePage",
-      "deepCatch": {},
-      "mappings": {
-        "pageUrl": "body:URL",
-        "pageName": "body:URL.getLastSegment()",
-        "pageTitle": "",
-        "pageId": "context:pageItemId.parseInt()",
-        "!actionName": "body:childNodes.0.childNodes.0.childNodes.3.attributes.2.value"
-      }
-    },
-    {
       "name": "folderShared",
       "eventType": "ajax",
       "filterFiletype": {

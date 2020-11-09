@@ -7,11 +7,6 @@
       <pnp:Parameter Key="Owner">{currentuserloginname}</pnp:Parameter>
     </pnp:Parameters>
   </pnp:Preferences>
-  <pnp:Tenant>
-    <pnp:AppCatalog>
-      <pnp:Package Src="..\solutions\piwikpro-sharepoint.sppkg" Action="UploadAndPublish" SkipFeatureDeployment="true" Overwrite="true" />
-    </pnp:AppCatalog>
-  </pnp:Tenant>
   <pnp:Sequence ID="PiwikPRO">
     <pnp:SiteCollections>
       <pnp:SiteCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="pnp:TeamSiteNoGroup" ProvisioningId="PIWIK-ADMIN" Url="{parameter:SharePointUrl}{parameter:PiwikAdminServerRelativeUrl}" Owner="{parameter:Owner}" Language="1033" Title="Piwik PRO Admin" Description="" IsHubSite="false">
@@ -23,7 +18,7 @@
   </pnp:Sequence>
   <pnp:Templates ID="TEMPLATES">
     <pnp:ProvisioningTemplate ID="PIWIK-ADMIN-TEMPLATE" Version="1" BaseSiteTemplate="STS#3" Scope="RootSite">
-      <pnp:WebSettings Title="Piwik PRO Administration" WelcomePage="SitePages/Home.aspx" SiteLogo="{hosturl}{site}/Style Library/Piwik_PRO.png" CommentsOnSitePagesDisabled="true" QuickLaunchEnabled="true" MembersCanShare="true" />
+      <pnp:WebSettings Title="Piwik PRO Administration" WelcomePage="SitePages/Home.aspx" SiteLogo="{site}/Style Library/Piwik_PRO.png" CommentsOnSitePagesDisabled="true" QuickLaunchEnabled="true" MembersCanShare="true" />
       <pnp:PropertyBagEntries>
         <pnp:PropertyBagEntry Key="piwik_enforcessl" Value="true" Overwrite="false" />
         <pnp:PropertyBagEntry Key="piwik_templatesenddepartment" Value="true" Overwrite="false" />

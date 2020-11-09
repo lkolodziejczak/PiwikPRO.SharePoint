@@ -36,7 +36,7 @@ $sharePointTenant = "$($Matches[1]).onmicrosoft.com";
 Write-Host "Connecting to Office 365 tenant...";
 az login --tenant "$sharePointTenant" --allow-no-subscriptions -o none;
 
-$cert = New-SelfSignedCertificate -CertStoreLocation "cert:\CurrentUser\My" -Subject "CN=PiwikPRO" -NotAfter (Get-Date).AddYears(6);
+$cert = New-SelfSignedCertificate -CertStoreLocation "cert:\CurrentUser\My" -Subject "CN=PiwikPRO" -NotAfter (Get-Date).AddYears(10);
 $keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData());
 
 if (-not $CertificatePassword)
