@@ -63,7 +63,14 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                         {
                             ClientContext contextToPropBag = context.Clone(valueUrl.Url);
 
-                            SetEnablePropertyBagChange(valueUrl.Url, logger);
+                            try
+                            {
+                                SetEnablePropertyBagChange(valueUrl.Url, logger);
+                            }
+                            catch
+                            {
+                                //in case on premise
+                            }
 
                             CreateOrUpdateValueInPropertyBag(idSite, contextToPropBag, ConfigValues.PiwikPro_PropertyBag_SiteId);
                             CreateOrUpdateValueInPropertyBag("true", contextToPropBag, ConfigValues.PiwikPro_PropertyBag_PiwikIsTrackingActive);
@@ -159,7 +166,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
         {
             if (!indexedProps.Contains(propBagKey))
             {
-                webToPropertyBag.Web.AddIndexedPropertyBagKey("key");
+                webToPropertyBag.Web.AddIndexedPropertyBagKey(propBagKey);
             }
         }
 

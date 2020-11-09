@@ -63,8 +63,7 @@ namespace PiwikPRO.SharePoint.SP2013.Features.PiwikPRO.WebJob
                 //SPSite site = properties.Feature.Parent as SPSite;
                 SPSecurity.RunWithElevatedPrivileges(delegate () {
                     // delete the job   
-                    SPSite parentSite = (SPSite)properties.Feature.Parent;
-                    SPWebApplication parentWebApp = parentSite.WebApplication;
+                    SPWebApplication parentWebApp = (SPWebApplication)properties.Feature.Parent;
 
                     foreach (SPJobDefinition lockjob in parentWebApp.JobDefinitions)
                     {
