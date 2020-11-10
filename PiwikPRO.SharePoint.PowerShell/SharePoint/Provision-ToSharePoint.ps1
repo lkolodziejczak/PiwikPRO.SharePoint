@@ -2,11 +2,15 @@
     [Parameter(Position = 0, Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
     [string]$SharePointUrl,
-
-    [Parameter(Position = 1)]
-    [string]$SharePointTenantAdminUrl,
+	
+	[Parameter(Position = 1, Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Owner,
 
     [Parameter(Position = 2)]
+    [string]$SharePointTenantAdminUrl,
+
+    [Parameter(Position = 3)]
     [ValidateSet('2013', '2016', '2019', 'Online')]
     [string]$SharePointVersion = 'Online',
 
@@ -453,25 +457,9 @@ else
 	$listItem2 = Add-PnPListItem -List "PiwikConfig" -Values @{"Title" = "piwik_clientsecret"; "Value"=$clientSecretValue}
 }
 
-$listitem3Get = Get-PnPListItem -List "PiwikConfig" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>piwik_serviceurl</Value></Eq></Where></Query></View>"
-if($listitem3Get)
-{
-	Set-PnPListItem -List "PiwikConfig" -Identity $listitem3Get -Values @{"Title" = "piwik_serviceurl"; "Value"=$serviceUrlValue}
-}
-else
-{
-	$listItem3 = Add-PnPListItem -List "PiwikConfig" -Values @{"Title" = "piwik_serviceurl"; "Value"=$serviceUrlValue}
-}
-
-$listitem4Get = Get-PnPListItem -List "PiwikConfig" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>piwik_containersurl</Value></Eq></Where></Query></View>"
-if($listitem4Get)
-{
-	Set-PnPListItem -List "PiwikConfig" -Identity $listitem4Get -Values @{"Title" = "piwik_containersurl"; "Value"=$containersUrlValue}
-}
-else
-{
-	$listItem4 = Add-PnPListItem -List "PiwikConfig" -Values @{"Title" = "piwik_containersurl"; "Value"=$containersUrlValue}
-}
+Set-PnPPropertyBagValue -Key "piwik_serviceurl" -Value $serviceUrlValue
+Start-Sleep -s 1
+Set-PnPPropertyBagValue -Key "piwik_containersurl" -Value $containersUrlValue
 }
 
 Disconnect-PnPOnline;
@@ -560,11 +548,13 @@ $WebApp.Update()
 		
 	try
     {
-		Start-Sleep -s 10
+		Start-Sleep -s 15
 		Write-Host "Configuring timer job..."
 		#Add property to job of piwik admin url
 		$job = Get-SPTimerJob $timerJobName
+		Start-Sleep -s 2
 		$job.Properties.Add("piwik_adminsiteurl", $piwikAdminUrl)
+		Start-Sleep -s 2
 		$job.Update()
 	}
     catch
