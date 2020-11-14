@@ -327,6 +327,13 @@ if ((-not $SharePointTenantAdminUrl) -and $SharePointVersion -eq 'Online') {
     $SharePointTenantAdminUrl = $tenantUrl.Replace(".sharepoint.com", "-admin.sharepoint.com");
 }
 
+if ($SharePointVersion -ne 'Online') {
+	if (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$('Online')") {
+		Uninstall-Module "SharePointPnPPowerShell$('Online')"
+		Start-Sleep -s 5
+	}
+}
+
 if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($SharePointVersion)")) {
     Write-Host "You need to install PnP PowerShell $($SharePointVersion) to run this script." -ForegroundColor Yellow;
     Install-Module "SharePointPnPPowerShell$($SharePointVersion)";
@@ -459,8 +466,25 @@ else
 
 Set-PnPPropertyBagValue -Key "piwik_serviceurl" -Value $serviceUrlValue
 Start-Sleep -s 1
-Set-PnPPropertyBagValue -Key "piwik_containersurl" -Value $containersUrlValue
+
+if($containersUrlValue)
+{
+	Set-PnPPropertyBagValue -Key "piwik_containersurl" -Value $containersUrlValue
 }
+else
+{
+	try
+	{
+    $webToContainers = Get-SPWeb $piwikAdminUrl
+    $webToContainers.AllProperties.Add("piwik_containersurl", "")
+    $webToContainers.Update()
+	}
+	catch{
+		Write-Host "Containers url property bag is already exists"
+	}
+}
+}
+Start-Sleep -s 2
 
 Disconnect-PnPOnline;
 
