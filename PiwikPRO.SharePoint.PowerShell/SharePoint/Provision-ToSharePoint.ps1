@@ -515,6 +515,11 @@ $WebApp.Update()
 
     $spSite = New-Object Microsoft.SharePoint.SPSite($siteUrl)
     $spWeb = $spSite.OpenWeb()
+	
+	if ($SharePointVersion -eq '2013') {
+		Copy-Item -Path "$($filesSolutionFolder)PROD\piwik-config-onprem-2013.json" -Destination "$($filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
+	}
+	
 	UploadFiles -siteUrl $piwikAdminUrl -DestFolderUrl ($piwikAdminUrl + "/Style%20Library") -LocalFileOrFolderPath $filesSolutionFolder
 
 	UploadFiles -siteUrl $piwikAdminUrl -DestFolderUrl ($piwikAdminUrl + "/Style%20Library") -LocalFileOrFolderPath $filesImagesdFolder
