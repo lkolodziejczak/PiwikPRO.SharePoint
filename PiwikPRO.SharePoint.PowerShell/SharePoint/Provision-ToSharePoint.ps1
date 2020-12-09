@@ -349,7 +349,7 @@ if ($SharePointVersion -eq 'Online') {
 	Connect-ToSharePoint -Url $SharePointUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 }
 
-if ($SharePointVersion -eq '2013') {
+if ($SharePointVersion -in "2013", "2016") {
 	if(!((Get-SPWeb $SharePointTenantAdminUrl -ErrorAction SilentlyContinue) -ne $null)){
 		Write-Host "Creating tenant site..."
 
@@ -402,7 +402,7 @@ if (-not (Get-PnPTenantSite -Url $piwikAdminUrl -ErrorAction SilentlyContinue)) 
 }
 }
 
-if ($SharePointVersion -eq '2013') {
+if ($SharePointVersion -in "2013", "2016") {
 	$snapin = Get-PSSnapin | Where-Object {$_.Name -eq 'Microsoft.SharePoint.Powershell'}
 	if ($snapin -eq $null)
 	{
@@ -442,7 +442,7 @@ Connect-ToSharePoint -Url $piwikAdminUrl -TenantAdminUrl $SharePointTenantAdminU
 Write-Host "Applying Piwik PRO Administration site template...";
 Apply-PnPProvisioningTemplate -Path $templatePath -TemplateId "PIWIK-ADMIN-TEMPLATE" -Parameters @{"SharePointUrl" = $tenantUrl; "PiwikAdminServerRelativeUrl" = $piwikAdminServerRelativeUrl; "Owner" = $currentUser };
 
-if ($SharePointVersion -eq '2013') {
+if ($SharePointVersion -in "2013", "2016") {
 Write-Host "Adding items to PiwikConfig list";
 $listitem1Get = Get-PnPListItem -List "PiwikConfig" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>piwik_clientid</Value></Eq></Where></Query></View>"
 if($listitem1Get)
@@ -488,7 +488,7 @@ Start-Sleep -s 2
 
 Disconnect-PnPOnline;
 
-if ($SharePointVersion -eq '2013') {
+if ($SharePointVersion -in "2013", "2016") {
 Write-Host "Adding possibility to upload JSON";
 
 EnableJSONLight
@@ -518,6 +518,10 @@ $WebApp.Update()
 	
 	if ($SharePointVersion -eq '2013') {
 		Copy-Item -Path "$($filesSolutionFolder)PROD\piwik-config-onprem-2013.json" -Destination "$($filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
+	}
+	
+	if ($SharePointVersion -eq '2016') {
+		Copy-Item -Path "$($filesSolutionFolder)PROD\piwik-config-onprem-2016.json" -Destination "$($filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
 	}
 	
 	UploadFiles -siteUrl $piwikAdminUrl -DestFolderUrl ($piwikAdminUrl + "/Style%20Library") -LocalFileOrFolderPath $filesSolutionFolder
