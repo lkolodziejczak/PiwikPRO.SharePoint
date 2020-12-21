@@ -429,6 +429,7 @@ if ($SharePointVersion -in "2013", "2016") {
 
 			$sc = New-SPSite -Url $piwikAdminUrl -OwnerAlias $Owner -Template "STS#0"
 			$w=$sc.RootWeb
+			$w.EnsureUser($sharepointAdminLogin)
 			$w.CreateDefaultAssociatedGroups($sharepointAdminLogin,$null,$null)
 			
 		}
