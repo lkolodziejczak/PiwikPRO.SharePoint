@@ -328,6 +328,7 @@ if ((-not $SharePointTenantAdminUrl) -and $SharePointVersion -eq 'Online') {
 }
 
 if ($SharePointVersion -ne 'Online') {
+    Add-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue
 	if (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$('Online')") {
 		Uninstall-Module "SharePointPnPPowerShell$('Online')"
 		Start-Sleep -s 5
