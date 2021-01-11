@@ -351,6 +351,12 @@ if ($SharePointVersion -eq 'Online') {
 }
 
 if ($SharePointVersion -in "2013", "2016") {
+	$snapin = Get-PSSnapin | Where-Object {$_.Name -eq 'Microsoft.SharePoint.Powershell'}
+	if ($snapin -eq $null)
+	{
+		Write-Host "Loading SharePoint Powershell Snapin"
+		Add-PSSnapin "Microsoft.SharePoint.Powershell"
+	}
 	if(!((Get-SPWeb $SharePointTenantAdminUrl -ErrorAction SilentlyContinue) -ne $null)){
 		Write-Host "Creating tenant site..."
 
@@ -541,7 +547,7 @@ $WebApp.Update()
          
         if($MyInstalledSolution -ne $null)
         {
-            if($MyInstalledSolution.DeployedWebApplications.Count -gt 0)
+            if($MyInstalledSolution.Deployed.Count -gt 0)
             {
                 wait4timer($MywspName)  
                 Uninstall-SPSolution $MywspName -Confirm:$false
