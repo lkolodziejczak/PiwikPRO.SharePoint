@@ -552,20 +552,24 @@ $WebApp.Update()
                 wait4timer($MywspName)  
                 Uninstall-SPSolution $MywspName -Confirm:$false
                 wait4timer($MywspName)   
-                Write-Host "Remove the Solution from the Farm" -ForegroundColor Green 
+                Write-Host "Uninstalled the Solution from the Farm" -ForegroundColor Green 
+				sleep 3
                 Remove-SPSolution $MywspName -Confirm:$false 
                 sleep 3
+				Write-Host "Removed the Solution from the Farm" -ForegroundColor Green 
             }
             else
             {
                 wait4timer($MywspName) 
                 Remove-SPSolution $MywspName -Confirm:$false 
+				Write-Host "Removed the Solution from the Farm" -ForegroundColor Green 
                 sleep 3
             }
         }
  
         wait4timer($MywspName) 
         Add-SPSolution -LiteralPath "$MywspFullPath"
+		sleep 3
         install-spsolution -Identity $MywspName -FullTrustBinDeployment:$true -GACDeployment:$true -Force:$true
         wait4timer($MywspName)    
  
