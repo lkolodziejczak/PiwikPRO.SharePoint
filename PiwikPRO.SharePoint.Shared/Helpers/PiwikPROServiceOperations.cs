@@ -149,6 +149,7 @@ namespace PiwikPRO.SharePoint.Shared
                 new JObject(
                     new JProperty("appType", "web"),
                     new JProperty("name", siteName),
+                    new JProperty("sharepointIntegration", "true"),
                     new JProperty("urls", arrayUrls))),
                     new JProperty("type", "ppms/app"))));
 

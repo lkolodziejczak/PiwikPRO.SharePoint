@@ -549,14 +549,17 @@ $WebApp.Update()
         {
             if($MyInstalledSolution.Deployed.Count -gt 0)
             {
-                wait4timer($MywspName)  
-                Uninstall-SPSolution $MywspName -Confirm:$false
-                wait4timer($MywspName)   
-                Write-Host "Uninstalled the Solution from the Farm" -ForegroundColor Green 
-				sleep 3
-                Remove-SPSolution $MywspName -Confirm:$false 
-                sleep 3
-				Write-Host "Removed the Solution from the Farm" -ForegroundColor Green 
+                #wait4timer($MywspName)  
+                #Uninstall-SPSolution $MywspName -Confirm:$false
+                #wait4timer($MywspName)   
+                #Write-Host "Uninstalled the Solution from the Farm" -ForegroundColor Green 
+				#sleep 3
+                #Remove-SPSolution $MywspName -Confirm:$false 
+                #sleep 3
+				#Write-Host "Removed the Solution from the Farm" -ForegroundColor Green 
+				Write-Host "Updating solution..." -ForegroundColor Green 
+				Update-SPSolution –Identity $MywspName –LiteralPath $MywspFullPath -GACDeployment:$true -FullTrustBinDeployment:$true -Force:$true
+				wait4timer($MywspName)
             }
             else
             {
@@ -564,15 +567,22 @@ $WebApp.Update()
                 Remove-SPSolution $MywspName -Confirm:$false 
 				Write-Host "Removed the Solution from the Farm" -ForegroundColor Green 
                 sleep 3
+				
+				Add-SPSolution -LiteralPath "$MywspFullPath"
+				sleep 3
+				install-spsolution -Identity $MywspName -FullTrustBinDeployment:$true -GACDeployment:$true -Force:$true
+				wait4timer($MywspName)    
             }
         }
- 
-        wait4timer($MywspName) 
-        Add-SPSolution -LiteralPath "$MywspFullPath"
-		sleep 3
-        install-spsolution -Identity $MywspName -FullTrustBinDeployment:$true -GACDeployment:$true -Force:$true
-        wait4timer($MywspName)    
- 
+		else
+		{
+			wait4timer($MywspName) 
+			Add-SPSolution -LiteralPath "$MywspFullPath"
+			sleep 3
+			install-spsolution -Identity $MywspName -FullTrustBinDeployment:$true -GACDeployment:$true -Force:$true
+			wait4timer($MywspName)    
+		}
+		
         Write-Host "Successfully Deployed to the Farm"
          
     }
@@ -597,7 +607,7 @@ $WebApp.Update()
 		Start-Sleep -s 15
 		Write-Host "Configuring timer job..."
 		#Add property to job of piwik admin url
-		$job = Get-SPTimerJob $timerJobName
+		$job = Get-SPTimerJob $timerJobName -WebApplication $SharePointUrl
 		Start-Sleep -s 2
 		$job.Properties.Add("piwik_adminsiteurl", $piwikAdminUrl)
 		Start-Sleep -s 2
