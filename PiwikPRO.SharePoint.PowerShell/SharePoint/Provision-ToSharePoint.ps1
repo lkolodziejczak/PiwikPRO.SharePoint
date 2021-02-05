@@ -28,6 +28,7 @@ $serviceUrlValue ="https://kogifi.piwik.pro"
 $containersUrlValue = ""
 $wspSolutionPath = "C:\Users\lkolodziejczak\source\repos\PiwikPRO.SharePoint\PiwikPRO.SharePoint.PowerShell\SharePoint\solutions\";
 $activateFeatureStapplerOnDefault = $true
+$activateTrackerOnOldConnectorSites = $false
 
 #not changeable values
 $filesSolutionFolder = ".\solutions\build\";
@@ -641,6 +642,73 @@ $WebApp.Update()
     {
         Write-Host "Exception Occured on job feature activation"
     }
+	}
+	
+	if($activateTrackerOnOldConnectorSites -eq $true)
+	{
+	Write-Host "Enabling tracker on sites where old connector was enabled"
+		try
+		{
+			Start-Sleep -s 5
+			$SPWebApp = Get-SPWebApplication $SharePointUrl
+			
+			$webPiwikAdmin = Get-SPWeb -Identity $piwikAdminUrl  
+			$prositeDirList = $webPiwikAdmin.Lists["Piwik PRO Site Directory"]    
+
+			foreach ($SPSite in $SPWebApp.Sites)
+			{
+				if ($SPSite -ne $null)
+				{
+					if($SPSite.RootWeb.Properties["piwik_metasitenamestored"])
+					{
+						Write-Host "Activating tracker on site: " $SPSite.url
+						try
+						{
+							$SPSite.RootWeb.Properties["piwik_istrackingactive"] = "true"
+							$SPSite.RootWeb.Properties.Update()
+						}
+						catch
+						{
+							Write-Host "Problem with set property bag on site: " $SPSite.url
+						}
+						
+						try
+						{
+						Write-Host "Enabling tracking feature"
+						ActivateFeatureInSiteCollectionScope -DisplayName "274e477e-287d-4b22-a411-c691e999379f" -siteurl $SPSite.url
+						}
+						catch
+						{
+							Write-Host "Exception Occured on enabling feature"
+						}
+						
+						try
+						{
+							Write-Host "Adding entry on Piwik PRO Site Directory list"
+							$newItem = $prositeDirList.items.add()
+							$newitem["Title"] = $SPSite.RootWeb.Title
+							$newitem["pwk_url"] = $SPSite.url
+							$newitem["pwk_siteId"] = $SPSite.RootWeb.Properties["piwik_metasitenamestored"]
+							$newitem["pwk_status"] = "Active"
+							$newitem.update()
+						}
+						catch
+						{
+							Write-Host "Exception Occured on enabling feature"
+						}
+
+						Write-Host "Tracker activated on site." -ForegroundColor Green
+					
+					}
+					$SPSite.Dispose()
+				}
+			}
+			
+		}
+		catch
+		{
+			Write-Host "Exception Occured on activate tracker on old sites"
+		}
 	}
 }
 
