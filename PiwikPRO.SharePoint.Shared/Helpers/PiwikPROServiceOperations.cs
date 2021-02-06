@@ -149,7 +149,7 @@ namespace PiwikPRO.SharePoint.Shared
                 new JObject(
                     new JProperty("appType", "web"),
                     new JProperty("name", siteName),
-                    new JProperty("sharepointIntegration", "true"),
+                    //new JProperty("sharepointIntegration", "true"), 
                     new JProperty("urls", arrayUrls))),
                     new JProperty("type", "ppms/app"))));
 
@@ -164,7 +164,7 @@ namespace PiwikPRO.SharePoint.Shared
             catch (Exception ex)
             {
                 logger.WriteLog(Category.Unexpected, "Piwik AddSiteToPiwikService", ex.Message);
-                return "Error: " + ex.Message;
+                return "Error: AddSiteToPiwikService: " + ex.Message;
             }
 
             return resultSiteID;
@@ -182,7 +182,7 @@ namespace PiwikPRO.SharePoint.Shared
             catch (Exception ex)
             {
                 logger.WriteLog(Category.Unexpected, "Piwik RemoveSiteFromPiwikService", ex.Message);
-                return "Error: " + ex.Message;
+                return "Error: RemoveSiteFromPiwikService: " + ex.Message;
             }
 
             return resultSiteID;
@@ -224,7 +224,7 @@ namespace PiwikPRO.SharePoint.Shared
             catch (Exception ex)
             {
                 logger.WriteLog(Category.Unexpected, "Piwik GetAllPiwikProSites", ex.Message);
-                return "Error: " + ex.Message;
+                return "Error: GetAllPiwikProSites: " + ex.Message;
             }
 
             return resultResponseXml;

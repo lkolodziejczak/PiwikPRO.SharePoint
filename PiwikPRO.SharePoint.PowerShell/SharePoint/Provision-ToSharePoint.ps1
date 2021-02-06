@@ -28,7 +28,7 @@ $serviceUrlValue ="https://kogifi.piwik.pro"
 $containersUrlValue = ""
 $wspSolutionPath = "C:\Users\lkolodziejczak\source\repos\PiwikPRO.SharePoint\PiwikPRO.SharePoint.PowerShell\SharePoint\solutions\";
 $activateFeatureStapplerOnDefault = $true
-$activateTrackerOnOldConnectorSites = $false
+$activateTrackerOnOldConnectorSites = $false 
 
 #not changeable values
 $filesSolutionFolder = ".\solutions\build\";
@@ -241,13 +241,13 @@ function ActivateFeatureInSiteCollectionScope($DisplayName, $siteurl)
      if($TempCount -eq 0)
      {
          # if not, Enable the Feature.
-         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl 
+         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl -ErrorAction SilentlyContinue
      }            
      else
      {
          # If already Activated, then De-Activate and Activate Again.
          Disable-SPFeature -Identity $DisplayName -Url $siteurl  –Confirm:$false
-         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl 
+         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl -ErrorAction SilentlyContinue
      }
  }
  
@@ -362,7 +362,7 @@ if ($SharePointVersion -in "2013", "2016") {
 		Write-Host "Creating tenant site..."
 
 		New-SPSite $SharePointTenantAdminUrl -OwnerAlias $Owner -Template "STS#0"
-		Start-Sleep -s 10
+		Start-Sleep -s 15
 	}
 	
 	Write-Host "Connecting to Tenant Admin site..."
@@ -446,7 +446,7 @@ if ($SharePointVersion -in "2013", "2016") {
 
 Write-Host "Connecting to Piwik PRO Administration site...";
 Disconnect-PnPOnline;
-Start-Sleep -s 10
+Start-Sleep -s 15
 Connect-ToSharePoint -Url $piwikAdminUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 
 Write-Host "Applying Piwik PRO Administration site template...";
@@ -561,6 +561,10 @@ $WebApp.Update()
 				Write-Host "Updating solution..." -ForegroundColor Green 
 				Update-SPSolution –Identity $MywspName –LiteralPath $MywspFullPath -GACDeployment:$true -FullTrustBinDeployment:$true -Force:$true
 				wait4timer($MywspName)
+				
+				iisreset
+				net stop "Sharepoint Timer Service"
+				net start "Sharepoint Timer Service"
             }
             else
             {
@@ -572,7 +576,11 @@ $WebApp.Update()
 				Add-SPSolution -LiteralPath "$MywspFullPath"
 				sleep 3
 				install-spsolution -Identity $MywspName -FullTrustBinDeployment:$true -GACDeployment:$true -Force:$true
-				wait4timer($MywspName)    
+				wait4timer($MywspName)
+				
+				iisreset
+				net stop "Sharepoint Timer Service"
+				net start "Sharepoint Timer Service"				
             }
         }
 		else
@@ -676,6 +684,7 @@ $WebApp.Update()
 						{
 						Write-Host "Enabling tracking feature"
 						ActivateFeatureInSiteCollectionScope -DisplayName "274e477e-287d-4b22-a411-c691e999379f" -siteurl $SPSite.url
+						Start-Sleep -s 1
 						}
 						catch
 						{
@@ -712,4 +721,4 @@ $WebApp.Update()
 	}
 }
 
-Write-Host "Finished." -ForegroundColor Green;
+Write-Host "Finished." -ForegroundColor Green
