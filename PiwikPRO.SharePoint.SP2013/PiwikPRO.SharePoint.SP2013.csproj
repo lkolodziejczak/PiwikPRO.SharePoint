@@ -22,6 +22,7 @@
     <ActiveDeploymentConfiguration>No Activation</ActiveDeploymentConfiguration>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <AssemblyDeploymentTarget>GlobalAssemblyCache</AssemblyDeploymentTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -38,7 +38,7 @@ namespace PiwikPRO.SharePoint.SP2013.Features.PiwikPRO.WebJob
                     }
                     // install the job   
                     PiwikPROJSProvisioningJob corpProfileJob = new PiwikPROJSProvisioningJob(ConfigValues.PiwikPro_JobName, parentWebApp);
-                    corpProfileJob.Id = new Guid("5367FEE9-CFBC-468C-9A6A-C3367E6322C6");
+                    corpProfileJob.Id = Guid.NewGuid();
                     // Updates the timer schedule values   
                     SPHourlySchedule schedule = new SPHourlySchedule();
                     schedule.BeginMinute = 0;

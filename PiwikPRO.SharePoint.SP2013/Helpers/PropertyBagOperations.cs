@@ -135,11 +135,9 @@ namespace PiwikPRO.SharePoint.SP2013
                                 {
                                     PropertyBagList.Add(new PropertyBagEntity("OldApiToken", ConfigValues.PiwikPro_PropertyBag_OldApiToken, Convert.ToString(item["Value"]), PropertyBagEntity.PropertyLevelEnum.Farm));
                                 }
-                                if (item["Title"].Equals(ConfigValues.PiwikPro_PropertyBag_ServiceUrl))
-                                {
-                                    PropertyBagList.Add(new PropertyBagEntity("ServiceUrl", ConfigValues.PiwikPro_PropertyBag_ServiceUrl, Convert.ToString(item["Value"]), PropertyBagEntity.PropertyLevelEnum.Farm));
-                                }
+                                   //PropertyBagList.Add(new PropertyBagEntity("ServiceUrl", ConfigValues.PiwikPro_PropertyBag_ServiceUrl, Convert.ToString(item["Value"]), PropertyBagEntity.PropertyLevelEnum.Farm));
                             }
+                            PropertyBagList.Add(new PropertyBagEntity("ServiceUrl", ConfigValues.PiwikPro_PropertyBag_ServiceUrl, Convert.ToString(web.Properties[ConfigValues.PiwikPro_PropertyBag_ServiceUrl]), PropertyBagEntity.PropertyLevelEnum.Farm));
                         }
                         catch (Exception ex)
                         {

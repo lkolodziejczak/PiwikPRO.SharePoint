@@ -2,11 +2,15 @@
     [Parameter(Position = 0, Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
     [string]$SharePointUrl,
-
-    [Parameter(Position = 1)]
-    [string]$SharePointTenantAdminUrl,
+	
+	[Parameter(Position = 1, Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Owner,
 
     [Parameter(Position = 2)]
+    [string]$SharePointTenantAdminUrl,
+
+    [Parameter(Position = 3)]
     [ValidateSet('2013', '2016', '2019', 'Online')]
     [string]$SharePointVersion = 'Online',
 
@@ -24,6 +28,7 @@ $serviceUrlValue ="https://kogifi.piwik.pro"
 $containersUrlValue = ""
 $wspSolutionPath = "C:\Users\lkolodziejczak\source\repos\PiwikPRO.SharePoint\PiwikPRO.SharePoint.PowerShell\SharePoint\solutions\";
 $activateFeatureStapplerOnDefault = $true
+$activateTrackerOnOldConnectorSites = $false 
 
 #not changeable values
 $filesSolutionFolder = ".\solutions\build\";
@@ -236,13 +241,13 @@ function ActivateFeatureInSiteCollectionScope($DisplayName, $siteurl)
      if($TempCount -eq 0)
      {
          # if not, Enable the Feature.
-         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl 
+         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl -ErrorAction SilentlyContinue
      }            
      else
      {
          # If already Activated, then De-Activate and Activate Again.
          Disable-SPFeature -Identity $DisplayName -Url $siteurl  –Confirm:$false
-         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl 
+         Get-SPFeature -Identity $DisplayName | Enable-SPFeature -Url $siteurl -ErrorAction SilentlyContinue
      }
  }
  
@@ -323,6 +328,14 @@ if ((-not $SharePointTenantAdminUrl) -and $SharePointVersion -eq 'Online') {
     $SharePointTenantAdminUrl = $tenantUrl.Replace(".sharepoint.com", "-admin.sharepoint.com");
 }
 
+if ($SharePointVersion -ne 'Online') {
+    Add-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue
+	if (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$('Online')") {
+		Uninstall-Module "SharePointPnPPowerShell$('Online')"
+		Start-Sleep -s 5
+	}
+}
+
 if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($SharePointVersion)")) {
     Write-Host "You need to install PnP PowerShell $($SharePointVersion) to run this script." -ForegroundColor Yellow;
     Install-Module "SharePointPnPPowerShell$($SharePointVersion)";
@@ -338,12 +351,18 @@ if ($SharePointVersion -eq 'Online') {
 	Connect-ToSharePoint -Url $SharePointUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 }
 
-if ($SharePointVersion -eq '2013') {
+if ($SharePointVersion -in "2013", "2016") {
+	$snapin = Get-PSSnapin | Where-Object {$_.Name -eq 'Microsoft.SharePoint.Powershell'}
+	if ($snapin -eq $null)
+	{
+		Write-Host "Loading SharePoint Powershell Snapin"
+		Add-PSSnapin "Microsoft.SharePoint.Powershell"
+	}
 	if(!((Get-SPWeb $SharePointTenantAdminUrl -ErrorAction SilentlyContinue) -ne $null)){
 		Write-Host "Creating tenant site..."
 
 		New-SPSite $SharePointTenantAdminUrl -OwnerAlias $Owner -Template "STS#0"
-		Start-Sleep -s 10
+		Start-Sleep -s 15
 	}
 	
 	Write-Host "Connecting to Tenant Admin site..."
@@ -391,7 +410,7 @@ if (-not (Get-PnPTenantSite -Url $piwikAdminUrl -ErrorAction SilentlyContinue)) 
 }
 }
 
-if ($SharePointVersion -eq '2013') {
+if ($SharePointVersion -in "2013", "2016") {
 	$snapin = Get-PSSnapin | Where-Object {$_.Name -eq 'Microsoft.SharePoint.Powershell'}
 	if ($snapin -eq $null)
 	{
@@ -418,20 +437,22 @@ if ($SharePointVersion -eq '2013') {
 
 			$sc = New-SPSite -Url $piwikAdminUrl -OwnerAlias $Owner -Template "STS#0"
 			$w=$sc.RootWeb
-			$w.CreateDefaultAssociatedGroups($sharepointAdminLogin,$null,$null)
+
+			$userA = $w.EnsureUser($sharepointAdminLogin)
+			$w.CreateDefaultAssociatedGroups($userA,$null,$null)
 			
 		}
 }
 
 Write-Host "Connecting to Piwik PRO Administration site...";
 Disconnect-PnPOnline;
-Start-Sleep -s 10
+Start-Sleep -s 15
 Connect-ToSharePoint -Url $piwikAdminUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 
 Write-Host "Applying Piwik PRO Administration site template...";
 Apply-PnPProvisioningTemplate -Path $templatePath -TemplateId "PIWIK-ADMIN-TEMPLATE" -Parameters @{"SharePointUrl" = $tenantUrl; "PiwikAdminServerRelativeUrl" = $piwikAdminServerRelativeUrl; "Owner" = $currentUser };
 
-if ($SharePointVersion -eq '2013') {
+if ($SharePointVersion -in "2013", "2016") {
 Write-Host "Adding items to PiwikConfig list";
 $listitem1Get = Get-PnPListItem -List "PiwikConfig" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>piwik_clientid</Value></Eq></Where></Query></View>"
 if($listitem1Get)
@@ -453,30 +474,31 @@ else
 	$listItem2 = Add-PnPListItem -List "PiwikConfig" -Values @{"Title" = "piwik_clientsecret"; "Value"=$clientSecretValue}
 }
 
-$listitem3Get = Get-PnPListItem -List "PiwikConfig" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>piwik_serviceurl</Value></Eq></Where></Query></View>"
-if($listitem3Get)
-{
-	Set-PnPListItem -List "PiwikConfig" -Identity $listitem3Get -Values @{"Title" = "piwik_serviceurl"; "Value"=$serviceUrlValue}
-}
-else
-{
-	$listItem3 = Add-PnPListItem -List "PiwikConfig" -Values @{"Title" = "piwik_serviceurl"; "Value"=$serviceUrlValue}
-}
+Set-PnPPropertyBagValue -Key "piwik_serviceurl" -Value $serviceUrlValue
+Start-Sleep -s 1
 
-$listitem4Get = Get-PnPListItem -List "PiwikConfig" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>piwik_containersurl</Value></Eq></Where></Query></View>"
-if($listitem4Get)
+if($containersUrlValue)
 {
-	Set-PnPListItem -List "PiwikConfig" -Identity $listitem4Get -Values @{"Title" = "piwik_containersurl"; "Value"=$containersUrlValue}
+	Set-PnPPropertyBagValue -Key "piwik_containersurl" -Value $containersUrlValue
 }
 else
 {
-	$listItem4 = Add-PnPListItem -List "PiwikConfig" -Values @{"Title" = "piwik_containersurl"; "Value"=$containersUrlValue}
+	try
+	{
+    $webToContainers = Get-SPWeb $piwikAdminUrl
+    $webToContainers.AllProperties.Add("piwik_containersurl", "")
+    $webToContainers.Update()
+	}
+	catch{
+		Write-Host "Containers url property bag is already exists"
+	}
 }
 }
+Start-Sleep -s 2
 
 Disconnect-PnPOnline;
 
-if ($SharePointVersion -eq '2013') {
+if ($SharePointVersion -in "2013", "2016") {
 Write-Host "Adding possibility to upload JSON";
 
 EnableJSONLight
@@ -503,6 +525,15 @@ $WebApp.Update()
 
     $spSite = New-Object Microsoft.SharePoint.SPSite($siteUrl)
     $spWeb = $spSite.OpenWeb()
+	
+	if ($SharePointVersion -eq '2013') {
+		Copy-Item -Path "$($filesSolutionFolder)PROD\piwik-config-onprem-2013.json" -Destination "$($filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
+	}
+	
+	if ($SharePointVersion -eq '2016') {
+		Copy-Item -Path "$($filesSolutionFolder)PROD\piwik-config-onprem-2016.json" -Destination "$($filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
+	}
+	
 	UploadFiles -siteUrl $piwikAdminUrl -DestFolderUrl ($piwikAdminUrl + "/Style%20Library") -LocalFileOrFolderPath $filesSolutionFolder
 
 	UploadFiles -siteUrl $piwikAdminUrl -DestFolderUrl ($piwikAdminUrl + "/Style%20Library") -LocalFileOrFolderPath $filesImagesdFolder
@@ -517,28 +548,50 @@ $WebApp.Update()
          
         if($MyInstalledSolution -ne $null)
         {
-            if($MyInstalledSolution.DeployedWebApplications.Count -gt 0)
+            if($MyInstalledSolution.Deployed.Count -gt 0)
             {
-                wait4timer($MywspName)  
-                Uninstall-SPSolution $MywspName -Confirm:$false
-                wait4timer($MywspName)   
-                Write-Host "Remove the Solution from the Farm" -ForegroundColor Green 
-                Remove-SPSolution $MywspName -Confirm:$false 
-                sleep 3
+                #wait4timer($MywspName)  
+                #Uninstall-SPSolution $MywspName -Confirm:$false
+                #wait4timer($MywspName)   
+                #Write-Host "Uninstalled the Solution from the Farm" -ForegroundColor Green 
+				#sleep 3
+                #Remove-SPSolution $MywspName -Confirm:$false 
+                #sleep 3
+				#Write-Host "Removed the Solution from the Farm" -ForegroundColor Green 
+				Write-Host "Updating solution..." -ForegroundColor Green 
+				Update-SPSolution –Identity $MywspName –LiteralPath $MywspFullPath -GACDeployment:$true -FullTrustBinDeployment:$true -Force:$true
+				wait4timer($MywspName)
+				
+				iisreset
+				net stop "Sharepoint Timer Service"
+				net start "Sharepoint Timer Service"
             }
             else
             {
                 wait4timer($MywspName) 
                 Remove-SPSolution $MywspName -Confirm:$false 
+				Write-Host "Removed the Solution from the Farm" -ForegroundColor Green 
                 sleep 3
+				
+				Add-SPSolution -LiteralPath "$MywspFullPath"
+				sleep 3
+				install-spsolution -Identity $MywspName -FullTrustBinDeployment:$true -GACDeployment:$true -Force:$true
+				wait4timer($MywspName)
+				
+				iisreset
+				net stop "Sharepoint Timer Service"
+				net start "Sharepoint Timer Service"				
             }
         }
- 
-        wait4timer($MywspName) 
-        Add-SPSolution -LiteralPath "$MywspFullPath"
-        install-spsolution -Identity $MywspName -FullTrustBinDeployment:$true -GACDeployment:$true -Force:$true
-        wait4timer($MywspName)    
- 
+		else
+		{
+			wait4timer($MywspName) 
+			Add-SPSolution -LiteralPath "$MywspFullPath"
+			sleep 3
+			install-spsolution -Identity $MywspName -FullTrustBinDeployment:$true -GACDeployment:$true -Force:$true
+			wait4timer($MywspName)    
+		}
+		
         Write-Host "Successfully Deployed to the Farm"
          
     }
@@ -560,11 +613,13 @@ $WebApp.Update()
 		
 	try
     {
-		Start-Sleep -s 10
+		Start-Sleep -s 15
 		Write-Host "Configuring timer job..."
 		#Add property to job of piwik admin url
-		$job = Get-SPTimerJob $timerJobName
+		$job = Get-SPTimerJob $timerJobName -WebApplication $SharePointUrl
+		Start-Sleep -s 2
 		$job.Properties.Add("piwik_adminsiteurl", $piwikAdminUrl)
+		Start-Sleep -s 2
 		$job.Update()
 	}
     catch
@@ -596,6 +651,74 @@ $WebApp.Update()
         Write-Host "Exception Occured on job feature activation"
     }
 	}
+	
+	if($activateTrackerOnOldConnectorSites -eq $true)
+	{
+	Write-Host "Enabling tracker on sites where old connector was enabled"
+		try
+		{
+			Start-Sleep -s 5
+			$SPWebApp = Get-SPWebApplication $SharePointUrl
+			
+			$webPiwikAdmin = Get-SPWeb -Identity $piwikAdminUrl  
+			$prositeDirList = $webPiwikAdmin.Lists["Piwik PRO Site Directory"]    
+
+			foreach ($SPSite in $SPWebApp.Sites)
+			{
+				if ($SPSite -ne $null)
+				{
+					if($SPSite.RootWeb.Properties["piwik_metasitenamestored"])
+					{
+						Write-Host "Activating tracker on site: " $SPSite.url
+						try
+						{
+							$SPSite.RootWeb.Properties["piwik_istrackingactive"] = "true"
+							$SPSite.RootWeb.Properties.Update()
+						}
+						catch
+						{
+							Write-Host "Problem with set property bag on site: " $SPSite.url
+						}
+						
+						try
+						{
+						Write-Host "Enabling tracking feature"
+						ActivateFeatureInSiteCollectionScope -DisplayName "274e477e-287d-4b22-a411-c691e999379f" -siteurl $SPSite.url
+						Start-Sleep -s 1
+						}
+						catch
+						{
+							Write-Host "Exception Occured on enabling feature"
+						}
+						
+						try
+						{
+							Write-Host "Adding entry on Piwik PRO Site Directory list"
+							$newItem = $prositeDirList.items.add()
+							$newitem["Title"] = $SPSite.RootWeb.Title
+							$newitem["pwk_url"] = $SPSite.url
+							$newitem["pwk_siteId"] = $SPSite.RootWeb.Properties["piwik_metasitenamestored"]
+							$newitem["pwk_status"] = "Active"
+							$newitem.update()
+						}
+						catch
+						{
+							Write-Host "Exception Occured on enabling feature"
+						}
+
+						Write-Host "Tracker activated on site." -ForegroundColor Green
+					
+					}
+					$SPSite.Dispose()
+				}
+			}
+			
+		}
+		catch
+		{
+			Write-Host "Exception Occured on activate tracker on old sites"
+		}
+	}
 }
 
-Write-Host "Finished." -ForegroundColor Green;
+Write-Host "Finished." -ForegroundColor Green
