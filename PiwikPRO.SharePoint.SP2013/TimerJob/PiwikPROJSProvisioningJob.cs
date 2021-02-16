@@ -32,6 +32,7 @@ namespace PiwikPRO.SharePoint.SP2013
 
                     pbjo.GetAllNewSitesAndOperate();
                     pbjo.GetAllDeactivatingSitesAndOperate();
+                    pbjo.GetAllSettingsUpdatedSitesAndOperate();
                 }
 
             }

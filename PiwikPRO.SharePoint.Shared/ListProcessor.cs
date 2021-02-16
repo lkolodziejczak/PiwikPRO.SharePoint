@@ -128,6 +128,44 @@ namespace PiwikPRO.SharePoint.Shared
             return listToReturn;
         }
 
+        public List<ListItem> GetAllNewSettingsUpdatedSites()
+        {
+            List<ListItem> listToReturn = new List<ListItem>();
+            try
+            {
+                List oList = context.Web.Lists.GetByTitle(ConfigValues.PiwikPro_SiteDirectoryListName);
+                CamlQuery qry = new CamlQuery();
+                qry.ViewXml =
+                    @"<View><Query><Where>" +
+          "<Eq>" +
+             "<FieldRef Name='" + ConfigValues.PiwikPro_SiteDirectory_Column_Status + "' />" +
+             "<Value Type='Choice'>" + ConfigValues.PiwikPro_SiteDirectory_Column_Status_SettingsUpdated + "</Value>" +
+          "</Eq>" +
+       "</Where></View></Query>";
+                ListItemCollection collListItem = oList.GetItems(qry);
+
+                context.Load(
+                collListItem,
+                items => items.Include(
+                item => item[ConfigValues.PiwikPro_SiteDirectory_Column_Title],
+                item => item[ConfigValues.PiwikPro_SiteDirectory_Column_ErrorLog],
+                item => item[ConfigValues.PiwikPro_SiteDirectory_Column_Url],
+                item => item[ConfigValues.PiwikPro_SiteDirectory_Column_Status],
+                item => item[ConfigValues.PiwikPro_SiteDirectory_Column_SiteID]));
+
+                context.ExecuteQueryRetry();
+                foreach (ListItem item in collListItem)
+                {
+                    listToReturn.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(Category.Unexpected, "Piwik GetAllNewSettingsUpdatedSites", ex.Message);
+            }
+            return listToReturn;
+        }
+
         public List<ListItem> GetAllDeactivatingSites()
         {
             List<ListItem> listToReturn = new List<ListItem>();

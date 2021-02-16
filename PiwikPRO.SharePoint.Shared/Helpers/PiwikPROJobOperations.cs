@@ -22,6 +22,55 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
             this.logger = logger;
         }
 
+        public void GetAllSettingsUpdatedSitesAndOperate()
+        {
+            try
+            {
+                ListProcessor sdlo = new ListProcessor(context, logger);
+
+                //Get all Sites with status "Settings updated" and put it to Piwik
+                foreach (ListItem item in sdlo.GetAllNewSettingsUpdatedSites())
+                {
+                    //connect to service and create new site
+                    PiwikPROServiceOperations pso = new PiwikPROServiceOperations(cfg.PiwikClientID, cfg.PiwikClientSecret, cfg.PiwikServiceUrl, logger);
+
+                    FieldUrlValue valueUrl = (FieldUrlValue)(item[ConfigValues.PiwikPro_SiteDirectory_Column_Url]);
+
+                    string idSite = string.Empty;
+                    idSite = Convert.ToString(item[ConfigValues.PiwikPro_SiteDirectory_Column_SiteID]);
+                    if (!string.IsNullOrEmpty(idSite))
+                    {
+                        try
+                        {
+                            //add tag manager json
+                            pso.AddTagManagerJSONFile(idSite, context);
+
+                            //publish tag manager
+                            pso.PublishLastVersionOfTagManager(idSite);
+                        }
+                        catch (Exception exp)
+                        {
+                            item[ConfigValues.PiwikPro_SiteDirectory_Column_ErrorLog] = exp.Message;
+                            logger.WriteLog(Category.Unexpected, "Piwik GetAllNewSettingsUpdatedSites Inside", exp.Message);
+                        }
+
+                        item[ConfigValues.PiwikPro_SiteDirectory_Column_Status] = ConfigValues.PiwikPro_SiteDirectory_Column_Status_Active;
+                    }
+                    else
+                    {
+                        item[ConfigValues.PiwikPro_SiteDirectory_Column_ErrorLog] = "id of site is empty!";
+                    }
+
+                    item.Update();
+                    context.ExecuteQueryRetry();
+                }
+            }
+            catch (Exception expcc)
+            {
+                logger.WriteLog(Category.Unexpected, "Piwik GetAllSettingsUpdatedSitesAndOperate", expcc.Message);
+            }
+        }
+
         public void GetAllNewSitesAndOperate()
         {
             try
@@ -77,6 +126,15 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
 
                             //set gdpr off
                             pso.SetSetGdprOffInPiwik(idSite);
+
+                            //set sp integration on
+                            pso.SetSharepointIntegrationOnInPiwik(idSite);
+
+                            //add tag manager json
+                            pso.AddTagManagerJSONFile(idSite, context);
+
+                            //publish tag manager
+                            pso.PublishLastVersionOfTagManager(idSite);
 
                             //create/update values in propbag
                             PropertyValues currentBag = contextToPropBag.Site.RootWeb.AllProperties;
