@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Cache;
 using System.Xml;
 using System.Web;
+using Microsoft.SharePoint.Client;
 
 namespace PiwikPRO.SharePoint.Shared
 {
@@ -60,6 +61,150 @@ namespace PiwikPRO.SharePoint.Shared
             catch (Exception ex)
             {
                 logger.WriteLog(Category.Unexpected, "Piwik SetSetGdprOffInPiwik", ex.Message);
+            }
+        }
+
+        public void SetSharepointIntegrationOnInPiwik(string siteID)
+        {
+            try
+            {
+                //JSON should look like: "{\n\"data\": {\n\"attributes\":{\n\n\"gdpr\":false\n},\n\"type\":\"ppms/app\",\n\"id\":\"" + siteID + "\"\n}\n}\n";
+                JObject jobj = new JObject(
+                    new JProperty("data",
+                        new JObject(
+                            new JProperty("attributes",
+                                new JObject(
+                                    new JProperty("sharepointIntegration", true))),
+                                    new JProperty("type", "ppms/app"),
+                                    new JProperty("id", siteID))));
+
+                var callCommandUrl = new Uri(String.Format("{0}{1}\\{2}", piwik_serviceUrl, _apiAppsV2, siteID));
+
+                string returnerXml = MakeRequest(jobj.ToString(), callCommandUrl, "PATCH");
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(Category.Unexpected, "Piwik SetSharepointIntegrationOn", ex.Message);
+            }
+        }
+
+        public void PublishLastVersionOfTagManager(string siteID)
+        {
+            try
+            {
+           // https://example.piwik.pro/api/tag/v1/{app_id}/versions/draft/publish
+                var callCommandUrl = new Uri(String.Format("{0}{1}{2}{3}", piwik_serviceUrl, "/api/tag/v1/", siteID, "/versions/draft/publish"));
+
+                ServicePointManager.Expect100Continue = true;
+                if (callCommandUrl.ToString().Contains("https"))
+                {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                }
+                HttpWebRequest HttpRequest = (HttpWebRequest)HttpWebRequest.Create(callCommandUrl);
+                HttpRequest.Method = "POST";
+                HttpRequest.Accept = "*/*";
+                HttpRequest.ContentType = "application/vnd.api+json";
+                HttpRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                if (!String.IsNullOrEmpty(_bearer))
+                {
+                    HttpRequest.PreAuthenticate = true;
+                    HttpRequest.Headers.Add("Authorization", _bearer);
+                }
+
+                WebResponse response = HttpRequest.GetResponse();
+                string returnerXml = string.Empty;
+                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                {
+                    returnerXml = streamReader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(Category.Unexpected, "Piwik PublishLastVersionOfTagManager", ex.Message);
+            }
+        }
+
+        public void AddTagManagerJSONFile(string siteID, ClientContext clientContext)
+        {
+            try
+            {
+                //https://example.piwik.pro/api/tag/v1/{app_id}/versions/import-file
+                string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
+
+                // var callCommandUrl = new Uri(String.Format("{0}{1}{2}{3}", piwik_serviceUrl, "/api/tag/v1/", "cb1789d0-c7fa-4060-a4ed-62aafccc7f81", "/versions/import-file"));
+                var callCommandUrl = new Uri(String.Format("{0}{1}{2}{3}", piwik_serviceUrl, "/api/tag/v1/", siteID, "/versions/import-file"));
+                ServicePointManager.Expect100Continue = true;
+                if (callCommandUrl.ToString().Contains("https"))
+                {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                }
+                HttpWebRequest HttpRequest = (HttpWebRequest)HttpWebRequest.Create(callCommandUrl);
+                HttpRequest.Method = "POST";
+                HttpRequest.Accept = "*/*";
+                HttpRequest.ContentType = "multipart/form-data; boundary="+ boundary;
+                HttpRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                if (String.IsNullOrEmpty(_bearer))
+                { 
+                    _bearer = GetTokenBearer(piwik_clientID, piwik_clientSecret);
+                }
+                HttpRequest.PreAuthenticate = true;
+                HttpRequest.Headers.Add("Authorization", _bearer);
+                Stream memStream = new System.IO.MemoryStream();
+                var boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+                var endBoundaryBytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--");
+
+                string filePath = clientContext.Url + "/Style%20Library/PROD/tagmanager.json";
+
+                Uri filename = new Uri(filePath);
+                string server = filename.AbsoluteUri.Replace(filename.AbsolutePath, "");
+                string serverrelative = filename.AbsolutePath;
+
+                Microsoft.SharePoint.Client.FileInformation f =
+                    Microsoft.SharePoint.Client.File.OpenBinaryDirect(clientContext, serverrelative);
+
+                clientContext.ExecuteQueryRetry();
+                
+                string header =
+      "Content-Disposition: form-data; name=\"file\"; filename=\""+ Path.GetFileName(filePath) + "\"\r\n" +
+      "Content-Type: application/json\r\n\r\n";
+
+                    memStream.Write(boundarybytes, 0, boundarybytes.Length);
+                    var headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
+
+                    memStream.Write(headerbytes, 0, headerbytes.Length);
+
+                using (var fileStream = f.Stream)
+                    {
+                        var buffer = new byte[1024];
+                        var bytesRead = 0;
+                        while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+                        {
+                            memStream.Write(buffer, 0, bytesRead);
+                        }
+                    }
+
+                memStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
+                HttpRequest.ContentLength = memStream.Length;
+
+                using (Stream requestStream = HttpRequest.GetRequestStream())
+                {
+                    memStream.Position = 0;
+                    byte[] tempBuffer = new byte[memStream.Length];
+                    memStream.Read(tempBuffer, 0, tempBuffer.Length);
+                    memStream.Close();
+                    requestStream.Write(tempBuffer, 0, tempBuffer.Length);
+                }
+
+                WebResponse response = HttpRequest.GetResponse();
+                string returnerXml = string.Empty;
+                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                {
+                    returnerXml = streamReader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(Category.Unexpected, "Piwik AddTagManagerJSONFile", ex.Message);
             }
         }
 
@@ -149,7 +294,6 @@ namespace PiwikPRO.SharePoint.Shared
                 new JObject(
                     new JProperty("appType", "web"),
                     new JProperty("name", siteName),
-                    //new JProperty("sharepointIntegration", "true"), 
                     new JProperty("urls", arrayUrls))),
                     new JProperty("type", "ppms/app"))));
 
