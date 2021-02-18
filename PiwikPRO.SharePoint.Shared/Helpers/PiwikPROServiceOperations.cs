@@ -117,8 +117,6 @@ namespace PiwikPRO.SharePoint.Shared
                 {
                     returnerXml = streamReader.ReadToEnd();
                 }
-
-               // string returnerXml = MakeRequest("", callCommandUrl, "POST");
             }
             catch (Exception ex)
             {

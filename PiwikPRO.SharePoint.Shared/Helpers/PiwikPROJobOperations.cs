@@ -130,11 +130,19 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                             //set sp integration on
                             pso.SetSharepointIntegrationOnInPiwik(idSite);
 
-                            //add tag manager json
-                            pso.AddTagManagerJSONFile(idSite, context);
+                            try
+                            { 
+                                //add tag manager json
+                                pso.AddTagManagerJSONFile(idSite, context);
 
-                            //publish tag manager
-                            pso.PublishLastVersionOfTagManager(idSite);
+                                //publish tag manager
+                                pso.PublishLastVersionOfTagManager(idSite);
+                            }
+                            catch (Exception exp)
+                            {
+                                item[ConfigValues.PiwikPro_SiteDirectory_Column_ErrorLog] = exp.Message;
+                                logger.WriteLog(Category.Unexpected, "Piwik Problem with tag manager file upload and publish", exp.Message);
+                            }
 
                             //create/update values in propbag
                             PropertyValues currentBag = contextToPropBag.Site.RootWeb.AllProperties;
