@@ -452,6 +452,19 @@ Connect-ToSharePoint -Url $piwikAdminUrl -TenantAdminUrl $SharePointTenantAdminU
 Write-Host "Applying Piwik PRO Administration site template...";
 Apply-PnPProvisioningTemplate -Path $templatePath -TemplateId "PIWIK-ADMIN-TEMPLATE" -Parameters @{"SharePointUrl" = $tenantUrl; "PiwikAdminServerRelativeUrl" = $piwikAdminServerRelativeUrl; "Owner" = $currentUser };
 
+if ($SharePointVersion -eq 'Online') {
+
+$folderExists = Resolve-PnPFolder -SiteRelativePath "Style Library/PROD"
+
+if(!$folderExists)
+{
+    Add-PnPFolder -Name PROD -Folder "Style Library"
+}
+$tagManagerPath = $filesSolutionFolder + "PROD\tagmanager.json"
+Add-PnPFile -Path $tagManagerPath -Folder "Style Library/PROD"
+
+}
+
 if ($SharePointVersion -in "2013", "2016") {
 Write-Host "Adding items to PiwikConfig list";
 $listitem1Get = Get-PnPListItem -List "PiwikConfig" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>piwik_clientid</Value></Eq></Where></Query></View>"
