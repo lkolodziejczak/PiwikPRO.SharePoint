@@ -92,7 +92,7 @@ namespace PiwikPRO.SharePoint.Shared
         {
             try
             {
-           // https://example.piwik.pro/api/tag/v1/{app_id}/versions/draft/publish
+                // https://example.piwik.pro/api/tag/v1/{app_id}/versions/draft/publish
                 var callCommandUrl = new Uri(String.Format("{0}{1}{2}{3}", piwik_serviceUrl, "/api/tag/v1/", siteID, "/versions/draft/publish"));
 
                 ServicePointManager.Expect100Continue = true;
@@ -105,6 +105,10 @@ namespace PiwikPRO.SharePoint.Shared
                 HttpRequest.Accept = "*/*";
                 HttpRequest.ContentType = "application/vnd.api+json";
                 HttpRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                if (String.IsNullOrEmpty(_bearer))
+                {
+                    _bearer = GetTokenBearer(piwik_clientID, piwik_clientSecret);
+                }
                 if (!String.IsNullOrEmpty(_bearer))
                 {
                     HttpRequest.PreAuthenticate = true;
@@ -141,10 +145,10 @@ namespace PiwikPRO.SharePoint.Shared
                 HttpWebRequest HttpRequest = (HttpWebRequest)HttpWebRequest.Create(callCommandUrl);
                 HttpRequest.Method = "POST";
                 HttpRequest.Accept = "*/*";
-                HttpRequest.ContentType = "multipart/form-data; boundary="+ boundary;
+                HttpRequest.ContentType = "multipart/form-data; boundary=" + boundary;
                 HttpRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
                 if (String.IsNullOrEmpty(_bearer))
-                { 
+                {
                     _bearer = GetTokenBearer(piwik_clientID, piwik_clientSecret);
                 }
                 HttpRequest.PreAuthenticate = true;
@@ -163,25 +167,25 @@ namespace PiwikPRO.SharePoint.Shared
                     Microsoft.SharePoint.Client.File.OpenBinaryDirect(clientContext, serverrelative);
 
                 clientContext.ExecuteQueryRetry();
-                
+
                 string header =
-      "Content-Disposition: form-data; name=\"file\"; filename=\""+ Path.GetFileName(filePath) + "\"\r\n" +
+      "Content-Disposition: form-data; name=\"file\"; filename=\"" + Path.GetFileName(filePath) + "\"\r\n" +
       "Content-Type: application/json\r\n\r\n";
 
-                    memStream.Write(boundarybytes, 0, boundarybytes.Length);
-                    var headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
+                memStream.Write(boundarybytes, 0, boundarybytes.Length);
+                var headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
 
-                    memStream.Write(headerbytes, 0, headerbytes.Length);
+                memStream.Write(headerbytes, 0, headerbytes.Length);
 
                 using (var fileStream = f.Stream)
+                {
+                    var buffer = new byte[1024];
+                    var bytesRead = 0;
+                    while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
                     {
-                        var buffer = new byte[1024];
-                        var bytesRead = 0;
-                        while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
-                        {
-                            memStream.Write(buffer, 0, bytesRead);
-                        }
+                        memStream.Write(buffer, 0, bytesRead);
                     }
+                }
 
                 memStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
                 HttpRequest.ContentLength = memStream.Length;
