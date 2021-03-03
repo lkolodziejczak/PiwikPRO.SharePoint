@@ -135,8 +135,6 @@ namespace PiwikPRO.SharePoint.Shared
 
         public void AddTagManagerJSONFile(string siteID, ClientContext clientContext)
         {
-            try
-            {
                 //https://example.piwik.pro/api/tag/v1/{app_id}/versions/import-file
                 string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
 
@@ -168,10 +166,11 @@ namespace PiwikPRO.SharePoint.Shared
                 string server = filename.AbsoluteUri.Replace(filename.AbsolutePath, "");
                 string serverrelative = filename.AbsolutePath;
 
-                Microsoft.SharePoint.Client.FileInformation f =
-                    Microsoft.SharePoint.Client.File.OpenBinaryDirect(clientContext, serverrelative);
+                var result = clientContext.Web.GetFileByServerRelativeUrl(serverrelative).OpenBinaryStream();
+
 
                 clientContext.ExecuteQueryRetry();
+                using var stream = result.Value;
 
                 string header =
       "Content-Disposition: form-data; name=\"file\"; filename=\"" + Path.GetFileName(filePath) + "\"\r\n" +
@@ -182,7 +181,7 @@ namespace PiwikPRO.SharePoint.Shared
 
                 memStream.Write(headerbytes, 0, headerbytes.Length);
 
-                using (var fileStream = f.Stream)
+                using (var fileStream = stream)
                 {
                     var buffer = new byte[1024];
                     var bytesRead = 0;
@@ -210,11 +209,6 @@ namespace PiwikPRO.SharePoint.Shared
                 {
                     returnerXml = streamReader.ReadToEnd();
                 }
-            }
-            catch (Exception ex)
-            {
-                logger.WriteLog(Category.Unexpected, "Piwik AddTagManagerJSONFile", ex.Message);
-            }
         }
 
         public string RemoveSiteFromPiwik(string siteid)
