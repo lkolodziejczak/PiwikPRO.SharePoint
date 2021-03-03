@@ -43,10 +43,13 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                         try
                         {
                             Thread.Sleep(10000);
+                            pso.SetSharepointIntegrationOnInPiwik(idSite);
+
+                            Thread.Sleep(10000);
                             //add tag manager json
                             pso.AddTagManagerJSONFile(idSite, context);
 
-                            Thread.Sleep(60000);
+                            Thread.Sleep(30000);
 
                             //publish tag manager
                             pso.PublishLastVersionOfTagManager(idSite);
@@ -139,7 +142,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                                 //add tag manager json
                                 pso.AddTagManagerJSONFile(idSite, context);
 
-                                Thread.Sleep(60000);
+                                Thread.Sleep(30000);
                                 //publish tag manager
                                 pso.PublishLastVersionOfTagManager(idSite);
                             }

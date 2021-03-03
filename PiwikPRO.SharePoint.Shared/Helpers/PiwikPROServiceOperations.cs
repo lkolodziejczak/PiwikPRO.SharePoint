@@ -80,6 +80,11 @@ namespace PiwikPRO.SharePoint.Shared
 
                 var callCommandUrl = new Uri(String.Format("{0}{1}\\{2}", piwik_serviceUrl, _apiAppsV2, siteID));
 
+                if (string.IsNullOrEmpty(_bearer))
+                {
+                    _bearer = GetTokenBearer(piwik_clientID, piwik_clientSecret);
+                }
+
                 string returnerXml = MakeRequest(jobj.ToString(), callCommandUrl, "PATCH");
             }
             catch (Exception ex)
