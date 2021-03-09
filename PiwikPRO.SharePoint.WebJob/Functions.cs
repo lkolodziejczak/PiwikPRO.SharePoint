@@ -49,8 +49,8 @@ namespace PiwikPRO.SharePoint.WebJob
 
                 PiwikPROJobOperations pbjo = new PiwikPROJobOperations(ctx, cfg, splogger);
 
-                pbjo.GetAllNewSitesAndOperate();
-                pbjo.GetAllDeactivatingSitesAndOperate();
+                pbjo.GetAllNewSitesAndOperate(true);
+                pbjo.GetAllDeactivatingSitesAndOperate(true);
                 pbjo.GetAllSettingsUpdatedSitesAndOperate();
 
                 splogger.WriteLog(Category.Information, "Piwik PRO Job", "Finished");

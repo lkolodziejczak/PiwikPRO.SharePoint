@@ -77,7 +77,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
             }
         }
 
-        public void GetAllNewSitesAndOperate()
+        public void GetAllNewSitesAndOperate(bool isSPOnline = false)
         {
             try
             {
@@ -158,6 +158,12 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                             contextToPropBag.ExecuteQueryRetry();
 
                             AddPropBagValuesToIndexedProperties(contextToPropBag);
+
+                            if (isSPOnline)
+                            {
+                                AddCustomAction("ListTrackingCommandSet", contextToPropBag, "a0a0acea-cd3c-454b-9376-9cd0e98f5847", "ListTrackingCommandSet", "ListTrackingCommandSet", "Adds ListTrackingCommandSet to the site", "ClientSideExtension.ApplicationCustomizer");
+                                AddCustomAction("TrackingApplicationCustomizer", contextToPropBag, "2ff5e374-69cb-4645-9083-b6317019705b", "TrackingApplicationCustomizer", "TrackingApplicationCustomizer", "Adds TrackingApplicationCustomizer to the site", "ClientSideExtension.ApplicationCustomizer");
+                            }
                         }
                         catch (Exception exp)
                         {
@@ -180,7 +186,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
             }
         }
 
-        public void GetAllDeactivatingSitesAndOperate()
+        public void GetAllDeactivatingSitesAndOperate(bool isSPOnline = false)
         {
             try
             {
@@ -209,12 +215,65 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                     using (ClientContext contextToPropBag = context.Clone(valueUrl.Url))
                     {
                         CreateOrUpdateValueInPropertyBag("false", contextToPropBag, ConfigValues.PiwikPro_PropertyBag_PiwikIsTrackingActive);
+
+                        if (isSPOnline)
+                        {
+                            DeleteCustomAction("ListTrackingCommandSet", contextToPropBag);
+                            DeleteCustomAction("TrackingApplicationCustomizer", contextToPropBag);
+                        }
                     }
                 }
             }
             catch (Exception expcc)
             {
                 logger.WriteLog(Category.Unexpected, "Piwik GetAllNewSitesAndOperateOnFinish", expcc.Message);
+            }
+        }
+
+        private static void DeleteCustomAction(string customActionName, ClientContext ctx)
+        {
+            var userCustomActions = ctx.Site.UserCustomActions;
+            ctx.Load(userCustomActions);
+            ctx.ExecuteQueryRetry();
+
+            for (int i = userCustomActions.Count - 1; i >= 0; i--)
+            {
+                if (userCustomActions[i].Name == customActionName)
+                {
+                    userCustomActions[i].DeleteObject();
+                    ctx.ExecuteQueryRetry();
+                }
+            }
+        }
+
+        private static void AddCustomAction(string customActionName, ClientContext ctx, string guid, string spfxExtName, string spfxExtTitle, string spfxExtDescription, string spfxExtLocation)
+        {
+            bool checkIfExists = false;
+
+            var userCustomActions = ctx.Site.UserCustomActions;
+            ctx.Load(userCustomActions);
+            ctx.ExecuteQueryRetry();
+
+            for (int i = userCustomActions.Count - 1; i >= 0; i--)
+            {
+                if (userCustomActions[i].Name == customActionName)
+                {
+                    checkIfExists = true;
+                }
+            }
+
+            if(!checkIfExists)
+            {
+                Guid spfxExtension_GlobalHeaderID = new Guid(guid);
+
+                UserCustomAction userCustomAction = ctx.Site.UserCustomActions.Add();
+                userCustomAction.Name = spfxExtName;
+                userCustomAction.Title = spfxExtTitle;
+                userCustomAction.Description = spfxExtDescription;
+                userCustomAction.Location = spfxExtLocation;
+                userCustomAction.ClientSideComponentId = spfxExtension_GlobalHeaderID;
+
+                ctx.Site.Context.ExecuteQueryRetry();
             }
         }
 
