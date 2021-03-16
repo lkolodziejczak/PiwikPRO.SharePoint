@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
-  <Module Name="Style Library" Url="Style Library">
-    <File Path="Style Library\piwikTracker.js" Url="JS/piwikTracker.js" Type="GhostableInLibrary"/>
-    <File Path="Style Library\piwikpro_logo_dark.jpg" Url="JS/piwikpro_logo_dark.jpg" Type="GhostableInLibrary"/>
-  </Module>
-</Elements>

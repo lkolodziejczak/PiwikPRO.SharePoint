@@ -219,13 +219,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
-    <Compile Include="ERPiwikPROListItemDeleting\ERPiwikPROListItemDeleting.cs" />
-    <Compile Include="ERPiwikPROSiteCollDeleting\ERPiwikPROSiteCollDeleting.cs" />
     <Compile Include="Features\PiwikPRO.SiteCollectionTracking\PiwikPRO.EventReceiver.cs">
       <DependentUpon>PiwikPRO.SiteCollectionTracking.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Features\PiwikPRO.TrackerJSFile_TimerJob\PiwikPRO.EventReceiver.cs">
-      <DependentUpon>PiwikPRO.TrackerJSFile_TimerJob.feature</DependentUpon>
     </Compile>
     <Compile Include="Features\PiwikPRO.WebJob\PiwikPRO.EventReceiver.cs">
       <DependentUpon>PiwikPRO.WebJob.feature</DependentUpon>
@@ -234,7 +229,6 @@
     <Compile Include="ISAPI\CUSTOM\PiwikPROChangeTrackingStatus.svc.cs">
       <DependentUpon>PiwikPROChangeTrackingStatus.svc</DependentUpon>
     </Compile>
-    <Compile Include="PiwikPRO_MasterPageER\PiwikPRO_MasterPageER.cs" />
     <Compile Include="SPLogger.cs" />
     <Compile Include="TimerJob\PiwikPROJSProvisioningJob.cs" />
     <Compile Include="Helpers\PropertyBagOperations.cs" />
@@ -245,12 +239,6 @@
     <None Include="app.config" />
     <None Include="CustomAction_PiwikNewForm\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{2c8f1be5-3e4f-4729-befe-469313a3cea9}</SharePointProjectItemId>
-    </None>
-    <None Include="ERPiwikPROListItemDeleting\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{669d31bd-b39d-48ac-abf0-c0e4843966b4}</SharePointProjectItemId>
-    </None>
-    <None Include="ERPiwikPROSiteCollDeleting\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{9b3c4bb3-32bf-4ca6-8d29-e2d6c6a9c123}</SharePointProjectItemId>
     </None>
     <None Include="FeatureAssociation\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{a98b8352-3cde-49d2-8448-9de2ad4c59a2}</SharePointProjectItemId>
@@ -270,9 +258,6 @@
     <None Include="Features\PiwikPRO.AdminScripts\PiwikPRO.AdminScripts.feature">
       <FeatureId>{15ada669-3f2c-40f4-a39d-0abd42d43468}</FeatureId>
     </None>
-    <None Include="Features\PiwikPRO.TrackerJSFile_TimerJob\PiwikPRO.TrackerJSFile_TimerJob.feature">
-      <FeatureId>{2e17c753-ced4-4d30-afdf-a82b4552cd07}</FeatureId>
-    </None>
     <None Include="Images\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{84e8a428-a83b-4d56-855f-d2ed562b7dbc}</SharePointProjectItemId>
     </None>
@@ -286,12 +271,6 @@
     </None>
     <None Include="Package\Package.Template.xml">
       <DependentUpon>Package.package</DependentUpon>
-    </None>
-    <None Include="PiwikPRO_MasterPageER\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{ccff31dc-1255-45a7-b672-1f2033a2eee6}</SharePointProjectItemId>
-    </None>
-    <None Include="Style Library\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{c4ea4b49-cc1b-48e3-b553-663ae32a00be}</SharePointProjectItemId>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -307,8 +286,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CustomAction_PiwikNewForm\Elements.xml" />
-    <Content Include="ERPiwikPROListItemDeleting\Elements.xml" />
-    <Content Include="ERPiwikPROSiteCollDeleting\Elements.xml" />
     <Content Include="FeatureAssociation\Elements.xml" />
     <Content Include="Features\PiwikPRO.WebJob\PiwikPRO.WebJob.Template.xml">
       <DependentUpon>PiwikPRO.WebJob.feature</DependentUpon>
@@ -325,15 +302,8 @@
     <Content Include="Features\PiwikPRO.AdminScripts\PiwikPRO.AdminScripts.Template.xml">
       <DependentUpon>PiwikPRO.AdminScripts.feature</DependentUpon>
     </Content>
-    <Content Include="Features\PiwikPRO.TrackerJSFile_TimerJob\PiwikPRO.TrackerJSFile_TimerJob.Template.xml">
-      <DependentUpon>PiwikPRO.TrackerJSFile_TimerJob.feature</DependentUpon>
-    </Content>
     <Content Include="Images\PiwikPRO.Sharepoint.FullTrust\piwikpro-logo-dark-47x30.jpg" />
     <Content Include="ISAPI\CUSTOM\PiwikPROChangeTrackingStatus.svc" />
-    <Content Include="PiwikPRO_MasterPageER\Elements.xml" />
-    <Content Include="Style Library\Elements.xml" />
-    <Content Include="Style Library\piwikpro_logo_dark.jpg" />
-    <Content Include="Style Library\piwikTracker.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

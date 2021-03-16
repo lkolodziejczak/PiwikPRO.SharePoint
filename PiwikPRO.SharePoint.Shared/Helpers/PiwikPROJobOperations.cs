@@ -220,6 +220,7 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                         {
                             DeleteCustomAction("ListTrackingCommandSet", contextToPropBag);
                             DeleteCustomAction("TrackingApplicationCustomizer", contextToPropBag);
+                            DeleteCustomAction("PiwikPRO.SharePoint365.Tracking", contextToPropBag);
                         }
                     }
                 }
