@@ -42,14 +42,14 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                     {
                         try
                         {
-                            Thread.Sleep(10000);
+                            Thread.Sleep(5000);
                             pso.SetSharepointIntegrationOnInPiwik(idSite);
 
-                            Thread.Sleep(10000);
+                            Thread.Sleep(5000);
                             //add tag manager json
                             pso.AddTagManagerJSONFile(idSite, context);
 
-                            Thread.Sleep(30000);
+                            Thread.Sleep(20000);
 
                             //publish tag manager
                             pso.PublishLastVersionOfTagManager(idSite);
@@ -138,11 +138,11 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
 
                             try
                             {
-                                Thread.Sleep(10000);
+                                Thread.Sleep(5000);
                                 //add tag manager json
                                 pso.AddTagManagerJSONFile(idSite, context);
 
-                                Thread.Sleep(30000);
+                                Thread.Sleep(20000);
                                 //publish tag manager
                                 pso.PublishLastVersionOfTagManager(idSite);
                             }
@@ -159,11 +159,12 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
 
                             AddPropBagValuesToIndexedProperties(contextToPropBag);
 
-                            if (isSPOnline)
-                            {
-                                AddCustomAction("ListTrackingCommandSet", contextToPropBag, "a0a0acea-cd3c-454b-9376-9cd0e98f5847", "ListTrackingCommandSet", "ListTrackingCommandSet", "Adds ListTrackingCommandSet to the site", "ClientSideExtension.ApplicationCustomizer");
-                                AddCustomAction("TrackingApplicationCustomizer", contextToPropBag, "2ff5e374-69cb-4645-9083-b6317019705b", "TrackingApplicationCustomizer", "TrackingApplicationCustomizer", "Adds TrackingApplicationCustomizer to the site", "ClientSideExtension.ApplicationCustomizer");
-                            }
+                            //commented because not required yet
+                            //if (isSPOnline)
+                            //{
+                                //AddCustomAction("ListTrackingCommandSet", contextToPropBag, "a0a0acea-cd3c-454b-9376-9cd0e98f5847", "ListTrackingCommandSet", "ListTrackingCommandSet", "Adds ListTrackingCommandSet to the site", "ClientSideExtension.ApplicationCustomizer");
+                                //AddCustomAction("TrackingApplicationCustomizer", contextToPropBag, "2ff5e374-69cb-4645-9083-b6317019705b", "TrackingApplicationCustomizer", "TrackingApplicationCustomizer", "Adds TrackingApplicationCustomizer to the site", "ClientSideExtension.ApplicationCustomizer");
+                            //}
                         }
                         catch (Exception exp)
                         {
@@ -215,13 +216,13 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
                     using (ClientContext contextToPropBag = context.Clone(valueUrl.Url))
                     {
                         CreateOrUpdateValueInPropertyBag("false", contextToPropBag, ConfigValues.PiwikPro_PropertyBag_PiwikIsTrackingActive);
-
-                        if (isSPOnline)
-                        {
-                            DeleteCustomAction("ListTrackingCommandSet", contextToPropBag);
-                            DeleteCustomAction("TrackingApplicationCustomizer", contextToPropBag);
-                            DeleteCustomAction("PiwikPRO.SharePoint365.Tracking", contextToPropBag);
-                        }
+                        //commented because not required yet
+                        //if (isSPOnline)
+                        //{
+                        //    DeleteCustomAction("ListTrackingCommandSet", contextToPropBag);
+                        //    DeleteCustomAction("TrackingApplicationCustomizer", contextToPropBag);
+                        //    DeleteCustomAction("PiwikPRO.SharePoint365.Tracking", contextToPropBag);
+                        //}
                     }
                 }
             }
