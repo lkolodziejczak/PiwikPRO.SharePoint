@@ -35,6 +35,7 @@ $filesSolutionFolder = ".\solutions\build\";
 $filesImagesdFolder = ".\assets\";
 $MywspName = "PiwikPRO.SharePoint.SP2013.wsp"
 $timerJobName = "Piwik PRO Job"
+$webJobVersion = "1.0.0.0"
 
 # for Sharepoint Online
 
@@ -486,6 +487,8 @@ else
 {
 	$listItem2 = Add-PnPListItem -List "PiwikConfig" -Values @{"Title" = "piwik_clientsecret"; "Value"=$clientSecretValue}
 }
+
+Set-PnPPropertyBagValue -Key "piwik_jobversion" -Value $webJobVersion
 
 Set-PnPPropertyBagValue -Key "piwik_serviceurl" -Value $serviceUrlValue
 Start-Sleep -s 1
