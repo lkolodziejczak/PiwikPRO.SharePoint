@@ -248,36 +248,36 @@ namespace PiwikPRO.SharePoint.Shared.Helpers
             }
         }
 
-        private static void AddCustomAction(string customActionName, ClientContext ctx, string guid, string spfxExtName, string spfxExtTitle, string spfxExtDescription, string spfxExtLocation)
-        {
-            bool checkIfExists = false;
+        //private static void AddCustomAction(string customActionName, ClientContext ctx, string guid, string spfxExtName, string spfxExtTitle, string spfxExtDescription, string spfxExtLocation)
+        //{
+        //    bool checkIfExists = false;
 
-            var userCustomActions = ctx.Site.UserCustomActions;
-            ctx.Load(userCustomActions);
-            ctx.ExecuteQueryRetry();
+        //    var userCustomActions = ctx.Site.UserCustomActions;
+        //    ctx.Load(userCustomActions);
+        //    ctx.ExecuteQueryRetry();
 
-            for (int i = userCustomActions.Count - 1; i >= 0; i--)
-            {
-                if (userCustomActions[i].Name == customActionName)
-                {
-                    checkIfExists = true;
-                }
-            }
+        //    for (int i = userCustomActions.Count - 1; i >= 0; i--)
+        //    {
+        //        if (userCustomActions[i].Name == customActionName)
+        //        {
+        //            checkIfExists = true;
+        //        }
+        //    }
 
-            if(!checkIfExists)
-            {
-                Guid spfxExtension_GlobalHeaderID = new Guid(guid);
+        //    if(!checkIfExists)
+        //    {
+        //        Guid spfxExtension_GlobalHeaderID = new Guid(guid);
 
-                UserCustomAction userCustomAction = ctx.Site.UserCustomActions.Add();
-                userCustomAction.Name = spfxExtName;
-                userCustomAction.Title = spfxExtTitle;
-                userCustomAction.Description = spfxExtDescription;
-                userCustomAction.Location = spfxExtLocation;
-                userCustomAction.ClientSideComponentId = spfxExtension_GlobalHeaderID;
+        //        UserCustomAction userCustomAction = ctx.Site.UserCustomActions.Add();
+        //        userCustomAction.Name = spfxExtName;
+        //        userCustomAction.Title = spfxExtTitle;
+        //        userCustomAction.Description = spfxExtDescription;
+        //        userCustomAction.Location = spfxExtLocation;
+        //        userCustomAction.ClientSideComponentId = spfxExtension_GlobalHeaderID;
 
-                ctx.Site.Context.ExecuteQueryRetry();
-            }
-        }
+        //        ctx.Site.Context.ExecuteQueryRetry();
+        //    }
+        //}
 
         private static void AddPropBagValuesToIndexedProperties(ClientContext webToPropertyBag)
         {
