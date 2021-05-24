@@ -352,7 +352,7 @@ if ($SharePointVersion -eq 'Online') {
 	Connect-ToSharePoint -Url $SharePointUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 }
 
-if ($SharePointVersion -in "2013", "2016") {
+if ($SharePointVersion -in "2013", "2016", "2019") {
 	$snapin = Get-PSSnapin | Where-Object {$_.Name -eq 'Microsoft.SharePoint.Powershell'}
 	if ($snapin -eq $null)
 	{
@@ -372,7 +372,7 @@ if ($SharePointVersion -in "2013", "2016") {
 
 $currentUser = (Get-PnPProperty (Get-PnPWeb) -Property CurrentUser).LoginName;
 
-if ($SharePointVersion -eq 'Online') {
+if ($SharePointVersion -in "Online") {
     if (-not $UseSiteScope) {
         Write-Host "Ensuring that Tenant App Catalog exists...";
         Register-PnPAppCatalogSite -Url "$tenantUrl/sites/AppCatalog" -Owner $currentUser -TimeZoneId 4 -ErrorAction SilentlyContinue | Out-Null;
@@ -382,7 +382,7 @@ if ($SharePointVersion -eq 'Online') {
     }
 }
 
-if (-not ($SharePointVersion -in "2013", "2016")) {
+if (-not ($SharePointVersion -in "2013", "2016", "2019")) {
     Write-Host "Publishing SPFx package to App Catalog...";
     if (-not $UseSiteScope) {
         Add-PnPApp -Path $spfxPackagePath -Scope Tenant -Overwrite -Publish -SkipFeatureDeployment | Out-Null;
@@ -391,27 +391,49 @@ if (-not ($SharePointVersion -in "2013", "2016")) {
     }
 }
 
-if ($SharePointVersion -eq 'Online') {
-    if (-not $UseSiteScope) {
-        $appCatalogUrl = Get-PnPTenantAppCatalogUrl;
+if ($SharePointVersion -in "Online", "2019") {
+	if($SharePointVersion -eq "Online")
+	{
+		if (-not $UseSiteScope) {
+			$appCatalogUrl = Get-PnPTenantAppCatalogUrl;
 
-        Write-Host "Connecting to Tenant App Catalog...";
-        Disconnect-PnPOnline;
-        Connect-ToSharePoint -Url $appCatalogUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
-    }
+			Write-Host "Connecting to Tenant App Catalog...";
+			Disconnect-PnPOnline;
+			Connect-ToSharePoint -Url $appCatalogUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
+		}
+		    Write-Host "Configuring tenant-wide extensions...";
+			Apply-PnPProvisioningTemplate -Path $templatePath -TemplateId "PIWIK-TENANT-WIDE";
+	}
+	
+	if($SharePointVersion -eq "2019")
+	{
+		$appCatalogUrl = $SharePointUrl + "/sites/AppCatalog"
+		if(!((Get-SPSite $appCatalogUrl -ErrorAction SilentlyContinue) -ne $null)){
+			New-SPSite -Url $appCatalogUrl -OwnerAlias $Owner -Name "App Catalog site" -Template "APPCATALOG#0"
+		}
+		
+		Connect-ToSharePoint -Url $appCatalogUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
+		
+		if (-not $UseSiteScope) {
+			Add-PnPApp -Path $spfxPackagePath -Scope Tenant -Overwrite -Publish -SkipFeatureDeployment | Out-Null;
+		} else {
+			Add-PnPApp -Path $spfxPackagePath -Scope Site -Overwrite -Publish -SkipFeatureDeployment | Out-Null;
+		}
+	}
 
-    Write-Host "Configuring tenant-wide extensions...";
-    Apply-PnPProvisioningTemplate -Path $templatePath -TemplateId "PIWIK-TENANT-WIDE";
 
 
+if ($SharePointVersion -eq "Online") {
 Write-Host "Checking if Piwik PRO Administration site already exists...";
 if (-not (Get-PnPTenantSite -Url $piwikAdminUrl -ErrorAction SilentlyContinue)) {
     Write-Host "Piwik PRO Administration site doesn't exist. Creating...";
-    New-PnPTenantSite -Title "Piwik PRO Administration" -Url $piwikAdminUrl -Owner $currentUser -TimeZone 4 -Lcid 1033 -Template "STS#3" -Wait -Force | Out-Null;
+	
+		New-PnPTenantSite -Title "Piwik PRO Administration" -Url $piwikAdminUrl -Owner $currentUser -TimeZone 4 -Lcid 1033 -Template "STS#3" -Wait -Force | Out-Null;
+	}
 }
 }
 
-if ($SharePointVersion -in "2013", "2016") {
+if ($SharePointVersion -in "2013", "2016", "2019") {
 	$snapin = Get-PSSnapin | Where-Object {$_.Name -eq 'Microsoft.SharePoint.Powershell'}
 	if ($snapin -eq $null)
 	{
@@ -435,8 +457,14 @@ if ($SharePointVersion -in "2013", "2016") {
 	
 		if(!((Get-SPWeb $piwikAdminUrl -ErrorAction SilentlyContinue) -ne $null)){
 		Write-Host "Creating Piwik PRO Admin site..."
-
-			$sc = New-SPSite -Url $piwikAdminUrl -OwnerAlias $Owner -Template "STS#0"
+		
+if ($SharePointVersion -eq "2019") {
+$sc = New-SPSite -Url $piwikAdminUrl -OwnerAlias $Owner -Template "STS#3"
+}
+if ($SharePointVersion -in "2013", "2016") {
+$sc = New-SPSite -Url $piwikAdminUrl -OwnerAlias $Owner -Template "STS#0"
+}
+			
 			$w=$sc.RootWeb
 
 			$userA = $w.EnsureUser($sharepointAdminLogin)
@@ -466,7 +494,7 @@ Add-PnPFile -Path $tagManagerPath -Folder "Style Library/PROD"
 
 }
 
-if ($SharePointVersion -in "2013", "2016") {
+if ($SharePointVersion -in "2013", "2016", "2019") {
 Write-Host "Adding items to PiwikConfig list";
 $listitem1Get = Get-PnPListItem -List "PiwikConfig" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>piwik_clientid</Value></Eq></Where></Query></View>"
 if($listitem1Get)
@@ -514,7 +542,7 @@ Start-Sleep -s 2
 
 Disconnect-PnPOnline;
 
-if ($SharePointVersion -in "2013", "2016") {
+if ($SharePointVersion -in "2013", "2016", "2019") {
 Write-Host "Adding possibility to upload JSON";
 
 EnableJSONLight
@@ -548,6 +576,10 @@ $WebApp.Update()
 	
 	if ($SharePointVersion -eq '2016') {
 		Copy-Item -Path "$($filesSolutionFolder)PROD\piwik-config-onprem-2016.json" -Destination "$($filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
+	}
+	
+	if ($SharePointVersion -eq '2019') {
+		Copy-Item -Path "$($filesSolutionFolder)PROD\piwik-config-onprem-2019.json" -Destination "$($filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
 	}
 	
 	UploadFiles -siteUrl $piwikAdminUrl -DestFolderUrl ($piwikAdminUrl + "/Style%20Library") -LocalFileOrFolderPath $filesSolutionFolder
