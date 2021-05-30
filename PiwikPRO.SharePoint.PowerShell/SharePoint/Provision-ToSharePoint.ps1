@@ -19,14 +19,14 @@
     [Switch]$UseWebLogin
 )
 
-# for Sharepoint OnPremise
+# for Sharepoint OnPremise - values to set!
 
 $sharepointAdminLogin = "piwik\lkolodziejczak"
 $clientIdValue = "7VzT7CvAs9UFwDXTfEFhXsJHOPjFiVKM"
 $clientSecretValue = "yaOAuNhEkD8sHC4F3gOzftaDZnD8nlwbpBR0Cc2xJjCLiUGb8Ciz7ljPy2C3mAlL0ObHgNwxdrwZPlui"
 $serviceUrlValue ="https://kogifi.piwik.pro"
 $containersUrlValue = ""
-$wspSolutionPath = "C:\Users\lkolodziejczak\source\repos\PiwikPRO.SharePoint\PiwikPRO.SharePoint.PowerShell\SharePoint\solutions\";
+$wspSolutionPath = "C:\LK\SP2013andSP2016PiwikPROPackage\solutions\";
 $activateFeatureStapplerOnDefault = $true
 $activateTrackerOnOldConnectorSites = $false 
 
@@ -41,6 +41,7 @@ $webJobVersion = "1.0.0.0"
 
 $templatePath = ".\templates\PiwikPROTemplate.xml";
 $spfxPackagePath = ".\solutions\piwikpro-sharepoint.sppkg";
+$spfxPackagePath2019 = ".\solutions\piwikpro-sharepoint-local.sppkg";
 
 #not editable
 $piwikAdminServerRelativeUrl = "/sites/PiwikAdmin";
@@ -408,16 +409,12 @@ if ($SharePointVersion -in "Online", "2019") {
 	if($SharePointVersion -eq "2019")
 	{
 		$appCatalogUrl = $SharePointUrl + "/sites/AppCatalog"
-		if(!((Get-SPSite $appCatalogUrl -ErrorAction SilentlyContinue) -ne $null)){
-			New-SPSite -Url $appCatalogUrl -OwnerAlias $Owner -Name "App Catalog site" -Template "APPCATALOG#0"
-		}
-		
 		Connect-ToSharePoint -Url $appCatalogUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials -UseWebLogin:$UseWebLogin;
 		
 		if (-not $UseSiteScope) {
-			Add-PnPApp -Path $spfxPackagePath -Scope Tenant -Overwrite -Publish -SkipFeatureDeployment | Out-Null;
+			Add-PnPApp -Path $spfxPackagePath2019 -Scope Tenant -Overwrite -Publish -SkipFeatureDeployment | Out-Null;
 		} else {
-			Add-PnPApp -Path $spfxPackagePath -Scope Site -Overwrite -Publish -SkipFeatureDeployment | Out-Null;
+			Add-PnPApp -Path $spfxPackagePath2019 -Scope Site -Overwrite -Publish -SkipFeatureDeployment | Out-Null;
 		}
 	}
 

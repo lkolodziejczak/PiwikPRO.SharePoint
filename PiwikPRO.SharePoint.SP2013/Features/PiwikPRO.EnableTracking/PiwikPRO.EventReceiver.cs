@@ -16,8 +16,6 @@ namespace PiwikPRO.SharePoint.SP2013.Features.PiwikPRO.EnableTracking
     [Guid("1333f65b-8f6e-477d-9a4e-e4cabf0b0c2d")]
     public class PiwikPROEventReceiver : SPFeatureReceiver
     {
-        // Uncomment the method below to handle the event raised after a feature has been activated.
-
         public override void FeatureActivated(SPFeatureReceiverProperties properties)
         {
             SPSite osite = ((SPSite)properties.Feature.Parent);
@@ -30,7 +28,7 @@ namespace PiwikPRO.SharePoint.SP2013.Features.PiwikPRO.EnableTracking
                     {
                         ClientContext ctx = new ClientContext(elevatedSite.Url);
                         ctx.ExecuteQuery();
-                        if(ctx.ServerVersion.Major == 16 && ctx.ServerVersion.Build > 10000)
+                        if (ctx.ServerVersion.Major == 16 && ctx.ServerVersion.Build > 10000)
                         {
                             //sp2019
                             AddCustomAction("piwikpro-sharepoint-ListTracking-100", ctx, "a0a0acea-cd3c-454b-9376-9cd0e98f5847", "piwikpro-sharepoint-ListTracking-100", "piwikpro-sharepoint-ListTracking-100", "Adds ListTrackingCommandSet100 to the site", "ClientSideExtension.ListViewCommandSet");
@@ -117,8 +115,8 @@ namespace PiwikPRO.SharePoint.SP2013.Features.PiwikPRO.EnableTracking
                 userCustomAction.Location = spfxExtLocation;
                 userCustomAction.ClientSideComponentId = spfxExtension_GlobalHeaderID;
                 userCustomAction.ClientSideComponentProperties = "{}";
-
-                ctx.Site.Context.ExecuteQueryRetry();
+                userCustomAction.Update();
+                ctx.ExecuteQueryRetry();
             }
         }
 
