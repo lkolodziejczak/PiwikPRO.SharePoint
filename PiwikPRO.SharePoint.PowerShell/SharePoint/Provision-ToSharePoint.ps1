@@ -587,6 +587,10 @@ $WebApp.Update()
 #install package
     try
     {
+		if ($SharePointVersion -eq '2019') {
+	$MywspName = "PiwikPRO.SharePoint.SP2019.wsp"
+	}
+	
         $MywspFullPath = $wspSolutionPath + $MywspName
  
         $MyInstalledSolution = Get-SPSolution | Where-Object Name -eq $MywspName
