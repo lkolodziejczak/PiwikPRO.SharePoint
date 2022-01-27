@@ -1,0 +1,44 @@
+{
+    "sharePointUrl":  "http://piwik-sp:8365/",
+    "useWebLogin":  false,
+    "sharePointVersion":  "2019",
+    "clientIdValue":  "7VzT7CvAs9UFwDXTfEFhXsJHOPjFiVKM",
+    "clientSecretValue":  "yaOAuNhEkD8sHC4F3gOzftaDZnD8nlwbpBR0Cc2xJjCLiUGb8Ciz7ljPy2C3mAlL0ObHgNwxdrwZPlui",
+    "serviceUrlValue":  "https://kogifi.piwik.pro",
+    "containersUrlValue":  "",
+    "sharePointTenantAdminUrl":  "",
+	"additionalPiwikSiteCollAdmin":"piwik\\ggrudzinski",
+    "constants":  {
+                      "piwikAdminServerRelativeUrl":  "/sites/PiwikAdmin",
+                      "filesSolutionFolder":  ".\\solutions\\build\\",
+                      "spfxPackagePath":  ".\\solutions\\piwikpro-sharepoint.sppkg",
+                      "spfxPackagePath2019":  ".\\solutions\\piwikpro-sharepoint-local.sppkg",
+                      "templatePath":  ".\\templates\\PiwikPROTemplate.xml",
+                      "tagManagerFolder":  ".\\solutions\\"
+                  },
+    "onlineParams":  {
+                         "sharepointAdminLogin":  "lukasz@lukaszsp.onmicrosoft.com",
+                         "useSiteScope":  false,
+                         "piwikSiteId":  "",
+                         "constants":  {
+                                           "appCatalogUrl":  "",
+                                           "piwikMetaSiteNameStored":  "piwik_metasitenamestored",
+                                           "piwikIsTrackingActive":  "piwik_istrackingactive",
+                                           "webJobVersion":  "1.0.0.2"
+                                       }
+                     },
+    "onPremParams":  {
+                         "sharepointAdminLogin":  "piwik\\lkolodziejczak",
+                         "activateFeatureStapplerOnDefault":  true,
+                         "activateTrackerOnOldConnectorSites":  false,
+                         "constants":  {
+                                           "wspSolutionPath":  "\\solutions\\",
+                                           "appCatalogUrl":  "/sites/appcatalog",
+                                           "tenantAdminServerRelativeUrl":  "/sites/tenantadmin",
+                                           "MywspName2013":  "PiwikPRO.SharePoint.SP2013.wsp",
+                                           "MywspName2019":  "PiwikPRO.SharePoint.SP2019.wsp",
+                                           "timerJobName":  "Piwik PRO Job",
+                                           "webJobVersion":  "1.0.0.2"
+                                       }
+                     }
+}

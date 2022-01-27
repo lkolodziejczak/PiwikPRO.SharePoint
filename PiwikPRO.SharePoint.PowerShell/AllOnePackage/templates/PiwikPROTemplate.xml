@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2020/02/ProvisioningSchema">
+  <pnp:Preferences>
+    <pnp:Parameters>
+      <pnp:Parameter Key="SharePointUrl">https://contoso.sharepoint.com</pnp:Parameter>
+      <pnp:Parameter Key="PiwikAdminServerRelativeUrl">/sites/PiwikAdmin</pnp:Parameter>
+      <pnp:Parameter Key="Owner">{currentuserloginname}</pnp:Parameter>
+    </pnp:Parameters>
+  </pnp:Preferences>
+  <pnp:Sequence ID="PiwikPRO">
+    <pnp:SiteCollections>
+      <pnp:SiteCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="pnp:TeamSiteNoGroup" ProvisioningId="PIWIK-ADMIN" Url="{parameter:SharePointUrl}{parameter:PiwikAdminServerRelativeUrl}" Owner="{parameter:Owner}" Language="1033" Title="Piwik PRO Admin" Description="" IsHubSite="false">
+        <pnp:Templates>
+          <pnp:ProvisioningTemplateReference ID="PIWIK-ADMIN-TEMPLATE" />
+        </pnp:Templates>
+      </pnp:SiteCollection>
+    </pnp:SiteCollections>
+  </pnp:Sequence>
+  <pnp:Templates ID="TEMPLATES">
+    <pnp:ProvisioningTemplate ID="PIWIK-ADMIN-TEMPLATE" Version="1" BaseSiteTemplate="STS#3" Scope="RootSite">
+      <pnp:WebSettings Title="Piwik PRO Administration" WelcomePage="SitePages/Home.aspx" SiteLogo="{site}/Style Library/Piwik_PRO.png" CommentsOnSitePagesDisabled="true" QuickLaunchEnabled="true" MembersCanShare="true" />
+      <pnp:PropertyBagEntries>
+        <pnp:PropertyBagEntry Key="piwik_enforcessl" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesenddepartment" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesenduserextendedinfo" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesendjobtitle" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesendoffice" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_templatesendusername" Value="true" Overwrite="false" />
+        <pnp:PropertyBagEntry Key="piwik_sha3" Value="false" Overwrite="false" />
+      </pnp:PropertyBagEntries>
+      <pnp:Security AssociatedOwnerGroup="{sitetitle} Owners" AssociatedMemberGroup="{sitetitle} Members" AssociatedVisitorGroup="{sitetitle} Visitors">
+        <pnp:AdditionalVisitors>
+          <pnp:User Name="c:0(.s|true" />
+        </pnp:AdditionalVisitors>
+        <pnp:Permissions>
+          <pnp:RoleDefinitions>
+            <pnp:RoleDefinition Name="Contribute Without Delete">
+              <pnp:Permissions>
+                <pnp:Permission>EmptyMask</pnp:Permission>
+                <pnp:Permission>ViewListItems</pnp:Permission>
+                <pnp:Permission>AddListItems</pnp:Permission>
+                <pnp:Permission>EditListItems</pnp:Permission>
+                <pnp:Permission>OpenItems</pnp:Permission>
+                <pnp:Permission>ViewVersions</pnp:Permission>
+                <pnp:Permission>ManagePersonalViews</pnp:Permission>
+                <pnp:Permission>ViewFormPages</pnp:Permission>
+                <pnp:Permission>Open</pnp:Permission>
+                <pnp:Permission>ViewPages</pnp:Permission>
+                <pnp:Permission>CreateSSCSite</pnp:Permission>
+                <pnp:Permission>BrowseDirectories</pnp:Permission>
+                <pnp:Permission>BrowseUserInfo</pnp:Permission>
+                <pnp:Permission>AddDelPrivateWebParts</pnp:Permission>
+                <pnp:Permission>UpdatePersonalWebParts</pnp:Permission>
+                <pnp:Permission>UseClientIntegration</pnp:Permission>
+                <pnp:Permission>UseRemoteAPIs</pnp:Permission>
+                <pnp:Permission>CreateAlerts</pnp:Permission>
+                <pnp:Permission>EditMyUserInfo</pnp:Permission>
+              </pnp:Permissions>
+            </pnp:RoleDefinition>
+          </pnp:RoleDefinitions>
+        </pnp:Permissions>
+      </pnp:Security>
+      <pnp:Lists>
+        <pnp:ListInstance Title="PiwikConfig" Description="" DocumentTemplate="" OnQuickLaunch="false" TemplateType="100" Url="Lists/PiwikConfig" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/PiwikConfig/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/PiwikConfig/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/PiwikConfig/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{1E49CC23-B6BB-401E-BC13-AD69F6482F95}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="{site}/Lists/PiwikConfig/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=47">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="LinkTitle" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="LinkTitle" />
+                <FieldRef Name="Value" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+          <pnp:Fields>
+            <Field Type="Text" DisplayName="Value" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" ID="{b9cd8ab0-89b1-4350-84c7-5d05b2555484}" SourceID="{{listid:PiwikConfig}}" StaticName="Value" Name="Value" ColName="nvarchar4" RowOrdinal="0" />
+          </pnp:Fields>
+          <pnp:Security>
+            <pnp:BreakRoleInheritance CopyRoleAssignments="false" ClearSubscopes="false">
+              <pnp:RoleAssignment Principal="{currentuserloginname}" RoleDefinition="{roledefinition:Admin}" />
+            </pnp:BreakRoleInheritance>
+          </pnp:Security>
+        </pnp:ListInstance>
+        <pnp:ListInstance Title="Piwik PRO Site Directory" Description="" DocumentTemplate="" OnQuickLaunch="true" TemplateType="100" Url="Lists/PiwikAdmin" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/PiwikAdmin/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/PiwikAdmin/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/PiwikAdmin/NewForm.aspx" ImageUrl="{site}/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{12CAF5C1-CF41-411C-9205-46D1F023233B}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="{site}/Lists/PiwikAdmin/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="{site}/_layouts/15/images/generic.png?rev=47">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="LinkTitle" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="LinkTitle" />
+                <FieldRef Name="pwk_status" />
+                <FieldRef Name="pwk_errormessage" />
+                <FieldRef Name="pwk_siteId" />
+                <FieldRef Name="pwk_auditlog" />
+                <FieldRef Name="pwk_url" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+          <pnp:Fields>
+            <Field Type="Choice" DisplayName="Status" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" ID="{7e9ba3e3-785d-48bc-bc06-9c2b2f2e9983}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_status" Name="pwk_status" ColName="nvarchar4" RowOrdinal="0">
+              <Default>New</Default>
+              <CHOICES>
+                <CHOICE>Active</CHOICE>
+                <CHOICE>No Active</CHOICE>
+                <CHOICE>New</CHOICE>
+                <CHOICE>Deactivating</CHOICE>
+                <CHOICE>Error</CHOICE>
+                <CHOICE>Settings updated</CHOICE>
+                <CHOICE>Deleted</CHOICE>
+              </CHOICES>
+            </Field>
+            <Field Type="Note" DisplayName="Error Message" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" NumLines="6" RichText="TRUE" RichTextMode="FullHtml" IsolateStyles="TRUE" Sortable="FALSE" ID="{83b35ab4-aa07-42ab-86f5-b05e0d5e85ea}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_errormessage" Name="pwk_errormessage" ColName="ntext2" RowOrdinal="0" />
+            <Field Type="Text" DisplayName="Piwik PRO Site ID" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" ID="{f2971660-f498-44df-b662-dc557881073a}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_siteId" Name="pwk_siteId" ColName="nvarchar6" RowOrdinal="0" />
+            <Field Type="Note" DisplayName="Audit Log" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" NumLines="6" RichText="TRUE" RichTextMode="FullHtml" IsolateStyles="TRUE" Sortable="FALSE" ID="{f8cb6c3c-e873-40c4-bcac-e7e6f83ff4fa}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_auditlog" Name="pwk_auditlog" ColName="ntext3" RowOrdinal="0" />
+            <Field Type="URL" DisplayName="Site Url" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Hyperlink" ID="{0c29fef4-ac80-4ecb-8369-db7046891a74}" SourceID="{{listid:Piwik Pro Site Directory}}" StaticName="pwk_url" Name="pwk_url" ColName="nvarchar5" RowOrdinal="0" ColName2="nvarchar7" RowOrdinal2="0" />
+          </pnp:Fields>
+          <pnp:Security>
+            <pnp:BreakRoleInheritance CopyRoleAssignments="false" ClearSubscopes="false">
+              <pnp:RoleAssignment Principal="{associatedownergroup}" RoleDefinition="Contribute Without Delete" />
+              <pnp:RoleAssignment Principal="{associatedmembergroup}" RoleDefinition="Contribute Without Delete" />
+            </pnp:BreakRoleInheritance>
+          </pnp:Security>
+        </pnp:ListInstance>
+      </pnp:Lists>
+      <pnp:Files>
+        <pnp:Directory Src="..\assets" Folder="Style Library" Overwrite="true" Level="Published" Recursive="true" />
+      </pnp:Files>
+      <pnp:ClientSidePages>
+        <pnp:ClientSidePage PromoteAsNewsArticle="false" PromoteAsTemplate="false" Overwrite="true" EnableComments="false" Title="Piwik PRO Administration" ThumbnailUrl="" PageName="Home.aspx">
+          <pnp:Header Type="Default" LayoutType="NoImage" TextAlignment="Center" ShowTopicHeader="false" ShowPublishDate="false" TopicHeader="" AlternativeText="" Authors="[]" AuthorByLine="[]" AuthorByLineId="-1" />
+          <pnp:Sections>
+            <pnp:Section Order="1" Type="OneColumn" />
+          </pnp:Sections>
+        </pnp:ClientSidePage>
+      </pnp:ClientSidePages>
+    </pnp:ProvisioningTemplate>
+    <pnp:ProvisioningTemplate ID="PIWIK-TENANT-WIDE" Version="1" Scope="RootSite">
+      <pnp:Lists>
+        <pnp:ListInstance Title="Tenant Wide Extensions" Description="List of extensions that are turned on across the tenant" DocumentTemplate="" TemplateType="337" Url="Lists/TenantWideExtensions" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="0ac11793-9c2f-4cac-8f22-33f93fac18f2" EnableAttachments="false" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/TenantWideExtensions/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/TenantWideExtensions/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/TenantWideExtensions/NewForm.aspx" ImageUrl="/_layouts/15/images/itdl.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:DataRows KeyColumn="Title" UpdateBehavior="Overwrite">
+            <pnp:DataRow>
+              <pnp:DataValue FieldName="Title">piwikpro-sharepoint-Tracking</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentId">2ff5e374-69cb-4645-9083-b6317019705b</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentProperties">{}</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionLocation">ClientSideExtension.ApplicationCustomizer</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionSequence">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionListTemplate">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionDisabled">false</pnp:DataValue>
+            </pnp:DataRow>
+            <pnp:DataRow>
+              <pnp:DataValue FieldName="Title">piwikpro-sharepoint-ListTracking-100</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentId">a0a0acea-cd3c-454b-9376-9cd0e98f5847</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentProperties">{}</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionLocation">ClientSideExtension.ListViewCommandSet</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionSequence">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionListTemplate">100</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionDisabled">false</pnp:DataValue>
+            </pnp:DataRow>
+            <pnp:DataRow>
+              <pnp:DataValue FieldName="Title">piwikpro-sharepoint-ListTracking-101</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentId">a0a0acea-cd3c-454b-9376-9cd0e98f5847</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentProperties">{}</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionLocation">ClientSideExtension.ListViewCommandSet</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionSequence">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionListTemplate">101</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionDisabled">false</pnp:DataValue>
+            </pnp:DataRow>
+            <pnp:DataRow>
+              <pnp:DataValue FieldName="Title">piwikpro-sharepoint-ListTracking-119</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentId">a0a0acea-cd3c-454b-9376-9cd0e98f5847</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionComponentProperties">{}</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionLocation">ClientSideExtension.ListViewCommandSet</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionSequence">0</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionListTemplate">119</pnp:DataValue>
+              <pnp:DataValue FieldName="TenantWideExtensionDisabled">false</pnp:DataValue>
+            </pnp:DataRow>
+          </pnp:DataRows>
+        </pnp:ListInstance>
+      </pnp:Lists>
+    </pnp:ProvisioningTemplate>
+  </pnp:Templates>
+</pnp:Provisioning>

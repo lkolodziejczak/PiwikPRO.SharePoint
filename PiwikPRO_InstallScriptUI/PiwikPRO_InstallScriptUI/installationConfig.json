@@ -1,0 +1,50 @@
+﻿{
+  "sharePointUrl": "https://lukaszsp.sharepoint.com/",
+  "useWebLogin": true,
+  "sharePointVersion": "Online",
+  "clientIdValue": "7VzT7CvAs9UFwDXTfEFhXsJHOPjFiVKM",
+  "clientSecretValue": "yaOAuNhEkD8sHC4F3gOzftaDZnD8nlwbpBR0Cc2xJjCLiUGb8Ciz7ljPy2C3mAlL0ObHgNwxdrwZPlui",
+  "serviceUrlValue": "https://kogifi.piwik.pro",
+  "containersUrlValue": "",
+  "sharePointTenantAdminUrl": "",
+  "additionalPiwikSiteCollAdmin": "asdfsf@dfsdfds.com",
+  "sharepointAdminLogin": "sdfdsfd@sdfds.com",
+  "cancelInstallation": true,
+  "constants": {
+    "piwikAdminServerRelativeUrl": "/sites/PiwikAdmin",
+    "filesSolutionFolder": ".\\solutions\\build\\",
+    "spfxPackagePath": ".\\solutions\\piwikpro-sharepoint.sppkg",
+    "spfxPackagePath2019": ".\\solutions\\piwikpro-sharepoint-local.sppkg",
+    "templatePath": ".\\templates\\PiwikPROTemplate.xml",
+    "tagManagerFolder": ".\\solutions\\"
+  },
+  "onlineParams": {
+    "useSiteScope": false,
+    "piwikSiteId": "",
+    "includeAzureInstallation": true,
+    "AzureTenant": "kogifi.com",
+    "AzureSubscription": "Microsoft Partner Network",
+    "AzureResourceGroupName": "PIWIK",
+    "AzureWebAppSuffix": "lukaszsp",
+    "AzureLocation": "westeurope",
+    "constantsOnline": {
+      "appCatalogUrl": "https://lukaszsp.sharepoint.com/sites/AppCatalog",
+      "piwikMetaSiteNameStored": "piwik_metasitenamestored",
+      "piwikIsTrackingActive": "piwik_istrackingactive",
+      "webJobVersion": "1.0.0.2"
+    }
+  },
+  "onPremParams": {
+    "activateFeatureStapplerOnDefault": true,
+    "activateTrackerOnOldConnectorSites": false,
+    "constantsOnPrem": {
+      "wspSolutionPath": "\\solutions\\",
+      "appCatalogUrl": "/sites/appcatalog",
+      "tenantAdminServerRelativeUrl": "/sites/tenantadmin",
+      "MywspName2013": "PiwikPRO.SharePoint.SP2013.wsp",
+      "MywspName2019": "PiwikPRO.SharePoint.SP2019.wsp",
+      "timerJobName": "Piwik PRO Job",
+      "webJobVersion": "1.0.0.2"
+    }
+  }
+}

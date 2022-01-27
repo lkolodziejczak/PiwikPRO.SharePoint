@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PiwikPROClientID" xml:space="preserve">
+    <value>A part of your API credentials. You can create it in Menu &gt; Profile &gt; API credentials.</value>
+  </data>
+  <data name="PiwikPROContainer" xml:space="preserve">
+    <value>Enter your Piwik PRO account address with containers added to the address.
+
+For standard domains: https://yourname.containers.piwik.pro
+For custom domains: https://yourname.piwik.pro/containers
+
+This address may be different for Piwik PRO on-premises or private cloud accounts. Contact us to get the right address.</value>
+  </data>
+  <data name="PiwikPROSecret" xml:space="preserve">
+    <value>A part of your API credentials. You can create it in Menu &gt; Profile &gt; API credentials.</value>
+  </data>
+  <data name="PiwikPROServiceUrl" xml:space="preserve">
+    <value>The address you use to log in to Piwik PRO. Example: https://yourname.piwik.pro</value>
+  </data>
+  <data name="SharepointURL_Online" xml:space="preserve">
+    <value>Example: https://contoso.sharepoint.com</value>
+  </data>
+  <data name="SharepointURL_OnPrem" xml:space="preserve">
+    <value>URL to your Sharepoint WebApplication
+Example: https://yoursharepointwebapp.com</value>
+  </data>
+  <data name="SPActivateStapplerFeature" xml:space="preserve">
+    <value>If you want to activate feature tracking of all newly created site collections,
+it activates only feature of tracker (which add custom action to settings menu
+which name “Piwik PRO") but not the tracking. Activation of tracking is inside "Piwik PRO" settings form.</value>
+  </data>
+  <data name="SPAdminLogin_Online" xml:space="preserve">
+    <value>A global admin account on your SharePoint tenant. 
+Example: admin@contoso.onmicrosoft.com</value>
+  </data>
+  <data name="SPAdminLogin_OnPrem" xml:space="preserve">
+    <value>A farm admin account. 
+Example: domain\username</value>
+  </data>
+  <data name="SPOnline_AzureLocation" xml:space="preserve">
+    <value>By default, the resource group is created in the West Europe region or inherits the existing location.
+You can use a custom location. Example: westeurope, uswest.</value>
+  </data>
+  <data name="SPOnline_AzureResourceGroup" xml:space="preserve">
+    <value>The name of a new or existing resource group.</value>
+  </data>
+  <data name="SPOnline_AzureSubscription" xml:space="preserve">
+    <value>Azure subscription name or resource group ID.</value>
+  </data>
+  <data name="SPOnline_AzureTenant" xml:space="preserve">
+    <value>Azure tenant name or resource group ID.</value>
+  </data>
+  <data name="SPOnline_AzureWebAppSuffix" xml:space="preserve">
+    <value>A suffix added to the web app name. Example: piwikpro&lt;webAppSuffix&gt;.
+The suffix needs to be globally unique in Microsoft Azure. You can use your company’s name. You can use letters and numbers.</value>
+  </data>
+  <data name="SPOnline_IncludeAzure" xml:space="preserve">
+    <value>For a standard installation, keep this option enabled. We'll install the WebJob on your Azure tenant. The WebJob connects Piwik PRO to SharePoint and registers new site collections that can be tracked.
+
+If this option is disabled, you'll need to register new site collections manually in Piwik PRO.</value>
+  </data>
+  <data name="SPOnline_PiwikPROSiteID" xml:space="preserve">
+    <value>It's a unique ID for each site or app in Piwik PRO. You can find it in Menu &gt; Administration &gt; Sites &amp; apps &gt; Pick a site or app. The ID is under the site or app name.</value>
+  </data>
+  <data name="SPOnline_UseSiteScope" xml:space="preserve">
+    <value>If checked, the SPFx package will be installed in the site collection app catalog
+(not in the tenant app catalog) and available only for the site collection specified in SharePointUrl.
+To install more site collections, rerun this script with a different SharePointUrl.</value>
+  </data>
+  <data name="SPOnline_UseWebLogin" xml:space="preserve">
+    <value>Keep it checked if you use multi-factor authentication for your SharePoint account.</value>
+  </data>
+  <data name="SPSecondAdminLogin_Online" xml:space="preserve">
+    <value>Optional - secondary admin account, will be added to sitecollection administrators in newly created PiwikAdmin site.
+This admin will be able to access the form of configuration Piwik PRO Sharepoint connector.
+f.e. admin2@contoso.onmicrosoft.com</value>
+  </data>
+  <data name="SPSecondAdminLogin_OnPrem" xml:space="preserve">
+    <value>Optional - secondary admin account, will be added to sitecollection administrators in newly created PiwikAdmin site.
+This admin will be able to access the form of configuration Piwik PRO Sharepoint connector.
+in format: domain\username</value>
+  </data>
+</root>
