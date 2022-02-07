@@ -590,7 +590,7 @@ Try
         $spSite = New-Object Microsoft.SharePoint.SPSite($piwikAdminUrl)
         $spWeb = $spSite.OpenWeb()
 		
-            Copy-Item -Path "$($config.constants.filesSolutionFolder)PROD_OnPrem\" -Destination "$($config.constants.filesSolutionFolder)PROD\" -Recurse -force
+            #Copy-Item -Path "$($config.constants.filesSolutionFolder)PROD_OnPrem\" -Destination "$($config.constants.filesSolutionFolder)PROD\" -Recurse -force
         
         if ($config.sharePointVersion -eq '2013') {
             Copy-Item -Path "$($config.constants.filesSolutionFolder)PROD\piwik-config-onprem-2013.json" -Destination "$($config.constants.filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
@@ -610,6 +610,7 @@ Try
         try {
 		$MywspName = $config.onPremParams.constantsOnPrem.MywspName2013
 			if ($config.sharePointVersion -eq '2019') {
+				Add-Log -Level "INFO" -Message "Adding package for SP2019";
 				$MywspName = $config.onPremParams.constantsOnPrem.MywspName2019
 			}
 
