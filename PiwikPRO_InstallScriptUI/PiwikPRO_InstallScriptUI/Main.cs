@@ -119,6 +119,7 @@ namespace PiwikPRO_InstallScriptUI
         {
             if(chk_SPO_IncludeAzure.Checked)
             {
+                grp_AzurePart.Visible = true;
                 lbl_AzureLocation.Visible = true;
                 lbl_AzureResourceGroup.Visible = true;
                 lbl_AzureSubscription.Visible = true;
@@ -142,6 +143,7 @@ namespace PiwikPRO_InstallScriptUI
             }
             else
             {
+                grp_AzurePart.Visible = false;
                 lbl_AzureLocation.Visible = false;
                 lbl_AzureResourceGroup.Visible = false;
                 lbl_AzureSubscription.Visible = false;
