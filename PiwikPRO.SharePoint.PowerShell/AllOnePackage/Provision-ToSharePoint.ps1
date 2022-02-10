@@ -279,6 +279,7 @@ Try
         # Connect
         Add-Log -Level "INFO" -Message "Connecting to SharePoint Tenant and configuring..."
 			$ScriptPath = $PSScriptRoot + '\_AdditionalScript_ManageTenant.ps1'
+			$ScriptPath = $ScriptPath.replace(' ','` ')
 			$procTenant = (Start-Process powershell.exe "$ScriptPath -sharePointTenantAdminUrl $sharePointTenantAdminUrl" -PassThru)
 			$procTenant | Wait-Process 
         
@@ -299,6 +300,7 @@ Try
 			$appCatalogUrl = $config.onlineParams.constantsOnline.appCatalogUrl
 			Add-Log -Level "INFO" -Message "Connecting to Tenant App Catalog, adding app and configuring..."
 			$ScriptPath = $PSScriptRoot + '\_AdditionalScript_ManageAppCatalog.ps1'
+			$ScriptPath = $ScriptPath.replace(' ','` ')
 			$procAppCatalog = (Start-Process powershell.exe "$ScriptPath -appCatalogUrl $appCatalogUrl -sharePointTenantAdminUrl $sharePointTenantAdminUrl -piwikAdminUrl $piwikAdminUrl" -PassThru)
 			$procAppCatalog | Wait-Process
         }
@@ -308,6 +310,7 @@ Try
         Start-Sleep -s 1
 
 		$ScriptPathPiwikAdmin = $PSScriptRoot + '\_AdditionalScript_PiwikAdminConfiguration.ps1'
+		$ScriptPathPiwikAdmin = $ScriptPathPiwikAdmin.replace(' ','` ')
 		$procPA = (Start-Process powershell.exe "$ScriptPathPiwikAdmin -sharePointTenantAdminUrl $sharePointTenantAdminUrl -piwikAdminUrl $piwikAdminUrl" -PassThru)
 		$procPA | Wait-Process
 		
@@ -315,6 +318,7 @@ Try
 		{
 			Add-Log -Level "INFO" -Message "Running Azure resources installation..."
 			$ScriptPathAzureScript = $PSScriptRoot + '\Create-AzureResources.ps1'
+			$ScriptPathAzureScript = $ScriptPathAzureScript.replace(' ','` ')
 			$AzureTenant = $config.onlineParams.AzureTenant
 			$AzureSubscription = $config.onlineParams.AzureSubscription
 			$AzureResourceGroupName = $config.onlineParams.AzureResourceGroupName
