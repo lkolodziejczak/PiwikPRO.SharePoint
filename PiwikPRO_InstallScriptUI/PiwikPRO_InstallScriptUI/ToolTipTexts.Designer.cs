@@ -210,7 +210,7 @@ namespace PiwikPRO_InstallScriptUI {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This option could be disabled if you want to install only Azure part and there is already installed Piwik PRO connector on your Sharepoint tenant..
+        ///   Looks up a localized string similar to This option could be disabled if you want to install only Azure part and there is already installed Piwik PRO connector on your SharePoint tenant..
         /// </summary>
         internal static string SPOnline_IncludeSP {
             get {

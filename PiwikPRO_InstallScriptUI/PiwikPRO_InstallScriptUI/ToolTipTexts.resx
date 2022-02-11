@@ -177,7 +177,7 @@ The suffix needs to be globally unique in Microsoft Azure. You can use your comp
 If this option is disabled, you'll need to register new site collections manually in Piwik PRO.</value>
   </data>
   <data name="SPOnline_IncludeSP" xml:space="preserve">
-    <value>This option could be disabled if you want to install only Azure part and there is already installed Piwik PRO connector on your Sharepoint tenant.</value>
+    <value>This option could be disabled if you want to install only Azure part and there is already installed Piwik PRO connector on your SharePoint tenant.</value>
   </data>
   <data name="SPOnline_PiwikPROSiteID" xml:space="preserve">
     <value>It's a unique ID for each site or app in Piwik PRO. You can find it in Menu &gt; Administration &gt; Sites &amp; apps &gt; Pick a site or app. The ID is under the site or app name.</value>

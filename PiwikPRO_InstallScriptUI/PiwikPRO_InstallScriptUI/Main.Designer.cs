@@ -253,9 +253,9 @@
             this.chk_SPO_IncludeSP.AutoSize = true;
             this.chk_SPO_IncludeSP.Location = new System.Drawing.Point(15, 49);
             this.chk_SPO_IncludeSP.Name = "chk_SPO_IncludeSP";
-            this.chk_SPO_IncludeSP.Size = new System.Drawing.Size(115, 17);
+            this.chk_SPO_IncludeSP.Size = new System.Drawing.Size(116, 17);
             this.chk_SPO_IncludeSP.TabIndex = 31;
-            this.chk_SPO_IncludeSP.Text = "Include Sharepoint";
+            this.chk_SPO_IncludeSP.Text = "Include SharePoint";
             this.chk_SPO_IncludeSP.UseVisualStyleBackColor = true;
             this.chk_SPO_IncludeSP.CheckedChanged += new System.EventHandler(this.chk_SPO_IncludeSP_CheckedChanged);
             // 
@@ -1065,7 +1065,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 704);
+            this.ClientSize = new System.Drawing.Size(543, 704);
             this.Controls.Add(this.grp_PiwikPRO);
             this.Controls.Add(this.btn_TestLoadCFG);
             this.Controls.Add(this.pct_PiwikLogo);
