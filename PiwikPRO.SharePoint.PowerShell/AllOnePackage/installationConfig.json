@@ -22,6 +22,7 @@
     "useSiteScope": false,
     "piwikSiteId": "",
     "includeAzureInstallation": true,
+	"includeSharepointInstall": true,
     "AzureTenant": "yourazuretenant.com",
     "AzureSubscription": "Microsoft Partner Network",
     "AzureResourceGroupName": "piwik",

@@ -276,43 +276,46 @@ Try
         Add-Log -Level "INFO" -Message "Checking and installing SharePointPnPPowerShell module"
         Get-SharePointPnPPowerShell -SharePointVersion $config.sharePointVersion
 		Start-Sleep -s 1
+		if ($config.onlineParams.includeSharepointInstall -eq $true) {
         # Connect
-        Add-Log -Level "INFO" -Message "Connecting to SharePoint Tenant and configuring..."
-			$ScriptPath = $PSScriptRoot + '\_AdditionalScript_ManageTenant.ps1'
-			$ScriptPath = $ScriptPath.replace(' ','` ')
-			$procTenant = (Start-Process powershell.exe "$ScriptPath -sharePointTenantAdminUrl $sharePointTenantAdminUrl" -PassThru)
-			$procTenant | Wait-Process 
-        
-        # If not site scope connect to app catalog
-        if (!$config.onlineParams.useSiteScope) {
-			 # Get json config file
-			Add-Log -Level "INFO" -Message "Loading again configuration file"
-			$isAbleToLoadConfigFile = Get-Config -JsonConfigFileName $configFileName
-			if($isAbleToLoadConfigFile -eq $false)
-			{
-				Add-Log -Level "ERROR" -Message "Error when loading configuration file -> exit"
-				exit
-			}
-			Add-Log -Level "INFO" -Message "Configuration file loaded"
-			$config = $global:JsonConfig
+			Add-Log -Level "INFO" -Message "Connecting to SharePoint Tenant and configuring..."
+				$ScriptPath = $PSScriptRoot + '\_AdditionalScript_ManageTenant.ps1'
+				$ScriptPath = $ScriptPath.replace(' ','` ')
+				$procTenant = (Start-Process powershell.exe "$ScriptPath -sharePointTenantAdminUrl $sharePointTenantAdminUrl" -PassThru)
+				$procTenant | Wait-Process 
 			
+			# If not site scope connect to app catalog
+			if (!$config.onlineParams.useSiteScope) {
+				 # Get json config file
+				Add-Log -Level "INFO" -Message "Loading again configuration file"
+				$isAbleToLoadConfigFile = Get-Config -JsonConfigFileName $configFileName
+				if($isAbleToLoadConfigFile -eq $false)
+				{
+					Add-Log -Level "ERROR" -Message "Error when loading configuration file -> exit"
+					exit
+				}
+				Add-Log -Level "INFO" -Message "Configuration file loaded"
+				$config = $global:JsonConfig
+				
+				Start-Sleep -s 1
+				$appCatalogUrl = $config.onlineParams.constantsOnline.appCatalogUrl
+				Add-Log -Level "INFO" -Message "Connecting to Tenant App Catalog, adding app and configuring..."
+				$ScriptPath = $PSScriptRoot + '\_AdditionalScript_ManageAppCatalog.ps1'
+				$ScriptPath = $ScriptPath.replace(' ','` ')
+				Add-Log -Level "INFO" -Message $ScriptPath
+				$procAppCatalog = (Start-Process powershell.exe "$ScriptPath -appCatalogUrl $appCatalogUrl -sharePointTenantAdminUrl $sharePointTenantAdminUrl -piwikAdminUrl $piwikAdminUrl" -PassThru)
+				$procAppCatalog | Wait-Process
+			}
+
+			# Apply piwik admin template
+			Add-Log -Level "INFO" -Message "Connecting to Piwik PRO Administration site and configuring"
 			Start-Sleep -s 1
-			$appCatalogUrl = $config.onlineParams.constantsOnline.appCatalogUrl
-			Add-Log -Level "INFO" -Message "Connecting to Tenant App Catalog, adding app and configuring..."
-			$ScriptPath = $PSScriptRoot + '\_AdditionalScript_ManageAppCatalog.ps1'
-			$ScriptPath = $ScriptPath.replace(' ','` ')
-			$procAppCatalog = (Start-Process powershell.exe "$ScriptPath -appCatalogUrl $appCatalogUrl -sharePointTenantAdminUrl $sharePointTenantAdminUrl -piwikAdminUrl $piwikAdminUrl" -PassThru)
-			$procAppCatalog | Wait-Process
-        }
 
-        # Apply piwik admin template
-        Add-Log -Level "INFO" -Message "Connecting to Piwik PRO Administration site and configuring"
-        Start-Sleep -s 1
-
-		$ScriptPathPiwikAdmin = $PSScriptRoot + '\_AdditionalScript_PiwikAdminConfiguration.ps1'
-		$ScriptPathPiwikAdmin = $ScriptPathPiwikAdmin.replace(' ','` ')
-		$procPA = (Start-Process powershell.exe "$ScriptPathPiwikAdmin -sharePointTenantAdminUrl $sharePointTenantAdminUrl -piwikAdminUrl $piwikAdminUrl" -PassThru)
-		$procPA | Wait-Process
+			$ScriptPathPiwikAdmin = $PSScriptRoot + '\_AdditionalScript_PiwikAdminConfiguration.ps1'
+			$ScriptPathPiwikAdmin = $ScriptPathPiwikAdmin.replace(' ','` ')
+			$procPA = (Start-Process powershell.exe "$ScriptPathPiwikAdmin -sharePointTenantAdminUrl $sharePointTenantAdminUrl -piwikAdminUrl $piwikAdminUrl" -PassThru)
+			$procPA | Wait-Process
+		}
 		
 		if($config.onlineParams.includeAzureInstallation -eq $true)
 		{
