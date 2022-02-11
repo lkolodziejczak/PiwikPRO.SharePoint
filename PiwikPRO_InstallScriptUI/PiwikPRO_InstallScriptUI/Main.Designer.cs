@@ -39,6 +39,8 @@
             this.pct_SPOnPremActivateFeatureStappler = new System.Windows.Forms.PictureBox();
             this.chk_SPOnPremActivateFeatureStappler = new System.Windows.Forms.CheckBox();
             this.grp_SPOnline = new System.Windows.Forms.GroupBox();
+            this.pct_SPO_IncludeSP = new System.Windows.Forms.PictureBox();
+            this.chk_SPO_IncludeSP = new System.Windows.Forms.CheckBox();
             this.grp_AzurePart = new System.Windows.Forms.GroupBox();
             this.cmb_SPO_AzureLocation = new System.Windows.Forms.ComboBox();
             this.lbl_AzureTenant = new System.Windows.Forms.Label();
@@ -102,10 +104,11 @@
             this.toolTip_Piwik = new System.Windows.Forms.ToolTip(this.components);
             this.pct_PiwikLogo = new System.Windows.Forms.PictureBox();
             this.btn_TestLoadCFG = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grp_PiwikPRO = new System.Windows.Forms.GroupBox();
             this.grp_SPOnPrem.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPOnPremActivateFeatureStappler)).BeginInit();
             this.grp_SPOnline.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_SPO_IncludeSP)).BeginInit();
             this.grp_AzurePart.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPO_AzureLocation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPO_AzureWebAppSuffix)).BeginInit();
@@ -126,13 +129,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pct_PiwikPROClientID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pct_PiwikPROServiceUrl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pct_PiwikLogo)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.grp_PiwikPRO.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_Start
             // 
             this.btn_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Start.Location = new System.Drawing.Point(4, 633);
+            this.btn_Start.Location = new System.Drawing.Point(4, 674);
             this.btn_Start.Name = "btn_Start";
             this.btn_Start.Size = new System.Drawing.Size(197, 23);
             this.btn_Start.TabIndex = 0;
@@ -143,7 +146,7 @@
             // btn_Save
             // 
             this.btn_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Save.Location = new System.Drawing.Point(211, 633);
+            this.btn_Save.Location = new System.Drawing.Point(211, 674);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(80, 23);
             this.btn_Save.TabIndex = 1;
@@ -153,7 +156,7 @@
             // 
             // btn_Cancel
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(415, 633);
+            this.btn_Cancel.Location = new System.Drawing.Point(415, 674);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(122, 23);
             this.btn_Cancel.TabIndex = 2;
@@ -219,6 +222,8 @@
             // 
             // grp_SPOnline
             // 
+            this.grp_SPOnline.Controls.Add(this.pct_SPO_IncludeSP);
+            this.grp_SPOnline.Controls.Add(this.chk_SPO_IncludeSP);
             this.grp_SPOnline.Controls.Add(this.grp_AzurePart);
             this.grp_SPOnline.Controls.Add(this.pct_SPO_IncludeAzure);
             this.grp_SPOnline.Controls.Add(this.pct_SPO_UseWebLogin);
@@ -227,10 +232,32 @@
             this.grp_SPOnline.Controls.Add(this.chk_SPO_UseWebLogin);
             this.grp_SPOnline.Location = new System.Drawing.Point(550, 36);
             this.grp_SPOnline.Name = "grp_SPOnline";
-            this.grp_SPOnline.Size = new System.Drawing.Size(521, 315);
+            this.grp_SPOnline.Size = new System.Drawing.Size(521, 342);
             this.grp_SPOnline.TabIndex = 6;
             this.grp_SPOnline.TabStop = false;
             this.grp_SPOnline.Text = "SharePoint Online";
+            // 
+            // pct_SPO_IncludeSP
+            // 
+            this.pct_SPO_IncludeSP.Image = ((System.Drawing.Image)(resources.GetObject("pct_SPO_IncludeSP.Image")));
+            this.pct_SPO_IncludeSP.Location = new System.Drawing.Point(130, 49);
+            this.pct_SPO_IncludeSP.Name = "pct_SPO_IncludeSP";
+            this.pct_SPO_IncludeSP.Size = new System.Drawing.Size(19, 19);
+            this.pct_SPO_IncludeSP.TabIndex = 32;
+            this.pct_SPO_IncludeSP.TabStop = false;
+            this.pct_SPO_IncludeSP.Click += new System.EventHandler(this.pct_SPO_IncludeSP_Click);
+            this.pct_SPO_IncludeSP.MouseHover += new System.EventHandler(this.pct_SPO_IncludeSP_Click);
+            // 
+            // chk_SPO_IncludeSP
+            // 
+            this.chk_SPO_IncludeSP.AutoSize = true;
+            this.chk_SPO_IncludeSP.Location = new System.Drawing.Point(15, 49);
+            this.chk_SPO_IncludeSP.Name = "chk_SPO_IncludeSP";
+            this.chk_SPO_IncludeSP.Size = new System.Drawing.Size(115, 17);
+            this.chk_SPO_IncludeSP.TabIndex = 31;
+            this.chk_SPO_IncludeSP.Text = "Include Sharepoint";
+            this.chk_SPO_IncludeSP.UseVisualStyleBackColor = true;
+            this.chk_SPO_IncludeSP.CheckedChanged += new System.EventHandler(this.chk_SPO_IncludeSP_CheckedChanged);
             // 
             // grp_AzurePart
             // 
@@ -253,7 +280,7 @@
             this.grp_AzurePart.Controls.Add(this.lbl_Azure3);
             this.grp_AzurePart.Controls.Add(this.lbl_Azure1);
             this.grp_AzurePart.Controls.Add(this.lbl_Azure2);
-            this.grp_AzurePart.Location = new System.Drawing.Point(6, 73);
+            this.grp_AzurePart.Location = new System.Drawing.Point(6, 99);
             this.grp_AzurePart.Name = "grp_AzurePart";
             this.grp_AzurePart.Size = new System.Drawing.Size(513, 150);
             this.grp_AzurePart.TabIndex = 13;
@@ -582,7 +609,7 @@
             // pct_SPO_IncludeAzure
             // 
             this.pct_SPO_IncludeAzure.Image = ((System.Drawing.Image)(resources.GetObject("pct_SPO_IncludeAzure.Image")));
-            this.pct_SPO_IncludeAzure.Location = new System.Drawing.Point(111, 47);
+            this.pct_SPO_IncludeAzure.Location = new System.Drawing.Point(111, 73);
             this.pct_SPO_IncludeAzure.Name = "pct_SPO_IncludeAzure";
             this.pct_SPO_IncludeAzure.Size = new System.Drawing.Size(19, 19);
             this.pct_SPO_IncludeAzure.TabIndex = 30;
@@ -609,7 +636,7 @@
             this.grp_SPO_Advanced.Controls.Add(this.txt_SPO_PiwikPROSiteId);
             this.grp_SPO_Advanced.Controls.Add(this.chk_SPO_UseSiteScope);
             this.grp_SPO_Advanced.Controls.Add(this.lbl_SPOnlinePiwikPROSiteId);
-            this.grp_SPO_Advanced.Location = new System.Drawing.Point(2, 232);
+            this.grp_SPO_Advanced.Location = new System.Drawing.Point(2, 258);
             this.grp_SPO_Advanced.Name = "grp_SPO_Advanced";
             this.grp_SPO_Advanced.Size = new System.Drawing.Size(517, 77);
             this.grp_SPO_Advanced.TabIndex = 21;
@@ -679,7 +706,7 @@
             // chk_SPO_IncludeAzure
             // 
             this.chk_SPO_IncludeAzure.AutoSize = true;
-            this.chk_SPO_IncludeAzure.Location = new System.Drawing.Point(15, 47);
+            this.chk_SPO_IncludeAzure.Location = new System.Drawing.Point(15, 73);
             this.chk_SPO_IncludeAzure.Name = "chk_SPO_IncludeAzure";
             this.chk_SPO_IncludeAzure.Size = new System.Drawing.Size(91, 17);
             this.chk_SPO_IncludeAzure.TabIndex = 2;
@@ -968,7 +995,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.Red;
-            this.label7.Location = new System.Drawing.Point(319, 637);
+            this.label7.Location = new System.Drawing.Point(319, 678);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(14, 16);
             this.label7.TabIndex = 8;
@@ -977,7 +1004,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(330, 638);
+            this.label8.Location = new System.Drawing.Point(330, 679);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 13);
             this.label8.TabIndex = 9;
@@ -1010,36 +1037,36 @@
             this.btn_TestLoadCFG.Visible = false;
             this.btn_TestLoadCFG.Click += new System.EventHandler(this.btn_TestLoadCFG_Click);
             // 
-            // groupBox1
+            // grp_PiwikPRO
             // 
-            this.groupBox1.Controls.Add(this.pct_PiwikPROContainers);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.pct_PiwikPROSecret);
-            this.groupBox1.Controls.Add(this.txt_PiwikServiceUrl);
-            this.groupBox1.Controls.Add(this.pct_PiwikPROClientID);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.pct_PiwikPROServiceUrl);
-            this.groupBox1.Controls.Add(this.txt_PiwikClientID);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.txt_PiwikSecret);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.txt_PiwikContainers);
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Location = new System.Drawing.Point(15, 193);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(522, 124);
-            this.groupBox1.TabIndex = 12;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Piwik PRO";
+            this.grp_PiwikPRO.Controls.Add(this.pct_PiwikPROContainers);
+            this.grp_PiwikPRO.Controls.Add(this.label10);
+            this.grp_PiwikPRO.Controls.Add(this.pct_PiwikPROSecret);
+            this.grp_PiwikPRO.Controls.Add(this.txt_PiwikServiceUrl);
+            this.grp_PiwikPRO.Controls.Add(this.pct_PiwikPROClientID);
+            this.grp_PiwikPRO.Controls.Add(this.label9);
+            this.grp_PiwikPRO.Controls.Add(this.pct_PiwikPROServiceUrl);
+            this.grp_PiwikPRO.Controls.Add(this.txt_PiwikClientID);
+            this.grp_PiwikPRO.Controls.Add(this.label12);
+            this.grp_PiwikPRO.Controls.Add(this.label11);
+            this.grp_PiwikPRO.Controls.Add(this.txt_PiwikSecret);
+            this.grp_PiwikPRO.Controls.Add(this.label16);
+            this.grp_PiwikPRO.Controls.Add(this.label14);
+            this.grp_PiwikPRO.Controls.Add(this.txt_PiwikContainers);
+            this.grp_PiwikPRO.Controls.Add(this.label13);
+            this.grp_PiwikPRO.Location = new System.Drawing.Point(15, 193);
+            this.grp_PiwikPRO.Name = "grp_PiwikPRO";
+            this.grp_PiwikPRO.Size = new System.Drawing.Size(522, 124);
+            this.grp_PiwikPRO.TabIndex = 12;
+            this.grp_PiwikPRO.TabStop = false;
+            this.grp_PiwikPRO.Text = "Piwik PRO";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 662);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(544, 704);
+            this.Controls.Add(this.grp_PiwikPRO);
             this.Controls.Add(this.btn_TestLoadCFG);
             this.Controls.Add(this.pct_PiwikLogo);
             this.Controls.Add(this.label8);
@@ -1060,6 +1087,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPOnPremActivateFeatureStappler)).EndInit();
             this.grp_SPOnline.ResumeLayout(false);
             this.grp_SPOnline.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_SPO_IncludeSP)).EndInit();
             this.grp_AzurePart.ResumeLayout(false);
             this.grp_AzurePart.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPO_AzureLocation)).EndInit();
@@ -1083,8 +1111,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pct_PiwikPROClientID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pct_PiwikPROServiceUrl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pct_PiwikLogo)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.grp_PiwikPRO.ResumeLayout(false);
+            this.grp_PiwikPRO.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1163,8 +1191,10 @@
         private System.Windows.Forms.PictureBox pct_PiwikLogo;
         private System.Windows.Forms.Button btn_TestLoadCFG;
         private System.Windows.Forms.ComboBox cmb_SPO_AzureLocation;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grp_PiwikPRO;
         private System.Windows.Forms.GroupBox grp_AzurePart;
+        private System.Windows.Forms.PictureBox pct_SPO_IncludeSP;
+        private System.Windows.Forms.CheckBox chk_SPO_IncludeSP;
     }
 }
 

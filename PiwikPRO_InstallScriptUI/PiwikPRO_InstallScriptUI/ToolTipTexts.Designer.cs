@@ -210,6 +210,15 @@ namespace PiwikPRO_InstallScriptUI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This option could be disabled if you want to install only Azure part and there is already installed Piwik PRO connector on your Sharepoint tenant..
+        /// </summary>
+        internal static string SPOnline_IncludeSP {
+            get {
+                return ResourceManager.GetString("SPOnline_IncludeSP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It&apos;s a unique ID for each site or app in Piwik PRO. You can find it in Menu &gt; Administration &gt; Sites &amp; apps &gt; Pick a site or app. The ID is under the site or app name..
         /// </summary>
         internal static string SPOnline_PiwikPROSiteID {

@@ -104,6 +104,7 @@ namespace PiwikPRO_InstallScriptUI
 
             jsonObj.useWebLogin = (bool)chk_SPO_UseWebLogin.Checked;
             jsonObj.onlineParams.includeAzureInstallation = (bool)chk_SPO_IncludeAzure.Checked;
+            jsonObj.onlineParams.includeSharepointInstall = (bool)chk_SPO_IncludeSP.Checked;
             jsonObj.onlineParams.useSiteScope = (bool)chk_SPO_UseSiteScope.Checked;
             jsonObj.onlineParams.AzureTenant = txt_SPO_AzureTenant.Text.Trim();
             jsonObj.onlineParams.AzureSubscription = txt_SPO_AzureSubscription.Text.Trim();
@@ -160,6 +161,7 @@ namespace PiwikPRO_InstallScriptUI
 
             chk_SPO_UseWebLogin.Checked = (bool)jsonObj.useWebLogin;
             chk_SPO_IncludeAzure.Checked = (bool)jsonObj.onlineParams.includeAzureInstallation;
+            chk_SPO_IncludeSP.Checked = (bool)jsonObj.onlineParams.includeSharepointInstall;
             chk_SPO_UseSiteScope.Checked = (bool)jsonObj.onlineParams.useSiteScope;
             txt_SPO_AzureTenant.Text = jsonObj.onlineParams.AzureTenant;
             txt_SPO_AzureSubscription.Text = jsonObj.onlineParams.AzureSubscription;
@@ -195,6 +197,7 @@ namespace PiwikPRO_InstallScriptUI
         public bool useSiteScope { get; set; }
         public string piwikSiteId { get; set; }
         public bool includeAzureInstallation { get; set; }
+        public bool includeSharepointInstall { get; set; }
         public string AzureTenant { get; set; }
         public string AzureSubscription { get; set; }
         public string AzureResourceGroupName { get; set; }

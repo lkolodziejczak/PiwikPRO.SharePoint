@@ -79,6 +79,21 @@ namespace PiwikPRO_InstallScriptUI
                 grp_SPOnline.Visible = false;
                 grp_SPOnPrem.Visible = true;
             }
+            if (Convert.ToString(cmb_SPVersion.SelectedItem).Contains("Online"))
+            {
+                if (chk_SPO_IncludeSP.Checked)
+                {
+                    grp_Global.Enabled = true;
+                    grp_SPO_Advanced.Enabled = true;
+                    grp_PiwikPRO.Enabled = true;
+                }
+                else
+                {
+                    grp_Global.Enabled = false;
+                    grp_SPO_Advanced.Enabled = false;
+                    grp_PiwikPRO.Enabled = false;
+                }
+            }
         }
 
         private void cmb_SPVersion_KeyPress(object sender, KeyPressEventArgs e)
@@ -176,6 +191,7 @@ namespace PiwikPRO_InstallScriptUI
             }
             else
             {
+                chk_SPO_IncludeSP.Checked = true;
                 grp_SPOnline.Visible = false;
                 grp_SPOnPrem.Visible = true;
                 spVersion = "OnPrem";
@@ -231,7 +247,10 @@ namespace PiwikPRO_InstallScriptUI
         {
             toolTip_Piwik.Show(rm.GetString("SPOnline_IncludeAzure"), (PictureBox)sender);
         }
-
+        private void pct_SPO_IncludeSP_Click(object sender, EventArgs e)
+        {
+            toolTip_Piwik.Show(rm.GetString("SPOnline_IncludeSP"), (PictureBox)sender);
+        }
         private void pct_SPO_AzureTenant_Click(object sender, EventArgs e)
         {
             toolTip_Piwik.Show(rm.GetString("SPOnline_AzureTenant"), (PictureBox)sender);
@@ -275,6 +294,22 @@ namespace PiwikPRO_InstallScriptUI
         private void cmb_SPO_AzureLocation_KeyPress(object sender, KeyPressEventArgs e)
         {
             //e.Handled = true;
+        }
+
+        private void chk_SPO_IncludeSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_SPO_IncludeSP.Checked)
+            {
+                grp_Global.Enabled = true;
+                grp_SPO_Advanced.Enabled = true;
+                grp_PiwikPRO.Enabled = true;
+            }
+            else
+            {
+                grp_Global.Enabled = false;
+                grp_SPO_Advanced.Enabled = false;
+                grp_PiwikPRO.Enabled = false;
+            }
         }
     }
 }
