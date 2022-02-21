@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiwikPROSitesActivator", "PiwikPROSitesActivator\PiwikPROSitesActivator.csproj", "{20B80354-4CB9-4A52-8C2A-99C60D455CA1}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PiwikPROSitesActivator.Shared", "PiwikPROSitesActivator.Shared\PiwikPROSitesActivator.Shared.shproj", "{E3C01EE0-32E3-4F66-B2AB-8DF5887C70F1}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PiwikPROSitesActivator.Shared\PiwikPROSitesActivator.Shared.projitems*{20b80354-4cb9-4a52-8c2a-99c60d455ca1}*SharedItemsImports = 4
+		PiwikPROSitesActivator.Shared\PiwikPROSitesActivator.Shared.projitems*{e3c01ee0-32e3-4f66-b2ab-8df5887c70f1}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20B80354-4CB9-4A52-8C2A-99C60D455CA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20B80354-4CB9-4A52-8C2A-99C60D455CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20B80354-4CB9-4A52-8C2A-99C60D455CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20B80354-4CB9-4A52-8C2A-99C60D455CA1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12EBB49E-2759-4C5C-8A61-4A24E484FA69}
+	EndGlobalSection
+EndGlobal

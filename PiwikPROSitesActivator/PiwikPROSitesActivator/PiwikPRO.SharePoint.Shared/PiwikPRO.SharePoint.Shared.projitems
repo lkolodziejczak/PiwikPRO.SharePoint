@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>652231a1-4230-40b7-87d6-67c51cae964b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>PiwikPRO.SharePoint.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ProcessPiwikSitesCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigValues.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\PiwikPROJobOperations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ISPLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ListProcessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\PropertyBagEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\PiwikPROServiceOperations.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Entities\" />
+  </ItemGroup>
+</Project>
