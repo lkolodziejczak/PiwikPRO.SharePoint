@@ -39,13 +39,13 @@ namespace PiwikPROSitesActivator
                 }
                 if (keyClick.Key == ConsoleKey.N)
                 {
-                    Logger.WriteLine("\nPlease put url to the Sharepoint site");
+                    Logger.WriteLine("\nPlease put url to your SharePoint root site (in format: https://contoso.sharepoint.com/)");
                     urlSite = Console.ReadLine();
                 }
             }
             else
             {
-                Logger.WriteLine("\nPlease put url to the Sharepoint site");
+                Logger.WriteLine("\nPlease put url to your SharePoint root site (in format: https://contoso.sharepoint.com/)");
                 urlSite = Console.ReadLine();
             }
 
