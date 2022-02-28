@@ -29,7 +29,7 @@
     "AzureWebAppSuffix": "piwik",
     "AzureLocation": "westeurope",
     "constantsOnline": {
-      "appCatalogUrl": "https://lukaszsp.sharepoint.com/sites/AppCatalog",
+      "appCatalogUrl": "",
       "piwikMetaSiteNameStored": "piwik_metasitenamestored",
       "piwikIsTrackingActive": "piwik_istrackingactive",
       "webJobVersion": "1.0.0.2"

@@ -479,7 +479,7 @@ Try
         Add-Log -Level "INFO" -Message "Adding possibility to upload JSON";
         EnableJSONLight
 
-        $WebApp = Get-SPWebApplication $SharePointUrl
+        $WebApp = Get-SPWebApplication $config.sharePointUrl
         $Extensions = $WebApp.BlockedFileExtensions
         try {
             $Ext = $Extensions.Remove("json")
