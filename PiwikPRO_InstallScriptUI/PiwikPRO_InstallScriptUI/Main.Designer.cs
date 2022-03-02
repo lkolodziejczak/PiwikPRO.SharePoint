@@ -1065,7 +1065,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 704);
+            this.ClientSize = new System.Drawing.Size(542, 704);
             this.Controls.Add(this.grp_PiwikPRO);
             this.Controls.Add(this.btn_TestLoadCFG);
             this.Controls.Add(this.pct_PiwikLogo);
@@ -1079,7 +1079,7 @@
             this.Controls.Add(this.btn_Start);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
-            this.Text = "SharePoint connector v1.0 by Piwik PRO";
+            this.Text = "SharePoint connector v1.0.1 by Piwik PRO";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.grp_SPOnPrem.ResumeLayout(false);
