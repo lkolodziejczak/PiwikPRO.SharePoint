@@ -30,8 +30,8 @@ namespace PiwikPROSitesActivator
 
             if(!string.IsNullOrEmpty(urlSite))
             {
-                Logger.WriteLine("Currently working on site url: " + urlSite);
-                Logger.WriteLine("Press Y to proceed or N to change the url.");
+                Logger.WriteLine("Currently working on site URL: " + urlSite);
+                Logger.WriteLine("Press Y to proceed or N to change the URL.");
                 var keyClick = Console.ReadKey();
                 if(keyClick.Key == ConsoleKey.Y)
                 {
@@ -39,13 +39,13 @@ namespace PiwikPROSitesActivator
                 }
                 if (keyClick.Key == ConsoleKey.N)
                 {
-                    Logger.WriteLine("\nPlease put url to your SharePoint root site (in format: https://contoso.sharepoint.com/)");
+                    Logger.WriteLine("\nProvide your SharePoint URL (example: https://contoso.sharepoint.com)");
                     urlSite = Console.ReadLine();
                 }
             }
             else
             {
-                Logger.WriteLine("\nPlease put url to your SharePoint root site (in format: https://contoso.sharepoint.com/)");
+                Logger.WriteLine("\nProvide your SharePoint URL (example: https://contoso.sharepoint.com)");
                 urlSite = Console.ReadLine();
             }
 
@@ -63,7 +63,7 @@ namespace PiwikPROSitesActivator
             }
             else
             {
-                Logger.WriteLine("\nSite url is empty, please restart the application and put the correct value.");
+                Logger.WriteLine("\nSite URL is empty, restart the application and provide a valid URL.");
             }
 
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;

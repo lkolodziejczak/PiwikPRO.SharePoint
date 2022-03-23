@@ -77,15 +77,15 @@ namespace PiwikPROSitesActivator.Shared
 
             if(results.Value[0].ResultRows.Count() == 0 && status == PiwikStatus.Adding)
             {
-                Logger.WriteLine("\nNo sites found to register in Piwik PRO Analytics. Please try again in some minutes.");
+                Logger.WriteLine("\nNo sites found in Piwik PRO Analytics. Please try again later.");
 
-                Logger.WriteLine("\nChecking if there are sites to add in manual activation file...");
+                Logger.WriteLine("\nLooking for sites to activate in the local configuration.");
 
                 foreach (string line in System.IO.File.ReadLines(AppDomain.CurrentDomain.BaseDirectory + @"Exceptional_SitesToManualActivation.txt"))
                 {
                     sites.Add((line.Split(';')[0], line.Split(';')[1]));
 
-                    Logger.WriteLine("\nAdding site to activate: " + line.Split(';')[0] + ", url: "+ line.Split(';')[1]);
+                    Logger.WriteLine("\nActivating site: " + line.Split(';')[0] + ", url: "+ line.Split(';')[1]);
                 }
                 System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"Exceptional_SitesToManualActivation.txt", string.Empty);
             }
@@ -94,15 +94,15 @@ namespace PiwikPROSitesActivator.Shared
 
             if (results.Value[0].ResultRows.Count() == 0 && status == PiwikStatus.Deleting)
             {
-                Logger.WriteLine("\nNo sites found to deactivate in Piwik PRO Analytics. Please try again in some minutes.");
+                Logger.WriteLine("\nNo sites found to deactivate in Piwik PRO Analytics. Please try again later.");
 
-                Logger.WriteLine("\nChecking if there are sites to deactivate in manual deactivation file...");
+                Logger.WriteLine("\nLooking for sites to deactivate in the local configuration.");
 
                 foreach (string line in System.IO.File.ReadLines(AppDomain.CurrentDomain.BaseDirectory + @"Exceptional_SitesToManualDeactivation.txt"))
                 {
                     sites.Add((line.Split(';')[0], line.Split(';')[1]));
 
-                    Logger.WriteLine("\nAdding site to deacivate: " + line.Split(';')[0] + ", url: " + line.Split(';')[1]);
+                    Logger.WriteLine("\nDeactivating site: " + line.Split(';')[0] + ", url: " + line.Split(';')[1]);
                 }
                 System.IO.File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"Exceptional_SitesToManualDeactivation.txt", string.Empty);
             }

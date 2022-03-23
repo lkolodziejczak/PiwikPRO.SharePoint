@@ -102,7 +102,7 @@ namespace PiwikPROSitesActivator.Shared.Helpers
                     {
                         idSite = Convert.ToString(item[ConfigValues.PiwikPro_SiteDirectory_Column_SiteID]);
                         pso.ChangeNameSiteInPiwik(Convert.ToString(item[ConfigValues.PiwikPro_SiteDirectory_Column_Title]), idSite);
-                        Logger.WriteLine("\nSite is already in Piwik PRO Analytics, making changes: " + valueUrl.Url);
+                        Logger.WriteLine("\nFound the site in Piwik PRO Analytics. Making changes: " + valueUrl.Url);
                     }
                     else
                     {
@@ -144,19 +144,19 @@ namespace PiwikPROSitesActivator.Shared.Helpers
                             {
                                 Thread.Sleep(5000);
                                 //add tag manager json
-                                Logger.WriteLine("\nAdding tag manager for site in Piwik PRO Analytics...");
+                                Logger.WriteLine("\nEnabling Tag Manager for the site in Piwik PRO...");
                                 pso.AddTagManagerJSONFile(idSite, context);
 
                                 Thread.Sleep(20000);
                                 //publish tag manager
-                                Logger.WriteLine("\nPublishing tag manager in Piwik PRO Analytics...");
+                                Logger.WriteLine("\nPublishing the Tag Manager snapshot.");
                                 pso.PublishLastVersionOfTagManager(idSite);
                                 Logger.WriteLine("\nDone.");
                             }
                             catch (Exception exp)
                             {
                                 item[ConfigValues.PiwikPro_SiteDirectory_Column_ErrorLog] = exp.Message;
-                                Logger.WriteLine("\nPiwik Problem with tag manager file upload and publish: " + exp.Message);
+                                Logger.WriteLine("\nThere was a problem with importing the Tag Manager container snapshot: " + exp.Message);
                             }
 
                             //create/update values in propbag
@@ -211,12 +211,12 @@ namespace PiwikPROSitesActivator.Shared.Helpers
                     {
                         item[ConfigValues.PiwikPro_SiteDirectory_Column_Status] = ConfigValues.PiwikPro_SiteDirectory_Column_Status_Error;
                         item[ConfigValues.PiwikPro_SiteDirectory_Column_ErrorLog] = idSite;
-                        Logger.WriteLine("\nError during change site to inactive in Piwik PRO Analytics: " + valueUrl.Url);
+                        Logger.WriteLine("\nThere was a problem with deactivating the site in Piwik PRO Analytics: " + valueUrl.Url);
                     }
                     else
                     {
                         item[ConfigValues.PiwikPro_SiteDirectory_Column_Status] = ConfigValues.PiwikPro_SiteDirectory_Column_Status_NoActive;
-                        Logger.WriteLine("\nSite has been changed to inactive: " + valueUrl.Url);
+                        Logger.WriteLine("\nThe site has been deactivated: " + valueUrl.Url);
                     }
 
                     item.Update();
