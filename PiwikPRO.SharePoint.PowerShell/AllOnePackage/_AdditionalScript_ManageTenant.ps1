@@ -422,6 +422,16 @@ Write-Host "Connecting to SharePoint"
 					$config.onlineParams.constantsOnline | % {$_.appCatalogUrl=$appCatalogUrl}
 					$config | ConvertTo-Json -depth 32| set-content '.\installationConfig.json'
 					Start-Sleep -s 1
+					
+					try
+					{
+						Write-Host "Adding site collection admin into the App Catalog"
+						Set-PnPSite -Url $appCatalogUrl -Owners $config.sharepointAdminLogin
+					}
+					catch [Exception]
+					{
+						Write-Host $PSItem.ToString()
+					}
 				}
 			}
 			catch [Exception]
