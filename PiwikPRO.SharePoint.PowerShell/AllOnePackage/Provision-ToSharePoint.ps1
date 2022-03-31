@@ -4,8 +4,7 @@
 
 #versions:
 #UI: 1.0.1
-#Script: 1.0.2
-
+#Script: 1.0.3
 
 function ActivateFeatureInSiteCollectionScope($DisplayName, $siteurl) {
     Write-Host "Activating Feature :- " $DisplayName " -: In Site Collection " $siteurl
