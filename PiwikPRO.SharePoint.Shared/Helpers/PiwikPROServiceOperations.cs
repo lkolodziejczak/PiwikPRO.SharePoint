@@ -387,6 +387,7 @@ namespace PiwikPRO.SharePoint.Shared
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             }
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             HttpWebRequest HttpRequest = (HttpWebRequest)HttpWebRequest.Create(callCommandUrl);
             HttpRequest.Method = method;
             HttpRequest.Accept = "text/xml";
