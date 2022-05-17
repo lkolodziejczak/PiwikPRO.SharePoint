@@ -180,10 +180,11 @@
             "2013",
             "2016",
             "2019",
+            "Subscription Edition",
             "Online"});
             this.cmb_SPVersion.Location = new System.Drawing.Point(156, 25);
             this.cmb_SPVersion.Name = "cmb_SPVersion";
-            this.cmb_SPVersion.Size = new System.Drawing.Size(77, 21);
+            this.cmb_SPVersion.Size = new System.Drawing.Size(127, 21);
             this.cmb_SPVersion.TabIndex = 4;
             this.cmb_SPVersion.SelectedIndexChanged += new System.EventHandler(this.cmb_SPVersion_SelectedIndexChanged);
             this.cmb_SPVersion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmb_SPVersion_KeyPress);
@@ -1079,7 +1080,7 @@
             this.Controls.Add(this.btn_Start);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
-            this.Text = "SharePoint connector v1.0.1 by Piwik PRO";
+            this.Text = "SharePoint connector v1.0.2 by Piwik PRO";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.grp_SPOnPrem.ResumeLayout(false);
