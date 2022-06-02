@@ -2,6 +2,8 @@ Changelog All notable changes to this installator will be documented in this fil
 
 The format is based on Keep a Changelog
 
+[Released 2022-03-06] [1.0.5 Script] - 2022-06-03 Fixed people picker problem
+
 [Released 2022-21-04] [1.0.4 Script] - 2022-04-21 Added line to trust all certificates by timer job sp on prems
 
 [Released 2022-22-03] [1.0.3 Script] - 2022-03-31 Fix setup library folder - removed for sponline, adding admin to app catalog

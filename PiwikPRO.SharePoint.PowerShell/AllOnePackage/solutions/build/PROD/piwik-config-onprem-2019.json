@@ -40,7 +40,7 @@
     {
       "name": "pageViewEnrichment",
       "eventType": "pageView",
-      "pageUrl": "^(?=.*(http:\/\/.*?[^/]+\/$|https:\/\/.*?[^/]+\/$|\/Pages\/.*?\\.aspx|\/SitePages\/.*?\\.aspx|\/start.aspx#\/_.*|\/_layouts\/\\d+\/start\\.aspx#[/]?))(?:(?!.*(SitePages\/Forms|\/Lists\/|\/Forms\/|\/AllPages\\.aspx\/|\/_layouts\/\\d+\/(?!.*start.aspx)|\/start.aspx#\/([a-zA-Z]+$|[a-zA-Z]+\/$))).).*",
+      "pageUrl": "^(?=.*(http:\/\/.*?[^/]+\/$|https:\/\/.*?[^/]+\/$|\/Pages\/.*?\\.aspx|\/Seiten\/.*?\\.aspx|\/SitePages\/.*?\\.aspx|\/start.aspx#\/_.*|\/_layouts\/\\d+\/start\\.aspx#[/]?))(?:(?!.*(Seiten\/Forms|SitePages\/Forms|\/Lists\/|\/Forms\/|\/AllPages\\.aspx\/|\/_layouts\/\\d+\/(?!.*start.aspx)|\/start.aspx#\/([a-zA-Z]+$|[a-zA-Z]+\/$))).).*",
       "deepCatch": {
         "props": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$expand=ContentType,FieldValuesAsText",
         "author": "complex:{{context:webAbsoluteUrl}}/_api/web/Lists(@a1)/GetItemById(@a2)/Author?@a1=%27{{context:listId}}%27&@a2=%27{{context:pageItemId}}%27&$select=Title,Name",
@@ -67,7 +67,7 @@
     {
       "name": "pageViewEnrichment",
       "eventType": "pageView",
-      "pageUrl": "^(?=.*_layouts\/[\\d]{2}\/viewlsts.aspx)(?!.*SitePages).*",
+      "pageUrl": "^(?=.*_layouts\/[\\d]{2}\/viewlsts.aspx)(?!.*(SitePages|Pages|Seiten)).*",
       "deepCatch": {},
       "mappings": {
         "pageUrl": "url:(.+?(?=_layouts\/[\\d]{2}))",
@@ -1007,7 +1007,7 @@
       "deferred": true,
       "blocking": true,
       "registerOnEvent": null,
-      "immediateProcessDeferred": true,
+      "immediateProcessDeferred": false,
       "delay": 0,
       "nextPageUrl": null,
       "deepCatch": {},
@@ -3060,7 +3060,6 @@
     {
       "name": "pageDeleted",
       "eventType": "event",
-      "elementType": "page",
       "suffix": "_ribbon_from_inside",
       "pageUrl": "^(?:(?!.*(\/SitePages\/Forms)).)*$",
       "confirmation": true,
