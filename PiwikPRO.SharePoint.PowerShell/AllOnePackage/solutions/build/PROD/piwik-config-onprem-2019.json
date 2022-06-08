@@ -2295,7 +2295,7 @@
       "delay": 0,
       "nextPageUrl": null,
       "deferredMappings": {
-        "id": "eval:if(window.document.querySelector('iframe[id^=DlgFrame]')){window.document.querySelector('iframe[id^=DlgFrame]')?window.document.querySelector('iframe[id^=DlgFrame]').contentWindow.document.querySelector('input[id$=_InputFile]').value.slice(12):document.querySelector('input[id$=_InputFile]').value.slice(12)}else{document.querySelector('input[id$=_InputFile]').value.slice(12)}",
+        "id": "eval:try{if(window.document.querySelector('iframe[id^=DlgFrame]')){window.document.querySelector('iframe[id^=DlgFrame]')?window.document.querySelector('iframe[id^=DlgFrame]').contentWindow.document.querySelector('input[id$=_InputFile]').value.slice(12):document.querySelector('input[id$=_InputFile]').value.slice(12)}else{document.querySelector('input[id$=_InputFile]').value.slice(12)}}catch{}",
         "rootfolder": "querystring:RootFolder",
         "ListIDd": "context:listId"
       },
@@ -2320,7 +2320,7 @@
       "eventType": "event",
       "method": "click",
       "suffix": "_noRootFolder",
-      "pageUrl": "^(?:(?!RootFolder=%2F.*?%2F.*?%2F.*?%2F.*&).)*$",
+      "pageUrl": "^(?:(?!RootFolder=%2F.*?%2F.*?%2F.*?%2F.*&|\/_layouts\/).)*$",
       "catchFilter": "input[id$=_RptControls_btnOK]",
       "deferred": true,
       "confirmation": false,
@@ -2330,7 +2330,7 @@
       "delay": 0,
       "nextPageUrl": null,
       "deferredMappings": {
-        "id": "eval:if(window.document.querySelector('iframe[id^=DlgFrame]')){window.document.querySelector('iframe[id^=DlgFrame]')?window.document.querySelector('iframe[id^=DlgFrame]').contentWindow.document.querySelector('input[id$=_InputFile]').value.slice(12):document.querySelector('input[id$=_InputFile]').value.slice(12)}else{document.querySelector('input[id$=_InputFile]').value.slice(12)}",
+        "id": "eval:try{if(window.document.querySelector('iframe[id^=DlgFrame]')){window.document.querySelector('iframe[id^=DlgFrame]')?window.document.querySelector('iframe[id^=DlgFrame]').contentWindow.document.querySelector('input[id$=_InputFile]').value.slice(12):document.querySelector('input[id$=_InputFile]').value.slice(12)}else{document.querySelector('input[id$=_InputFile]').value.slice(12)}}catch{}",
         "rootfolder": "querystring:RootFolder",
         "ListIDd": "context:listId"
       },
@@ -2347,7 +2347,6 @@
         "documentLibraryName": "context:listUrl.getLastSegment()",
         "documentLibraryUrl": "complex:{{global:location.origin}}{{context:listUrl}}/",
         "contentTypeName": "eval:'Document'"
-
       }
     },
     {

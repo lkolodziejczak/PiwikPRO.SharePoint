@@ -2,6 +2,8 @@ Changelog All notable changes to this installator will be documented in this fil
 
 The format is based on Keep a Changelog
 
+[Released 2022-08-06] [1.0.6 Script] - 2022-06-08 Fixed fileuploaded event triggered on wrong places
+
 [Released 2022-03-06] [1.0.5 Script] - 2022-06-03 Fixed people picker problem
 
 [Released 2022-21-04] [1.0.4 Script] - 2022-04-21 Added line to trust all certificates by timer job sp on prems
