@@ -3,8 +3,8 @@
 )
 
 #versions:
-#UI: 1.0.1
-#Script: 1.0.6
+#UI: 1.0.2
+#Script: 1.0.7
 
 function ActivateFeatureInSiteCollectionScope($DisplayName, $siteurl) {
     Write-Host "Activating Feature :- " $DisplayName " -: In Site Collection " $siteurl
@@ -406,7 +406,7 @@ Try
     # Checking if credentials needed or use web login
     Add-Log -Level "INFO" -Message "Checking credentials"
     $credentials
-    if ((-not $config.useWebLogin) -or ($config.sharePointVersion -in "2013", "2016", "2019")) {
+    if ((-not $config.useWebLogin) -or ($config.sharePointVersion -in "2013", "2016", "2019", "Subscription Edition")) {
         $credentials = Get-Credential -Message "Please provide credentials to SharePoint" -ErrorAction Stop
     }
 
@@ -461,7 +461,13 @@ Try
 		
 		# Load needed libraries
         Add-Log -Level "INFO" -Message "Checking and installing SharePointPnPPowerShell module"
-        Get-SharePointPnPPowerShell -SharePointVersion $config.sharePointVersion
+			if ($config.sharePointVersion -eq 'Subscription Edition') {
+				Get-SharePointPnPPowerShell -SharePointVersion '2019'
+			}
+			else
+			{
+				Get-SharePointPnPPowerShell -SharePointVersion $config.sharePointVersion
+			}
 		Start-Sleep -s 1
 		if ($config.onlineParams.includeSharepointInstall -eq $true) {
         # Connect
@@ -524,20 +530,25 @@ Try
 
         # Load needed libraries
         Add-Log -Level "INFO" -Message "Importing Microsoft.SharePoint.PowerShell PSSnapin"
-        Add-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue
+		try
+        {
+			Add-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue
 
-        Add-Log -Level "INFO" -Message "Checking and uninstalling SharePointPnPPowerShellOnline module"
-        if (Get-Module -ListAvailable -Name "SharePointPnPPowerShellOnline") {
-            Uninstall-Module "SharePointPnPPowerShellOnline"
-            Start-Sleep -s 5
+			Add-Log -Level "INFO" -Message "Checking and uninstalling SharePointPnPPowerShellOnline module"
+			if (Get-Module -ListAvailable -Name "SharePointPnPPowerShellOnline") {
+				Uninstall-Module "SharePointPnPPowerShellOnline"
+				Start-Sleep -s 5
+			}
+			
+			Add-Log -Level "INFO" -Message "Checking and uninstalling PnP.Powershell module"
+			if (Get-Module -ListAvailable -Name "PnP.PowerShell") {
+				Uninstall-Module -Name "PnP.PowerShell"
+				Start-Sleep -s 5
+			}
         }
-		
-		Add-Log -Level "INFO" -Message "Checking and uninstalling PnP.Powershell module"
-        if (Get-Module -ListAvailable -Name "PnP.PowerShell") {
-            Uninstall-Module -Name "PnP.PowerShell"
-            Start-Sleep -s 5
-        }
-
+        catch{
+			Add-Log -Level "INFO" -Message "Cannot uninstall module"
+		}
         Add-Log -Level "INFO" -Message "Checking and installing SharePointPnPPowerShell module"
 		
 		if ($config.sharePointVersion -eq '2016') {
@@ -560,15 +571,27 @@ Try
 		}
 		else
 		{
-			Get-SharePointPnPPowerShell -SharePointVersion $config.sharePointVersion
+			if ($config.sharePointVersion -eq 'Subscription Edition') {
+				Get-SharePointPnPPowerShell -SharePointVersion '2019'
+			}
+			else
+			{
+				Get-SharePointPnPPowerShell -SharePointVersion $config.sharePointVersion
+			}
 		}
-
-        Add-Log -Level "INFO" -Message "Checking SharePoint Powershell Snapin"
-        $snapin = Get-PSSnapin | Where-Object { $_.Name -eq 'Microsoft.SharePoint.Powershell' }
-        if ($null -eq $snapin) {
-            Add-Log -Level "INFO" -Message "Loading SharePoint Powershell Snapin"
-            Add-PSSnapin "Microsoft.SharePoint.Powershell"
-        }
+		
+		try
+		{
+			Add-Log -Level "INFO" -Message "Checking SharePoint Powershell Snapin"
+			$snapin = Get-PSSnapin | Where-Object { $_.Name -eq 'Microsoft.SharePoint.Powershell' }
+			if ($null -eq $snapin) {
+				Add-Log -Level "INFO" -Message "Loading SharePoint Powershell Snapin"
+				Add-PSSnapin "Microsoft.SharePoint.Powershell"
+			}
+		}
+        catch{
+			Add-Log -Level "INFO" -Message "Exception in checking SharePoint Powershell Snapin"
+		}
 		
 		# Checking if is managed path "/sites/"
 		Add-Log -Level "INFO" -Message "Checking if sites is in managed path."
@@ -598,8 +621,15 @@ Try
         Add-Log -Level "INFO" -Message "Checking tenant admin site"
         if ($null -eq (Get-SPWeb $sharePointTenantAdminUrl -ErrorAction SilentlyContinue)) {
             Add-Log -Level "INFO" -Message "Creating tenant site..."
-
+			
+			if ($config.sharePointVersion -eq "Subscription Edition") {
+			$adminLoginWithClaims = "i:0#.w|"+$config.sharepointAdminLogin
+			New-SPSite $sharePointTenantAdminUrl -OwnerAlias $adminLoginWithClaims -Template "STS#0"
+			}
+			else
+			{
             New-SPSite $sharePointTenantAdminUrl -OwnerAlias $config.sharepointAdminLogin -Template "STS#0"
+			}
             Start-Sleep -s 15
         }
         
@@ -613,10 +643,12 @@ Try
         $currentUser = $currentUser -replace 'i:0#.f\|membership\|'
 
         # Publish Spfx for SP 2019
-        if ($config.sharePointVersion -eq "2019") {
+        if ($config.sharePointVersion -in "2019", "Subscription Edition") {
 		
 		    $tenantUrl = ([System.Uri]$config.sharePointUrl).GetLeftPart([System.UriPartial]::Authority);
 			$appCatalogUrl = $tenantUrl + $config.onPremParams.constantsOnPrem.appCatalogUrl;
+			
+			Add-Log -Level "INFO" -Message "Checking and connecting to the App Catalog..."
 			
 			Connect-ToSharePoint -Url $appCatalogUrl -TenantAdminUrl $SharePointTenantAdminUrl -Credentials $credentials
 		
@@ -646,7 +678,7 @@ Try
         if ($null -eq (Get-SPWeb $piwikAdminUrl -ErrorAction SilentlyContinue)) {
             Add-Log -Level "INFO" -Message "Creating Piwik PRO Admin site"
 
-			if ($config.sharePointVersion -eq "2019") {
+			if ($config.sharePointVersion -in "2019", "Subscription Edition") {
 			$sc = New-SPSite -Url $piwikAdminUrl -OwnerAlias $config.sharepointAdminLogin -Template "STS#3"
 			}
 			if ($config.sharePointVersion -in "2013", "2016") {
@@ -798,12 +830,16 @@ Try
             Copy-Item -Path "$($config.constants.filesSolutionFolder)PROD\piwik-config-onprem-2019.json" -Destination "$($config.constants.filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
         }
 		
+		if ($config.sharePointVersion -eq 'Subscription Edition') {
+            Copy-Item -Path "$($config.constants.filesSolutionFolder)PROD\piwik-config-spse.json" -Destination "$($config.constants.filesSolutionFolder)PROD\piwik-config.json" -Recurse -force
+        }
+		
         UploadFiles -siteUrl $piwikAdminUrl -DestFolderUrl ($piwikAdminUrl + "/Style%20Library/PROD") -LocalFileOrFolderPath ($config.constants.filesSolutionFolder+"PROD\")
 
         # Install package
         try {
 		$MywspName = $config.onPremParams.constantsOnPrem.MywspName2013
-			if ($config.sharePointVersion -eq '2019') {
+			if ($config.sharePointVersion -in "2019", "Subscription Edition") {
 				Add-Log -Level "INFO" -Message "Adding package for SP2019";
 				$MywspName = $config.onPremParams.constantsOnPrem.MywspName2019
 			}

@@ -2,6 +2,8 @@ Changelog All notable changes to this installator will be documented in this fil
 
 The format is based on Keep a Changelog
 
+[Released 2022-08-23] [1.0.7 Script] - 2022-06-23 Added support to SPSE
+
 [Released 2022-08-06] [1.0.6 Script] - 2022-06-08 Fixed fileuploaded event triggered on wrong places
 
 [Released 2022-03-06] [1.0.5 Script] - 2022-06-03 Fixed people picker problem
