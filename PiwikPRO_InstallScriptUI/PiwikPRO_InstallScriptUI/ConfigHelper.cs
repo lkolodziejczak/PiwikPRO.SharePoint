@@ -89,9 +89,11 @@ namespace PiwikPRO_InstallScriptUI
                         jsonObj.additionalPiwikSiteCollAdmin = txt_SPSecondAdminLogin.Text.Trim();
                     }
                 }
+                jsonObj.sharePointTenantAdminUrl = "";
             }
             else
             {
+                jsonObj.sharePointTenantAdminUrl = txt_SPAdminTenantUrl.Text.Trim();
                 jsonObj.sharepointAdminLogin = txt_SPAdminLogin.Text.Trim();
                 jsonObj.additionalPiwikSiteCollAdmin = txt_SPSecondAdminLogin.Text.Trim();
             }
@@ -148,6 +150,7 @@ namespace PiwikPRO_InstallScriptUI
             }
             else
             {
+                txt_SPAdminTenantUrl.Text = jsonObj.sharePointTenantAdminUrl;
                 txt_SPAdminLogin.Text = jsonObj.sharepointAdminLogin;
                 txt_SPSecondAdminLogin.Text = jsonObj.additionalPiwikSiteCollAdmin;
             }

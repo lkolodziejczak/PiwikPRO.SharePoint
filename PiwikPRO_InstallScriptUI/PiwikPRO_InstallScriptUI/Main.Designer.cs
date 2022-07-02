@@ -39,8 +39,14 @@
             this.pct_SPOnPremActivateFeatureStappler = new System.Windows.Forms.PictureBox();
             this.chk_SPOnPremActivateFeatureStappler = new System.Windows.Forms.CheckBox();
             this.grp_SPOnline = new System.Windows.Forms.GroupBox();
+            this.lbl_SPAdminTenantUrlEdit = new System.Windows.Forms.Label();
+            this.chk_EditSPAdminUrl = new System.Windows.Forms.CheckBox();
+            this.pct_SharepointAdminTenantURL = new System.Windows.Forms.PictureBox();
             this.pct_SPO_IncludeSP = new System.Windows.Forms.PictureBox();
+            this.lbl_SPAdminTenantUrlRequired = new System.Windows.Forms.Label();
             this.chk_SPO_IncludeSP = new System.Windows.Forms.CheckBox();
+            this.txt_SPAdminTenantUrl = new System.Windows.Forms.TextBox();
+            this.lbl_SPAdminTenantUrl = new System.Windows.Forms.Label();
             this.grp_AzurePart = new System.Windows.Forms.GroupBox();
             this.cmb_SPO_AzureLocation = new System.Windows.Forms.ComboBox();
             this.lbl_AzureTenant = new System.Windows.Forms.Label();
@@ -105,9 +111,13 @@
             this.pct_PiwikLogo = new System.Windows.Forms.PictureBox();
             this.btn_TestLoadCFG = new System.Windows.Forms.Button();
             this.grp_PiwikPRO = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.grp_SPOnPrem.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPOnPremActivateFeatureStappler)).BeginInit();
             this.grp_SPOnline.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_SharepointAdminTenantURL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPO_IncludeSP)).BeginInit();
             this.grp_AzurePart.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPO_AzureLocation)).BeginInit();
@@ -130,12 +140,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.pct_PiwikPROServiceUrl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pct_PiwikLogo)).BeginInit();
             this.grp_PiwikPRO.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_Start
             // 
             this.btn_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Start.Location = new System.Drawing.Point(4, 674);
+            this.btn_Start.Location = new System.Drawing.Point(11, 11);
             this.btn_Start.Name = "btn_Start";
             this.btn_Start.Size = new System.Drawing.Size(197, 23);
             this.btn_Start.TabIndex = 0;
@@ -146,7 +159,7 @@
             // btn_Save
             // 
             this.btn_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Save.Location = new System.Drawing.Point(211, 674);
+            this.btn_Save.Location = new System.Drawing.Point(432, 11);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(80, 23);
             this.btn_Save.TabIndex = 1;
@@ -156,7 +169,7 @@
             // 
             // btn_Cancel
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(415, 674);
+            this.btn_Cancel.Location = new System.Drawing.Point(304, 11);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(122, 23);
             this.btn_Cancel.TabIndex = 2;
@@ -193,7 +206,7 @@
             // 
             this.grp_SPOnPrem.Controls.Add(this.pct_SPOnPremActivateFeatureStappler);
             this.grp_SPOnPrem.Controls.Add(this.chk_SPOnPremActivateFeatureStappler);
-            this.grp_SPOnPrem.Location = new System.Drawing.Point(15, 324);
+            this.grp_SPOnPrem.Location = new System.Drawing.Point(4, 201);
             this.grp_SPOnPrem.Name = "grp_SPOnPrem";
             this.grp_SPOnPrem.Size = new System.Drawing.Size(521, 54);
             this.grp_SPOnPrem.TabIndex = 5;
@@ -223,25 +236,62 @@
             // 
             // grp_SPOnline
             // 
+            this.grp_SPOnline.Controls.Add(this.lbl_SPAdminTenantUrlEdit);
+            this.grp_SPOnline.Controls.Add(this.chk_EditSPAdminUrl);
+            this.grp_SPOnline.Controls.Add(this.pct_SharepointAdminTenantURL);
             this.grp_SPOnline.Controls.Add(this.pct_SPO_IncludeSP);
+            this.grp_SPOnline.Controls.Add(this.lbl_SPAdminTenantUrlRequired);
             this.grp_SPOnline.Controls.Add(this.chk_SPO_IncludeSP);
+            this.grp_SPOnline.Controls.Add(this.txt_SPAdminTenantUrl);
+            this.grp_SPOnline.Controls.Add(this.lbl_SPAdminTenantUrl);
             this.grp_SPOnline.Controls.Add(this.grp_AzurePart);
             this.grp_SPOnline.Controls.Add(this.pct_SPO_IncludeAzure);
             this.grp_SPOnline.Controls.Add(this.pct_SPO_UseWebLogin);
             this.grp_SPOnline.Controls.Add(this.grp_SPO_Advanced);
             this.grp_SPOnline.Controls.Add(this.chk_SPO_IncludeAzure);
             this.grp_SPOnline.Controls.Add(this.chk_SPO_UseWebLogin);
-            this.grp_SPOnline.Location = new System.Drawing.Point(550, 36);
+            this.grp_SPOnline.Location = new System.Drawing.Point(4, 391);
             this.grp_SPOnline.Name = "grp_SPOnline";
-            this.grp_SPOnline.Size = new System.Drawing.Size(521, 342);
+            this.grp_SPOnline.Size = new System.Drawing.Size(521, 361);
             this.grp_SPOnline.TabIndex = 6;
             this.grp_SPOnline.TabStop = false;
             this.grp_SPOnline.Text = "SharePoint Online";
             // 
+            // lbl_SPAdminTenantUrlEdit
+            // 
+            this.lbl_SPAdminTenantUrlEdit.AutoSize = true;
+            this.lbl_SPAdminTenantUrlEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_SPAdminTenantUrlEdit.Location = new System.Drawing.Point(129, 87);
+            this.lbl_SPAdminTenantUrlEdit.Name = "lbl_SPAdminTenantUrlEdit";
+            this.lbl_SPAdminTenantUrlEdit.Size = new System.Drawing.Size(21, 12);
+            this.lbl_SPAdminTenantUrlEdit.TabIndex = 34;
+            this.lbl_SPAdminTenantUrlEdit.Text = "Edit";
+            // 
+            // chk_EditSPAdminUrl
+            // 
+            this.chk_EditSPAdminUrl.AutoSize = true;
+            this.chk_EditSPAdminUrl.Location = new System.Drawing.Point(132, 100);
+            this.chk_EditSPAdminUrl.Name = "chk_EditSPAdminUrl";
+            this.chk_EditSPAdminUrl.Size = new System.Drawing.Size(15, 14);
+            this.chk_EditSPAdminUrl.TabIndex = 33;
+            this.chk_EditSPAdminUrl.UseVisualStyleBackColor = true;
+            this.chk_EditSPAdminUrl.CheckedChanged += new System.EventHandler(this.chk_EditSPAdminUrl_CheckedChanged);
+            // 
+            // pct_SharepointAdminTenantURL
+            // 
+            this.pct_SharepointAdminTenantURL.Image = ((System.Drawing.Image)(resources.GetObject("pct_SharepointAdminTenantURL.Image")));
+            this.pct_SharepointAdminTenantURL.Location = new System.Drawing.Point(497, 94);
+            this.pct_SharepointAdminTenantURL.Name = "pct_SharepointAdminTenantURL";
+            this.pct_SharepointAdminTenantURL.Size = new System.Drawing.Size(19, 19);
+            this.pct_SharepointAdminTenantURL.TabIndex = 24;
+            this.pct_SharepointAdminTenantURL.TabStop = false;
+            this.pct_SharepointAdminTenantURL.Click += new System.EventHandler(this.pct_SharepointAdminTenantURL_Click);
+            this.pct_SharepointAdminTenantURL.MouseHover += new System.EventHandler(this.pct_SharepointAdminTenantURL_Click);
+            // 
             // pct_SPO_IncludeSP
             // 
             this.pct_SPO_IncludeSP.Image = ((System.Drawing.Image)(resources.GetObject("pct_SPO_IncludeSP.Image")));
-            this.pct_SPO_IncludeSP.Location = new System.Drawing.Point(130, 49);
+            this.pct_SPO_IncludeSP.Location = new System.Drawing.Point(130, 43);
             this.pct_SPO_IncludeSP.Name = "pct_SPO_IncludeSP";
             this.pct_SPO_IncludeSP.Size = new System.Drawing.Size(19, 19);
             this.pct_SPO_IncludeSP.TabIndex = 32;
@@ -249,16 +299,44 @@
             this.pct_SPO_IncludeSP.Click += new System.EventHandler(this.pct_SPO_IncludeSP_Click);
             this.pct_SPO_IncludeSP.MouseHover += new System.EventHandler(this.pct_SPO_IncludeSP_Click);
             // 
+            // lbl_SPAdminTenantUrlRequired
+            // 
+            this.lbl_SPAdminTenantUrlRequired.AutoSize = true;
+            this.lbl_SPAdminTenantUrlRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_SPAdminTenantUrlRequired.ForeColor = System.Drawing.Color.Red;
+            this.lbl_SPAdminTenantUrlRequired.Location = new System.Drawing.Point(113, 93);
+            this.lbl_SPAdminTenantUrlRequired.Name = "lbl_SPAdminTenantUrlRequired";
+            this.lbl_SPAdminTenantUrlRequired.Size = new System.Drawing.Size(14, 16);
+            this.lbl_SPAdminTenantUrlRequired.TabIndex = 23;
+            this.lbl_SPAdminTenantUrlRequired.Text = "*";
+            // 
             // chk_SPO_IncludeSP
             // 
             this.chk_SPO_IncludeSP.AutoSize = true;
-            this.chk_SPO_IncludeSP.Location = new System.Drawing.Point(15, 49);
+            this.chk_SPO_IncludeSP.Location = new System.Drawing.Point(15, 44);
             this.chk_SPO_IncludeSP.Name = "chk_SPO_IncludeSP";
             this.chk_SPO_IncludeSP.Size = new System.Drawing.Size(116, 17);
             this.chk_SPO_IncludeSP.TabIndex = 31;
             this.chk_SPO_IncludeSP.Text = "Include SharePoint";
             this.chk_SPO_IncludeSP.UseVisualStyleBackColor = true;
             this.chk_SPO_IncludeSP.CheckedChanged += new System.EventHandler(this.chk_SPO_IncludeSP_CheckedChanged);
+            // 
+            // txt_SPAdminTenantUrl
+            // 
+            this.txt_SPAdminTenantUrl.Enabled = false;
+            this.txt_SPAdminTenantUrl.Location = new System.Drawing.Point(156, 93);
+            this.txt_SPAdminTenantUrl.Name = "txt_SPAdminTenantUrl";
+            this.txt_SPAdminTenantUrl.Size = new System.Drawing.Size(337, 20);
+            this.txt_SPAdminTenantUrl.TabIndex = 22;
+            // 
+            // lbl_SPAdminTenantUrl
+            // 
+            this.lbl_SPAdminTenantUrl.AutoSize = true;
+            this.lbl_SPAdminTenantUrl.Location = new System.Drawing.Point(3, 96);
+            this.lbl_SPAdminTenantUrl.Name = "lbl_SPAdminTenantUrl";
+            this.lbl_SPAdminTenantUrl.Size = new System.Drawing.Size(114, 13);
+            this.lbl_SPAdminTenantUrl.TabIndex = 21;
+            this.lbl_SPAdminTenantUrl.Text = "SP Admin tenant URL:";
             // 
             // grp_AzurePart
             // 
@@ -281,7 +359,7 @@
             this.grp_AzurePart.Controls.Add(this.lbl_Azure3);
             this.grp_AzurePart.Controls.Add(this.lbl_Azure1);
             this.grp_AzurePart.Controls.Add(this.lbl_Azure2);
-            this.grp_AzurePart.Location = new System.Drawing.Point(6, 99);
+            this.grp_AzurePart.Location = new System.Drawing.Point(6, 122);
             this.grp_AzurePart.Name = "grp_AzurePart";
             this.grp_AzurePart.Size = new System.Drawing.Size(513, 150);
             this.grp_AzurePart.TabIndex = 13;
@@ -610,7 +688,7 @@
             // pct_SPO_IncludeAzure
             // 
             this.pct_SPO_IncludeAzure.Image = ((System.Drawing.Image)(resources.GetObject("pct_SPO_IncludeAzure.Image")));
-            this.pct_SPO_IncludeAzure.Location = new System.Drawing.Point(111, 73);
+            this.pct_SPO_IncludeAzure.Location = new System.Drawing.Point(111, 67);
             this.pct_SPO_IncludeAzure.Name = "pct_SPO_IncludeAzure";
             this.pct_SPO_IncludeAzure.Size = new System.Drawing.Size(19, 19);
             this.pct_SPO_IncludeAzure.TabIndex = 30;
@@ -621,7 +699,7 @@
             // pct_SPO_UseWebLogin
             // 
             this.pct_SPO_UseWebLogin.Image = ((System.Drawing.Image)(resources.GetObject("pct_SPO_UseWebLogin.Image")));
-            this.pct_SPO_UseWebLogin.Location = new System.Drawing.Point(111, 22);
+            this.pct_SPO_UseWebLogin.Location = new System.Drawing.Point(111, 20);
             this.pct_SPO_UseWebLogin.Name = "pct_SPO_UseWebLogin";
             this.pct_SPO_UseWebLogin.Size = new System.Drawing.Size(19, 19);
             this.pct_SPO_UseWebLogin.TabIndex = 25;
@@ -637,7 +715,7 @@
             this.grp_SPO_Advanced.Controls.Add(this.txt_SPO_PiwikPROSiteId);
             this.grp_SPO_Advanced.Controls.Add(this.chk_SPO_UseSiteScope);
             this.grp_SPO_Advanced.Controls.Add(this.lbl_SPOnlinePiwikPROSiteId);
-            this.grp_SPO_Advanced.Location = new System.Drawing.Point(2, 258);
+            this.grp_SPO_Advanced.Location = new System.Drawing.Point(2, 281);
             this.grp_SPO_Advanced.Name = "grp_SPO_Advanced";
             this.grp_SPO_Advanced.Size = new System.Drawing.Size(517, 77);
             this.grp_SPO_Advanced.TabIndex = 21;
@@ -707,7 +785,7 @@
             // chk_SPO_IncludeAzure
             // 
             this.chk_SPO_IncludeAzure.AutoSize = true;
-            this.chk_SPO_IncludeAzure.Location = new System.Drawing.Point(15, 73);
+            this.chk_SPO_IncludeAzure.Location = new System.Drawing.Point(15, 67);
             this.chk_SPO_IncludeAzure.Name = "chk_SPO_IncludeAzure";
             this.chk_SPO_IncludeAzure.Size = new System.Drawing.Size(91, 17);
             this.chk_SPO_IncludeAzure.TabIndex = 2;
@@ -718,7 +796,7 @@
             // chk_SPO_UseWebLogin
             // 
             this.chk_SPO_UseWebLogin.AutoSize = true;
-            this.chk_SPO_UseWebLogin.Location = new System.Drawing.Point(15, 24);
+            this.chk_SPO_UseWebLogin.Location = new System.Drawing.Point(15, 22);
             this.chk_SPO_UseWebLogin.Name = "chk_SPO_UseWebLogin";
             this.chk_SPO_UseWebLogin.Size = new System.Drawing.Size(93, 17);
             this.chk_SPO_UseWebLogin.TabIndex = 0;
@@ -740,9 +818,9 @@
             this.grp_Global.Controls.Add(this.txt_SPAdminLogin);
             this.grp_Global.Controls.Add(this.txt_SPUrl);
             this.grp_Global.Controls.Add(this.label2);
-            this.grp_Global.Location = new System.Drawing.Point(15, 57);
+            this.grp_Global.Location = new System.Drawing.Point(4, 62);
             this.grp_Global.Name = "grp_Global";
-            this.grp_Global.Size = new System.Drawing.Size(521, 130);
+            this.grp_Global.Size = new System.Drawing.Size(521, 133);
             this.grp_Global.TabIndex = 7;
             this.grp_Global.TabStop = false;
             this.grp_Global.Text = "Global configuration";
@@ -840,6 +918,8 @@
             this.txt_SPUrl.Name = "txt_SPUrl";
             this.txt_SPUrl.Size = new System.Drawing.Size(337, 20);
             this.txt_SPUrl.TabIndex = 1;
+            this.txt_SPUrl.TextChanged += new System.EventHandler(this.txt_SPUrl_TextChanged);
+            this.txt_SPUrl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_SPUrl_KeyUp);
             // 
             // label2
             // 
@@ -996,7 +1076,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.Red;
-            this.label7.Location = new System.Drawing.Point(319, 678);
+            this.label7.Location = new System.Drawing.Point(223, 16);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(14, 16);
             this.label7.TabIndex = 8;
@@ -1005,7 +1085,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(330, 679);
+            this.label8.Location = new System.Drawing.Point(234, 16);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 13);
             this.label8.TabIndex = 9;
@@ -1021,7 +1101,7 @@
             // pct_PiwikLogo
             // 
             this.pct_PiwikLogo.Image = global::PiwikPRO_InstallScriptUI.Properties.Resources.piwikpro_logo_dark_230x40;
-            this.pct_PiwikLogo.Location = new System.Drawing.Point(164, 12);
+            this.pct_PiwikLogo.Location = new System.Drawing.Point(150, 7);
             this.pct_PiwikLogo.Name = "pct_PiwikLogo";
             this.pct_PiwikLogo.Size = new System.Drawing.Size(235, 43);
             this.pct_PiwikLogo.TabIndex = 10;
@@ -1029,7 +1109,7 @@
             // 
             // btn_TestLoadCFG
             // 
-            this.btn_TestLoadCFG.Location = new System.Drawing.Point(605, 559);
+            this.btn_TestLoadCFG.Location = new System.Drawing.Point(861, 263);
             this.btn_TestLoadCFG.Name = "btn_TestLoadCFG";
             this.btn_TestLoadCFG.Size = new System.Drawing.Size(75, 23);
             this.btn_TestLoadCFG.TabIndex = 11;
@@ -1055,32 +1135,59 @@
             this.grp_PiwikPRO.Controls.Add(this.label14);
             this.grp_PiwikPRO.Controls.Add(this.txt_PiwikContainers);
             this.grp_PiwikPRO.Controls.Add(this.label13);
-            this.grp_PiwikPRO.Location = new System.Drawing.Point(15, 193);
+            this.grp_PiwikPRO.Location = new System.Drawing.Point(4, 261);
             this.grp_PiwikPRO.Name = "grp_PiwikPRO";
             this.grp_PiwikPRO.Size = new System.Drawing.Size(522, 124);
             this.grp_PiwikPRO.TabIndex = 12;
             this.grp_PiwikPRO.TabStop = false;
             this.grp_PiwikPRO.Text = "Piwik PRO";
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.groupBox2);
+            this.flowLayoutPanel1.Controls.Add(this.grp_Global);
+            this.flowLayoutPanel1.Controls.Add(this.grp_SPOnPrem);
+            this.flowLayoutPanel1.Controls.Add(this.grp_PiwikPRO);
+            this.flowLayoutPanel1.Controls.Add(this.grp_SPOnline);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox1);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(1);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(538, 820);
+            this.flowLayoutPanel1.TabIndex = 13;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.pct_PiwikLogo);
+            this.groupBox2.Location = new System.Drawing.Point(4, 4);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(522, 52);
+            this.groupBox2.TabIndex = 14;
+            this.groupBox2.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btn_Cancel);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.btn_Start);
+            this.groupBox1.Controls.Add(this.btn_Save);
+            this.groupBox1.Location = new System.Drawing.Point(4, 758);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(518, 40);
+            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabStop = false;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(542, 704);
-            this.Controls.Add(this.grp_PiwikPRO);
+            this.ClientSize = new System.Drawing.Size(560, 744);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.btn_TestLoadCFG);
-            this.Controls.Add(this.pct_PiwikLogo);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.grp_Global);
-            this.Controls.Add(this.grp_SPOnline);
-            this.Controls.Add(this.grp_SPOnPrem);
-            this.Controls.Add(this.btn_Cancel);
-            this.Controls.Add(this.btn_Save);
-            this.Controls.Add(this.btn_Start);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
-            this.Text = "SharePoint connector v1.0.2 by Piwik PRO";
+            this.Text = "SharePoint connector v1.0.3 by Piwik PRO";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.grp_SPOnPrem.ResumeLayout(false);
@@ -1088,6 +1195,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPOnPremActivateFeatureStappler)).EndInit();
             this.grp_SPOnline.ResumeLayout(false);
             this.grp_SPOnline.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pct_SharepointAdminTenantURL)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pct_SPO_IncludeSP)).EndInit();
             this.grp_AzurePart.ResumeLayout(false);
             this.grp_AzurePart.PerformLayout();
@@ -1114,8 +1222,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pct_PiwikLogo)).EndInit();
             this.grp_PiwikPRO.ResumeLayout(false);
             this.grp_PiwikPRO.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1196,6 +1307,15 @@
         private System.Windows.Forms.GroupBox grp_AzurePart;
         private System.Windows.Forms.PictureBox pct_SPO_IncludeSP;
         private System.Windows.Forms.CheckBox chk_SPO_IncludeSP;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.PictureBox pct_SharepointAdminTenantURL;
+        private System.Windows.Forms.Label lbl_SPAdminTenantUrlRequired;
+        private System.Windows.Forms.TextBox txt_SPAdminTenantUrl;
+        private System.Windows.Forms.Label lbl_SPAdminTenantUrl;
+        private System.Windows.Forms.CheckBox chk_EditSPAdminUrl;
+        private System.Windows.Forms.Label lbl_SPAdminTenantUrlEdit;
     }
 }
 

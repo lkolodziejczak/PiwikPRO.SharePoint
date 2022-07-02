@@ -102,6 +102,16 @@ namespace PiwikPRO_InstallScriptUI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This field is generated automatically. But if you are using non-standard SharePoint online tenant URL please select a checkbox and edit it.
+        ///Example: https://contoso-admin.sharepoint.com.
+        /// </summary>
+        internal static string SharepointAdminURL {
+            get {
+                return ResourceManager.GetString("SharepointAdminURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Example: https://contoso.sharepoint.com.
         /// </summary>
         internal static string SharepointURL_Online {

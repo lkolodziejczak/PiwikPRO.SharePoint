@@ -21,11 +21,16 @@ namespace PiwikPRO_InstallScriptUI
         public Main()
         {
             InitializeComponent();
+            flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            flowLayoutPanel1.WrapContents = false;
+            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            flowLayoutPanel1.AutoScroll = true;
         }
 
         private void btn_Start_Click(object sender, EventArgs e)
         {
             errors = new StringBuilder();
+            GenerateSharePointAdminURL();
             if (ValidateData())
             {
                 SaveConfig();
@@ -41,6 +46,7 @@ namespace PiwikPRO_InstallScriptUI
         private void btn_Save_Click(object sender, EventArgs e)
         {
             errors = new StringBuilder();
+            GenerateSharePointAdminURL();
             if (ValidateData())
             {
                 SaveConfig();
@@ -61,7 +67,7 @@ namespace PiwikPRO_InstallScriptUI
         private void Main_Load(object sender, EventArgs e)
         {
             configPath = System.IO.Directory.GetCurrentDirectory() + "\\installationConfig.json";
-            grp_SPOnline.Location = new Point(15, 319);
+            //grp_SPOnline.Location = new Point(15, 319);
             rm = new ResourceManager("PiwikPRO_InstallScriptUI.ToolTipTexts", Assembly.GetExecutingAssembly());
             jsonObj = new InstallationConfig();
             LoadConfig();
@@ -188,6 +194,7 @@ namespace PiwikPRO_InstallScriptUI
                 grp_SPOnline.Visible = true;
                 grp_SPOnPrem.Visible = false;
                 spVersion = "Online";
+                GenerateSharePointAdminURL();
             }
             else
             {
@@ -286,6 +293,11 @@ namespace PiwikPRO_InstallScriptUI
             toolTip_Piwik.Show(rm.GetString("SPOnline_PiwikPROSiteID"), (PictureBox)sender);
         }
 
+        private void pct_SharepointAdminTenantURL_Click(object sender, EventArgs e)
+        {
+            toolTip_Piwik.Show(rm.GetString("SharepointAdminURL"), (PictureBox)sender);
+        }
+
         private void btn_TestLoadCFG_Click(object sender, EventArgs e)
         {
             LoadConfig();
@@ -303,12 +315,77 @@ namespace PiwikPRO_InstallScriptUI
                 grp_Global.Enabled = true;
                 grp_SPO_Advanced.Enabled = true;
                 grp_PiwikPRO.Enabled = true;
+                lbl_SPAdminTenantUrl.Enabled = true;
+                lbl_SPAdminTenantUrlEdit.Enabled = true;
+                if (chk_EditSPAdminUrl.Checked)
+                {
+                    txt_SPAdminTenantUrl.Enabled = true;
+                }
+                else
+                {
+                    txt_SPAdminTenantUrl.Enabled = false;
+                }
+                chk_EditSPAdminUrl.Enabled = true;
+                pct_SharepointAdminTenantURL.Enabled = true;
+                lbl_SPAdminTenantUrlRequired.Enabled = true;
             }
             else
             {
                 grp_Global.Enabled = false;
                 grp_SPO_Advanced.Enabled = false;
                 grp_PiwikPRO.Enabled = false;
+                lbl_SPAdminTenantUrl.Enabled = false;
+                lbl_SPAdminTenantUrlEdit.Enabled = false;
+                if (chk_EditSPAdminUrl.Checked)
+                {
+                    txt_SPAdminTenantUrl.Enabled = true;
+                }
+                else
+                {
+                    txt_SPAdminTenantUrl.Enabled = false;
+                }
+                chk_EditSPAdminUrl.Enabled = false;
+                pct_SharepointAdminTenantURL.Enabled = false;
+                lbl_SPAdminTenantUrlRequired.Enabled = false;
+            }
+        }
+
+        private void chk_EditSPAdminUrl_CheckedChanged(object sender, EventArgs e)
+        {
+            if(((CheckBox)sender).Checked)
+            {
+                txt_SPAdminTenantUrl.Enabled = true;
+            }
+            else
+            {
+                txt_SPAdminTenantUrl.Enabled = false;
+            }
+        }
+
+        private void GenerateSharePointAdminURL()
+        {
+            if (Convert.ToString(cmb_SPVersion.SelectedItem).Contains("Online"))
+            {
+                if (!chk_EditSPAdminUrl.Checked && txt_SPAdminTenantUrl.Enabled == false)
+                {
+                    txt_SPAdminTenantUrl.Text = txt_SPUrl.Text.Replace(".sharepoint.com", "-admin.sharepoint.com");
+                }
+            }
+        }
+
+        private void txt_SPUrl_TextChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToString(cmb_SPVersion.SelectedItem).Contains("Online"))
+            {
+                GenerateSharePointAdminURL();
+            }
+        }
+
+        private void txt_SPUrl_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (Convert.ToString(cmb_SPVersion.SelectedItem).Contains("Online"))
+            {
+                GenerateSharePointAdminURL();
             }
         }
     }

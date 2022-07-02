@@ -39,6 +39,12 @@ namespace PiwikPRO_InstallScriptUI
                     returner = false;
                     errors.AppendLine(@"Secondary Admin Login: is empty or is not an email of the user account.");
                 }
+
+                if(String.IsNullOrEmpty(txt_SPAdminTenantUrl.Text))
+                {
+                    returner = false;
+                    errors.AppendLine(@"SharePoint tenant admin URL cannot be empty.");
+                }
             }
 
             if(txt_PiwikClientID.Text.Length != 32)

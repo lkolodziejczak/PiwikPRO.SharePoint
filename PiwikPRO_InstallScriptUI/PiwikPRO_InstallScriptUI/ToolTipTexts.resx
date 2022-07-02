@@ -134,6 +134,10 @@ This address may be different for Piwik PRO on-premises or private cloud account
   <data name="PiwikPROServiceUrl" xml:space="preserve">
     <value>The address you use to log in to Piwik PRO. Example: https://yourname.piwik.pro</value>
   </data>
+  <data name="SharepointAdminURL" xml:space="preserve">
+    <value>This field is generated automatically. But if you are using non-standard SharePoint online tenant URL please select a checkbox and edit it.
+Example: https://contoso-admin.sharepoint.com</value>
+  </data>
   <data name="SharepointURL_Online" xml:space="preserve">
     <value>Example: https://contoso.sharepoint.com</value>
   </data>
