@@ -3,8 +3,8 @@
 )
 
 #versions:
-#UI: 1.0.2
-#Script: 1.0.7
+#UI: 1.0.3
+#Script: 1.0.8
 
 function ActivateFeatureInSiteCollectionScope($DisplayName, $siteurl) {
     Write-Host "Activating Feature :- " $DisplayName " -: In Site Collection " $siteurl
@@ -419,8 +419,13 @@ Try
     $sharePointTenantAdminUrl = $config.sharePointTenantAdminUrl
     if ($sharePointTenantAdminUrl -eq '') {
         $sharePointTenantAdminUrl = $tenantUrl.Replace(".sharepoint.com", "-admin.sharepoint.com")
+		Add-Log -Level "INFO" -Message "SharePointTenantAdminUrl set to $sharePointTenantAdminUrl"
     }
-    Add-Log -Level "INFO" -Message "SharePointTenantAdminUrl set to $sharePointTenantAdminUrl"
+	else
+	{
+		Add-Log -Level "INFO" -Message "SharePointTenantAdminUrl is $sharePointTenantAdminUrl"
+	}
+    
 	
 	$toChangeServiceUrl = $false
 	$serviceUrl = $config.serviceUrlValue
