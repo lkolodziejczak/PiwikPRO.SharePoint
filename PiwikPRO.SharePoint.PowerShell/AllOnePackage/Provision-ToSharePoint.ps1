@@ -4,7 +4,7 @@
 
 #versions:
 #UI: 1.0.3
-#Script: 1.0.8
+#Script: 1.0.9
 
 function ActivateFeatureInSiteCollectionScope($DisplayName, $siteurl) {
     Write-Host "Activating Feature :- " $DisplayName " -: In Site Collection " $siteurl
@@ -305,10 +305,17 @@ function Connect-ToSharePoint(
 
 function Get-SharePointPnPPowerShell([Parameter(Mandatory = $true)][string]$SharePointVersion)
 {
-	if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($SharePointVersion)")) {
-		Add-Log -Level "INFO" -Message "Installing PnP PowerShell $SharePointVersion"
-		Install-Module "SharePointPnPPowerShell$($SharePointVersion)" -AllowClobber -Force
-		return
+	if($SharePointVersion -eq "Online")
+	{
+		Install-Module PnP.PowerShell
+	}
+	else
+	{
+		if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($SharePointVersion)")) {
+			Add-Log -Level "INFO" -Message "Installing PnP PowerShell $SharePointVersion"
+			Install-Module "SharePointPnPPowerShell$($SharePointVersion)" -AllowClobber -Force
+			return
+		}
 	}
 
 	Add-Log -Level "INFO" -Message "PnP PowerShell $SharePointVersion already installed"
@@ -445,6 +452,10 @@ Try
         Add-Log -Level "INFO" -Message "Setup is running sharepoint online installation"
 		
 		Add-Log -Level "INFO" -Message "Checking and uninstalling SharePointPnPPowerShell other versions module"
+		if (Get-Module -ListAvailable -Name "SharePointPnPPowerShellOnline") {
+            Uninstall-Module "SharePointPnPPowerShellOnline"
+            Start-Sleep -s 2
+        }
         if (Get-Module -ListAvailable -Name "SharePointPnPPowerShell2019") {
             Uninstall-Module "SharePointPnPPowerShell2019"
             Start-Sleep -s 2
@@ -456,12 +467,6 @@ Try
 		if (Get-Module -ListAvailable -Name "SharePointPnPPowerShell2013") {
             Uninstall-Module "SharePointPnPPowerShell2013"
             Start-Sleep -s 2
-        }
-		
-		Add-Log -Level "INFO" -Message "Checking and uninstalling PnP.Powershell module"
-        if (Get-Module -ListAvailable -Name "PnP.PowerShell") {
-            Uninstall-Module -Name "PnP.PowerShell"
-            Start-Sleep -s 5
         }
 		
 		# Load needed libraries

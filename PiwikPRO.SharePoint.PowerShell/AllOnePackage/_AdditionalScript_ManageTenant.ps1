@@ -294,19 +294,26 @@ function Connect-ToSharePoint(
 	[bool]$UseWebLogin = $false)
 {
     if ($UseWebLogin) {
-        Connect-PnPOnline -Url $Url -TenantAdminUrl $TenantAdminUrl -UseWebLogin -WarningAction Ignore
+        Connect-PnPOnline -Url $Url -TenantAdminUrl $TenantAdminUrl -UseWebLogin -ForceAuthentication -WarningAction Ignore
     }
     else {
-        Connect-PnPOnline -Url $Url -TenantAdminUrl $TenantAdminUrl -Credentials $Credentials -WarningAction Ignore
+        Connect-PnPOnline -Url $Url -TenantAdminUrl $TenantAdminUrl -Credentials $Credentials -ForceAuthentication -WarningAction Ignore
     }
 }
 
 function Get-SharePointPnPPowerShell([Parameter(Mandatory = $true)][string]$SharePointVersion)
 {
-	if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($SharePointVersion)")) {
-		Add-Log -Level "INFO" -Message "Installing PnP PowerShell $SharePointVersion"
-		Install-Module "SharePointPnPPowerShell$($SharePointVersion)" -AllowClobber -Force
-		return
+	if($SharePointVersion -eq "Online")
+	{
+		Install-Module PnP.PowerShell
+	}
+	else
+	{
+		if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($SharePointVersion)")) {
+			Add-Log -Level "INFO" -Message "Installing PnP PowerShell $SharePointVersion"
+			Install-Module "SharePointPnPPowerShell$($SharePointVersion)" -AllowClobber -Force
+			return
+		}
 	}
 
 	Add-Log -Level "INFO" -Message "PnP PowerShell $SharePointVersion already installed"

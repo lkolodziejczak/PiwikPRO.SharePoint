@@ -2,6 +2,8 @@ Changelog All notable changes to this installator will be documented in this fil
 
 The format is based on Keep a Changelog
 
+[Released 2022-15-07] [1.0.9 Script] [1.0.3 UI] - 2022-10-10 New version of PnP in SP Online installation, use force authentication
+
 [Released 2022-15-07] [1.0.8 Script] [1.0.3 UI] - 2022-07-15 Added possibility to have tenant without sharepoint.com in url and fixed ui scrollbar
 
 [Released 2022-23-06] [1.0.7 Script] - 2022-06-23 Added support to SPSE

@@ -302,19 +302,26 @@ function Connect-ToSharePoint(
 	[bool]$UseWebLogin = $false)
 {
     if ($UseWebLogin) {
-        Connect-PnPOnline -Url $Url -TenantAdminUrl $TenantAdminUrl -UseWebLogin -WarningAction Ignore
+        Connect-PnPOnline -Url $Url -TenantAdminUrl $TenantAdminUrl -UseWebLogin -ForceAuthentication -WarningAction Ignore
     }
     else {
-        Connect-PnPOnline -Url $Url -TenantAdminUrl $TenantAdminUrl -Credentials $Credentials -WarningAction Ignore
+        Connect-PnPOnline -Url $Url -TenantAdminUrl $TenantAdminUrl -Credentials $Credentials -ForceAuthentication -WarningAction Ignore
     }
 }
 
 function Get-SharePointPnPPowerShell([Parameter(Mandatory = $true)][string]$SharePointVersion)
 {
-	if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($SharePointVersion)")) {
-		Add-Log -Level "INFO" -Message "Installing PnP PowerShell $SharePointVersion"
-		Install-Module "SharePointPnPPowerShell$($SharePointVersion)" -AllowClobber -Force
-		return
+	if($SharePointVersion -eq "Online")
+	{
+		Install-Module PnP.PowerShell
+	}
+	else
+	{
+		if (-not (Get-Module -ListAvailable -Name "SharePointPnPPowerShell$($SharePointVersion)")) {
+			Add-Log -Level "INFO" -Message "Installing PnP PowerShell $SharePointVersion"
+			Install-Module "SharePointPnPPowerShell$($SharePointVersion)" -AllowClobber -Force
+			return
+		}
 	}
 
 	Add-Log -Level "INFO" -Message "PnP PowerShell $SharePointVersion already installed"
@@ -383,13 +390,13 @@ try
 Connect-ToSharePoint -Url $appCatalogUrl -TenantAdminUrl $sharePointTenantAdminUrl -Credentials $credentials -UseWebLogin $config.useWebLogin
 # Setting extenstiosn to be tenant wide
         Write-Host "Configuring tenant-wide extensions"
-		Apply-PnPProvisioningTemplate -Path $config.constants.templatePath -TemplateId "PIWIK-TENANT-WIDE"
+		Invoke-PnPSiteTemplate -Path $config.constants.templatePath -TemplateId "PIWIK-TENANT-WIDE"
 		Start-Sleep -s 2
         # Creating piwik admin site
         Write-Host "Checking if Piwik PRO Administration site already exists"
         if (-not (Get-PnPTenantSite -Url $piwikAdminUrl -ErrorAction SilentlyContinue)) {
             Write-Host "Piwik PRO Administration site doesn't exist. Creating"
-            New-PnPTenantSite -Title "Piwik PRO Administration" -Url $piwikAdminUrl -Owner $config.sharepointAdminLogin -TimeZone 4 -Lcid 1033 -Template "STS#3" -Wait -Force | Out-Null
+            New-PnPTenantSite -Title "Piwik PRO Administration" -Url $piwikAdminUrl -Owner $config.sharepointAdminLogin -TimeZone 4 -Lcid 1033 -Template "STS#3" -Wait | Out-Null
 			Write-Host "Piwik PRO Administration created."
         }
 Start-Sleep -s 2
