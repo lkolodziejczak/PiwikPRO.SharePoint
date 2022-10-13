@@ -2,6 +2,7 @@ Changelog All notable changes to this installator will be documented in this fil
 
 The format is based on Keep a Changelog
 
+
 [Released 2022-13-10] [1.0.10 Script] [1.0.3 UI] - 2022-10-14 New version of scripts 1.1.2.0, sp2019, spse config to catch events in WebParts on the Sites
 
 [Released 2022-10-10] [1.0.9 Script] [1.0.3 UI] - 2022-10-10 New version of PnP in SP Online installation, use force authentication
